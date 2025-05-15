@@ -1,0 +1,68 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Model;
+
+import ConnDB.DBConnection;
+import java.sql.*;
+import java.util.*;
+
+public class UserDAO {
+
+    public List<User> getAll() throws Exception {
+        List<User> list = new ArrayList<>();
+        Connection conn = DBConnection.getConnection();
+        String sql = "SELECT * FROM Users";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            list.add(new User(
+                    rs.getInt("UserId"),
+                    rs.getString("Username"),
+                    rs.getString("MatKhau"),
+                    rs.getString("Email"),
+                    rs.getDate("NgaySinh"),
+                    rs.getString("DienThoai"),
+                    rs.getString("DiaChi"),
+                    rs.getDouble("TaiChinh"),
+                    rs.getString("Role")
+            ));
+        }
+
+        rs.close();
+        ps.close();
+        conn.close();
+        return list;
+    }
+
+    public void add(User u) throws Exception {
+        Connection conn = DBConnection.getConnection();
+
+//        CSDL đang đặt ID tự động nên không insert ID vào
+        
+        String sql = "INSERT INTO Users (Username, MatKhau, Email, NgaySinh, DienThoai, DiaChi, TaiChinh, Role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setString(1, u.getUsername());
+        ps.setString(2, u.getMatKhau());
+        ps.setString(3, u.getEmail());
+        
+        java.util.Date ngaySinh = u.getNgaySinh(); // từ đối tượng User
+        java.sql.Date sqlNgaySinh = new java.sql.Date(ngaySinh.getTime());
+        ps.setDate(4, sqlNgaySinh);
+        
+        ps.setString(5, u.getDienThoai());
+        ps.setString(6, u.getDiaChi());
+        ps.setDouble(7, u.getTaiChinh());
+        ps.setString(8, u.getRole());
+
+        ps.executeUpdate();
+
+        ps.close();
+        conn.close();
+    }
+}
