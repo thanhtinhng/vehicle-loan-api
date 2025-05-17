@@ -4,6 +4,7 @@
  */
 package Controller;
 
+import static Controller.ApiRoutes.USER_DS;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -24,7 +25,7 @@ import java.util.List;
  *
  * @author Windows 10
  */
-@WebServlet(name = "UserServlet", urlPatterns = {"/api/ds_user"})
+@WebServlet(name = "UserServlet", urlPatterns = USER_DS)
 public class UsersServlet extends HttpServlet {
 
     private final Gson gson = new Gson();
@@ -50,8 +51,8 @@ public class UsersServlet extends HttpServlet {
                           HttpServletResponse response) throws IOException {
         
         try (BufferedReader reader = request.getReader()) {
-            User nv = gson.fromJson(reader, User.class);
-            new UserDAO().add(nv);
+            User user = gson.fromJson(reader, User.class);
+            new UserDAO().add(user);
             response.setContentType("application/json");
             response.getWriter().write("{\"status\":\"success\"}");
         
