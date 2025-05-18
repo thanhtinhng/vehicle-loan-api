@@ -5,6 +5,7 @@
 package Model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -21,6 +22,7 @@ public class User {
     private String diaChi;
     private double taiChinh;
     private String role;
+    private ArrayList<HopDong> danhSachHopDong = new ArrayList<>();
 
     public User() {
     }
@@ -35,6 +37,14 @@ public class User {
         this.diaChi = diaChi;
         this.taiChinh = taiChinh;
         this.role = role;
+    }
+
+    public ArrayList<HopDong> getDanhSachHopDong() {
+        return danhSachHopDong;
+    }
+
+    public void setDanhSachHopDong(ArrayList<HopDong> danhSachHopDong) {
+        this.danhSachHopDong = danhSachHopDong;
     }
 
     public String getDiaChi() {

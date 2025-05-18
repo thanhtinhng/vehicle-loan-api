@@ -10,8 +10,8 @@ import java.util.*;
 
 public class UserDAO {
 
-    public List<User> getAll() throws Exception {
-        List<User> list = new ArrayList<>();
+    public ArrayList<User> getAll() throws Exception {
+        ArrayList<User> list = new ArrayList<>();
         Connection conn = DBConnection.getConnection();
         String sql = "SELECT * FROM Users";
         PreparedStatement ps = conn.prepareStatement(sql);

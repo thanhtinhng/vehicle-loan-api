@@ -19,7 +19,7 @@ import com.google.gson.Gson;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -35,7 +35,7 @@ public class UsersServlet extends HttpServlet {
                          HttpServletResponse response) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
         try {
-            List<User> list = new UserDAO().getAll();
+            ArrayList<User> list = new UserDAO().getAll();
             response.getWriter().write(gson.toJson(list));
             System.out.println("Test: doGet: Done");
         
