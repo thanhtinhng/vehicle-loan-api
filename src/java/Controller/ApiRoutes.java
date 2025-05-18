@@ -12,4 +12,5 @@ public interface ApiRoutes {
     String LOGIN = "/api/login";
     String REGISTER = "/api/register";
     String USER_DS = "/api/ds_user";
+    String XE_DS = "/api/ds_xe";
 }
