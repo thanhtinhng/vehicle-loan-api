@@ -27,5 +27,45 @@ public class ThanhToan {
         this.soTien = soTien;
         this.trangThai = trangThai;
     }
+
+    public void setMaThanhToan(int maThanhToan) {
+        this.maThanhToan = maThanhToan;
+    }
+
+    public void setMaHopDong(int maHopDong) {
+        this.maHopDong = maHopDong;
+    }
+
+    public void setNgayThanhToan(Date ngayThanhToan) {
+        this.ngayThanhToan = ngayThanhToan;
+    }
+
+    public void setSoTien(double soTien) {
+        this.soTien = soTien;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
+    }
+
+    public int getMaThanhToan() {
+        return maThanhToan;
+    }
+
+    public int getMaHopDong() {
+        return maHopDong;
+    }
+
+    public Date getNgayThanhToan() {
+        return ngayThanhToan;
+    }
+
+    public double getSoTien() {
+        return soTien;
+    }
+
+    public String getTrangThai() {
+        return trangThai;
+    }
     
 }

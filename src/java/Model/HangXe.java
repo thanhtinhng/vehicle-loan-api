@@ -13,6 +13,22 @@ public class HangXe {
     private int maHangXe;
     private String tenHangXe;
 
+    public int getMaHangXe() {
+        return maHangXe;
+    }
+
+    public void setMaHangXe(int maHangXe) {
+        this.maHangXe = maHangXe;
+    }
+
+    public void setTenHangXe(String tenHangXe) {
+        this.tenHangXe = tenHangXe;
+    }
+
+    public String getTenHangXe() {
+        return tenHangXe;
+    }
+
     public HangXe() {
     }
 

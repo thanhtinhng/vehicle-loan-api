@@ -16,6 +16,22 @@ public class LoaiXe {
     public LoaiXe() {
     }
 
+    public void setMaLoaiXe(int maLoaiXe) {
+        this.maLoaiXe = maLoaiXe;
+    }
+
+    public void setTenLoaiXe(String tenLoaiXe) {
+        this.tenLoaiXe = tenLoaiXe;
+    }
+
+    public int getMaLoaiXe() {
+        return maLoaiXe;
+    }
+
+    public String getTenLoaiXe() {
+        return tenLoaiXe;
+    }
+
     public LoaiXe(int maLoaiXe, String tenLoaiXe) {
         this.maLoaiXe = maLoaiXe;
         this.tenLoaiXe = tenLoaiXe;

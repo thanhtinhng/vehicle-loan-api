@@ -27,6 +27,54 @@ public class Xe {
         this.gia = gia;
         this.tinhTrang = tinhTrang;
     }
+
+    public void setMaXe(int maXe) {
+        this.maXe = maXe;
+    }
+
+    public void setMaLoaiXe(int maLoaiXe) {
+        this.maLoaiXe = maLoaiXe;
+    }
+
+    public void setMaHangXe(int maHangXe) {
+        this.maHangXe = maHangXe;
+    }
+
+    public void setTenXe(String tenXe) {
+        this.tenXe = tenXe;
+    }
+
+    public void setGia(double gia) {
+        this.gia = gia;
+    }
+
+    public void setTinhTrang(String tinhTrang) {
+        this.tinhTrang = tinhTrang;
+    }
+
+    public int getMaXe() {
+        return maXe;
+    }
+
+    public int getMaLoaiXe() {
+        return maLoaiXe;
+    }
+
+    public int getMaHangXe() {
+        return maHangXe;
+    }
+
+    public String getTenXe() {
+        return tenXe;
+    }
+
+    public double getGia() {
+        return gia;
+    }
+
+    public String getTinhTrang() {
+        return tinhTrang;
+    }
     
     
 }
