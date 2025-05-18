@@ -36,7 +36,7 @@ public class UserDAO {
             
             int userId = rs.getInt("UserId");
             
-            ArrayList<HopDong> dsHopDong = HopDongDAO.getByUserId(userId);
+            ArrayList<HopDong> dsHopDong = new HopDongDAO().getByUserId(userId);
             user.setDanhSachHopDong(dsHopDong);
             
             list.add(user);

@@ -45,5 +45,8 @@ public class HopDong {
         this.trangThai = trangThai;
     }
 
+    public void setDanhSachThanhToan(ArrayList<ThanhToan> danhSachThanhToan) {
+        this.danhSachThanhToan = danhSachThanhToan;
+    }
     
 }

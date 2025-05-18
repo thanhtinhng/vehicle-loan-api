@@ -6,6 +6,7 @@ package DAO;
 
 import ConnDB.DBConnection;
 import Model.HopDong;
+import Model.ThanhToan;
 import Model.User;
 import java.sql.*;
 import java.util.*;
@@ -16,7 +17,31 @@ import java.util.*;
  */
 public class HopDongDAO {
 
-    public static ArrayList<HopDong> getByUserId(int userId) throws Exception {
+    public HopDong createHopDong(ResultSet rs) throws Exception {
+        HopDong hd = new HopDong(
+                rs.getInt("MaHopDong"),
+                rs.getInt("UserId"),
+                rs.getInt("MaCuaHang"),
+                rs.getInt("MaXe"),
+                rs.getDouble("TongTien"),
+                rs.getDouble("TraTruoc"),
+                rs.getDouble("TienVay"),
+                rs.getDouble("LaiXuat"),
+                rs.getInt("KyHanThang"),
+                rs.getDouble("KhoanTraMoiThang"),
+                rs.getDate("NgayHopDong"),
+                rs.getString("TrangThai")
+        );
+
+        int maHD = rs.getInt("MaHopDong");
+
+        ArrayList<ThanhToan> dsThanhToan = new ThanhToanDAO().getByMaHopDong(maHD);
+        hd.setDanhSachThanhToan(dsThanhToan);
+        
+        return hd;
+    }
+
+    public ArrayList<HopDong> getByUserId(int userId) throws Exception {
         ArrayList<HopDong> list = new ArrayList<>();
         Connection conn = DBConnection.getConnection();
         String sql = "SELECT * FROM HopDong WHERE UserId = ?";
@@ -25,20 +50,7 @@ public class HopDongDAO {
 
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            list.add(new HopDong(
-                    rs.getInt("MaHopDong"),
-                    rs.getInt("UserId"),
-                    rs.getInt("MaCuaHang"),
-                    rs.getInt("MaXe"),
-                    rs.getDouble("TongTien"),
-                    rs.getDouble("TraTruoc"),
-                    rs.getDouble("TienVay"),
-                    rs.getDouble("LaiXuat"),
-                    rs.getInt("KyHanThang"),
-                    rs.getDouble("KhoanTraMoiThang"),
-                    rs.getDate("NgayHopDong"),
-                    rs.getString("TrangThai")
-            ));
+            list.add(createHopDong(rs));
         }
 
         rs.close();
