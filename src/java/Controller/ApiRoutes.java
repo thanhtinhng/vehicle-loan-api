@@ -9,5 +9,7 @@ package Controller;
  * @author Windows 10
  */
 public interface ApiRoutes {
+    String LOGIN = "/api/login";
+    String REGISTER = "/api/register";
     String USER_DS = "/api/ds_user";
 }

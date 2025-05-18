@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller;
+package Controller.Auth;
 
+import static Controller.ApiRoutes.LOGIN;
 import static Controller.ApiRoutes.USER_DS;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import Model.User;
 import DAO.UserDAO;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
@@ -25,34 +27,24 @@ import java.util.ArrayList;
  *
  * @author Windows 10
  */
-@WebServlet(name = "UserServlet", urlPatterns = USER_DS)
-public class UsersServlet extends HttpServlet {
+@WebServlet(name = "LoginServlet", urlPatterns = LOGIN) //"/api/login"
+public class LoginServlet extends HttpServlet {
 
     private final Gson gson = new Gson();
-
-    @Override
-    protected void doGet(HttpServletRequest request, 
-                         HttpServletResponse response) throws IOException {
-        response.setContentType("application/json;charset=UTF-8");
-        try {
-            ArrayList<User> list = new UserDAO().getAll();
-            response.getWriter().write(gson.toJson(list));
-            System.out.println("Test: doGet: Done");
-        
-        } catch (Exception e) {
-            response.setStatus(500);
-            response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
-            System.out.println("Test: doGet: Fail");
-        }
-    }
 
     @Override
     protected void doPost(HttpServletRequest request, 
                           HttpServletResponse response) throws IOException {
         
         try (BufferedReader reader = request.getReader()) {
-            User user = gson.fromJson(reader, User.class);
-            new UserDAO().add(user);
+            
+            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class); //lấy json truyền vào
+            
+            String email = jsonObject.get("email").getAsString();
+            String matKhau = jsonObject.get("matKhau").getAsString();
+            
+            //gọi đến user DAO (viết thêm logic so sánh tài khoảng với data trong db để đăng nhập, trả về token và role)
+            
             response.setContentType("application/json");
             response.getWriter().write("{\"status\":\"success\"}");
         
