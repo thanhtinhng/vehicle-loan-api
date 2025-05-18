@@ -2,9 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Model;
+package DAO;
 
 import ConnDB.DBConnection;
+import Model.HopDong;
+import Model.User;
 import java.sql.*;
 import java.util.*;
 
@@ -19,7 +21,8 @@ public class UserDAO {
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
-            list.add(new User(
+
+            User user = new User(
                     rs.getInt("UserId"),
                     rs.getString("Username"),
                     rs.getString("MatKhau"),
@@ -29,7 +32,14 @@ public class UserDAO {
                     rs.getString("DiaChi"),
                     rs.getDouble("TaiChinh"),
                     rs.getString("Role")
-            ));
+            );
+            
+            int userId = rs.getInt("UserId");
+            
+            ArrayList<HopDong> dsHopDong = HopDongDAO.getByUserId(userId);
+            user.setDanhSachHopDong(dsHopDong);
+            
+            list.add(user);
         }
 
         rs.close();
@@ -42,7 +52,6 @@ public class UserDAO {
         Connection conn = DBConnection.getConnection();
 
 //        CSDL đang đặt ID tự động nên không insert ID vào
-        
         String sql = "INSERT INTO Users (Username, MatKhau, Email, NgaySinh, DienThoai, DiaChi, TaiChinh, Role) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement ps = conn.prepareStatement(sql);
@@ -50,11 +59,11 @@ public class UserDAO {
         ps.setString(1, u.getUsername());
         ps.setString(2, u.getMatKhau());
         ps.setString(3, u.getEmail());
-        
+
         java.util.Date ngaySinh = u.getNgaySinh(); // từ đối tượng User
         java.sql.Date sqlNgaySinh = new java.sql.Date(ngaySinh.getTime());
         ps.setDate(4, sqlNgaySinh);
-        
+
         ps.setString(5, u.getDienThoai());
         ps.setString(6, u.getDiaChi());
         ps.setDouble(7, u.getTaiChinh());
