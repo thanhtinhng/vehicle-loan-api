@@ -23,6 +23,7 @@ public class HopDongDAO {
                 rs.getInt("UserId"),
                 rs.getInt("MaCuaHang"),
                 rs.getInt("MaXe"),
+                rs.getInt("IDMaGiamGia"),
                 rs.getDouble("TongTien"),
                 rs.getDouble("TraTruoc"),
                 rs.getDouble("TienVay"),

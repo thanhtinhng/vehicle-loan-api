@@ -13,9 +13,29 @@ import java.util.Date;
  */
 public class HopDong {
 
+    private int maHopDong;
+    private int userId;
+    private int maCuaHang;
+    private int maXe;
+    private int idMaGiamGia;
+    private double tongTien;
+    private double traTruoc;
+    private double tienVay;
+    private double laiXuat;
+    private int kyHanThang;
+    private double khoanTraMoiThang;
+    private Date ngayHopDong;
+    private String trangThai; // HOATDONG, HOANTHANH, VIPHAM
+    private ArrayList<ThanhToan> danhSachThanhToan = new ArrayList<>();
+
     public int getMaHopDong() {
         return maHopDong;
     }
+
+    public int getIdMaGiamGia() {
+        return idMaGiamGia;
+    }
+    
 
     public int getUserId() {
         return userId;
@@ -61,6 +81,12 @@ public class HopDong {
         this.kyHanThang = kyHanThang;
     }
 
+    public void setIdMaGiamGia(int idMaGiamGia) {
+        this.idMaGiamGia = idMaGiamGia;
+    }
+
+    
+    
     public void setKhoanTraMoiThang(double khoanTraMoiThang) {
         this.khoanTraMoiThang = khoanTraMoiThang;
     }
@@ -113,28 +139,15 @@ public class HopDong {
         return danhSachThanhToan;
     }
 
-    private int maHopDong;
-    private int userId;
-    private int maCuaHang;
-    private int maXe;
-    private double tongTien;
-    private double traTruoc;
-    private double tienVay;
-    private double laiXuat;
-    private int kyHanThang;
-    private double khoanTraMoiThang;
-    private Date ngayHopDong;
-    private String trangThai; // HOATDONG, HOANTHANH, VIPHAM
-    private ArrayList<ThanhToan> danhSachThanhToan = new ArrayList<>();
-
     public HopDong() {
     }
 
-    public HopDong(int maHopDong, int userId, int maCuaHang, int maXe, double tongTien, double traTruoc, double tienVay, double laiXuat, int kyHanThang, double khoanTraMoiThang, Date ngayHopDong, String trangThai) {
+    public HopDong(int maHopDong, int userId, int maCuaHang, int maXe, int idMaGiamGia, double tongTien, double traTruoc, double tienVay, double laiXuat, int kyHanThang, double khoanTraMoiThang, Date ngayHopDong, String trangThai) {
         this.maHopDong = maHopDong;
         this.userId = userId;
         this.maCuaHang = maCuaHang;
         this.maXe = maXe;
+        this.idMaGiamGia = idMaGiamGia;
         this.tongTien = tongTien;
         this.traTruoc = traTruoc;
         this.tienVay = tienVay;

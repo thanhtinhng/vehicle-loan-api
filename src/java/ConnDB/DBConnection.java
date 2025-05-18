@@ -74,11 +74,19 @@ CREATE TABLE Users (
     Role VARCHAR(20) CHECK (Role IN ('GUEST', 'USER', 'ADMIN'))
 );
 
+CREATE TABLE MaGiamGia (
+    IDMaGiamGia INT PRIMARY KEY IDENTITY(1,1),
+	MaGiamGia VARCHAR(20),
+    TiLeGiam DECIMAL(5,2) CHECK (TiLeGiam >= 0 AND TiLeGiam <= 100),
+	TrangThai INT CHECK (TrangThai IN (0, 1)) -- 0: không khả dụng; 1: khả dụng
+);
+
 CREATE TABLE HopDong (
     MaHopDong INT PRIMARY KEY IDENTITY(1,1),
     UserId INT,
     MaCuaHang INT,
     MaXe INT,
+	IDMaGiamGia INT,
     TongTien DECIMAL(15,2),
     TraTruoc DECIMAL(15,2),
     TienVay DECIMAL(15,2),
@@ -89,7 +97,8 @@ CREATE TABLE HopDong (
     TrangThai VARCHAR(20) CHECK (TrangThai IN ('HOATDONG', 'HOANTHANH', 'VIPHAM')),
     FOREIGN KEY (UserId) REFERENCES Users(UserId),
     FOREIGN KEY (MaCuaHang) REFERENCES CuaHang(MaCuaHang),
-    FOREIGN KEY (MaXe) REFERENCES Xe(MaXe)
+    FOREIGN KEY (MaXe) REFERENCES Xe(MaXe),
+	FOREIGN KEY (IDMaGiamGia) REFERENCES MaGiamGia(IDMaGiamGia)
 );
 
 CREATE TABLE ThanhToan (
@@ -100,6 +109,7 @@ CREATE TABLE ThanhToan (
     TrangThai VARCHAR(20) CHECK (TrangThai IN ('CHO', 'HOANTHANH', 'TRE')),
     FOREIGN KEY (MaHopDong) REFERENCES HopDong(MaHopDong)
 );
+
 
 */
 
@@ -153,5 +163,22 @@ INSERT INTO ThanhToan (MaHopDong, NgayThanhToan, SoTien, TrangThai) VALUES
 (1, '2025-07-01', 17600, 'CHO'),
 (2, '2025-05-01', 8833, 'HOANTHANH'),
 (2, '2025-06-01', 8833, 'CHO');
+
+INSERT INTO MaGiamGia (MaGiamGia, TiLeGiam) VALUES 
+('UIT10', 10.00),
+('UIT15', 15.00),
+('UIT20', 20.00),
+('UIT25', 25.00),
+('UIT30', 30.00),
+('UIT40', 40.00),
+('UIT50', 50.00),
+('UIT5A', 5.00),
+('UIT7B', 7.50),
+('UIT12C', 12.00),
+('UIT18X', 18.00),
+('UIT22Z', 22.00),
+('UIT35T', 35.00),
+('UIT45K', 45.00),
+('UIT60VIP', 60.00);
 
 */
