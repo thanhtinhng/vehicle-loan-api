@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Model;
+package QLBX;
 
+import Model.Kho;
+import Model.User;
 import java.util.ArrayList;
 
 /**
@@ -18,7 +20,7 @@ public class CuaHang {
     private String dienThoai;
     private String diaChi;
     private ArrayList<User> dsUser = new ArrayList<>();
-    private ArrayList<Kho> dsXe = new ArrayList<>();
+    private ArrayList<KhoXeDTO> dsXe = new ArrayList<>();
 
     public CuaHang() {
     }
@@ -29,6 +31,16 @@ public class CuaHang {
         this.email = email;
         this.dienThoai = dienThoai;
         this.diaChi = diaChi;
+    }
+
+    public ArrayList<KhoXeDTO> layDsXeConHang() {
+        ArrayList<KhoXeDTO> list = new ArrayList<>();
+        for (KhoXeDTO kho : dsXe) {
+            if (kho.getSoLuong() > 0) {
+                list.add(kho);
+            }
+        }
+        return list;
     }
 
     public String getDiaChi() {
@@ -43,7 +55,7 @@ public class CuaHang {
         return dsUser;
     }
 
-    public ArrayList<Kho> getDsXe() {
+    public ArrayList<KhoXeDTO> getDsXe() {
         return dsXe;
     }
 
@@ -71,7 +83,7 @@ public class CuaHang {
         this.dsUser = dsUser;
     }
 
-    public void setDsXe(ArrayList<Kho> dsXe) {
+    public void setDsXe(ArrayList<KhoXeDTO> dsXe) {
         this.dsXe = dsXe;
     }
 
@@ -86,5 +98,5 @@ public class CuaHang {
     public void setTenCuaHang(String tenCuaHang) {
         this.tenCuaHang = tenCuaHang;
     }
-    
+
 }
