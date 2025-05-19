@@ -26,7 +26,7 @@ import java.util.ArrayList;
  *
  * @author Windows 10
  */
-@WebServlet(name = "GetDsXeServlet", urlPatterns = XE_DS) //"/api/ds_xe"
+@WebServlet(name = "GetDsXeServlet", urlPatterns = XE_DS)
 public class GetDsXeServlet extends HttpServlet {
 
     private final Gson gson = new Gson();
