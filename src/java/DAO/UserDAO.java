@@ -11,6 +11,22 @@ import java.sql.*;
 import java.util.*;
 
 public class UserDAO {
+    
+    public User createUser(ResultSet rs) throws Exception {
+        User user = new User(
+                    rs.getInt("UserId"),
+                    rs.getString("Username"),
+                    rs.getString("MatKhau"),
+                    rs.getString("Email"),
+                    rs.getDate("NgaySinh"),
+                    rs.getString("DienThoai"),
+                    rs.getString("DiaChi"),
+                    rs.getDouble("TaiChinh"),
+                    rs.getString("Role")
+            );
+        
+        return user;
+    }
 
     public ArrayList<User> getAll() throws Exception {
         ArrayList<User> list = new ArrayList<>();
@@ -22,17 +38,7 @@ public class UserDAO {
 
         while (rs.next()) {
 
-            User user = new User(
-                    rs.getInt("UserId"),
-                    rs.getString("Username"),
-                    rs.getString("MatKhau"),
-                    rs.getString("Email"),
-                    rs.getDate("NgaySinh"),
-                    rs.getString("DienThoai"),
-                    rs.getString("DiaChi"),
-                    rs.getDouble("TaiChinh"),
-                    rs.getString("Role")
-            );
+            User user = createUser(rs);
             
             int userId = rs.getInt("UserId");
             
@@ -74,4 +80,22 @@ public class UserDAO {
         ps.close();
         conn.close();
     }
+    
+//    public ArrayList<User> getByMaCuaHang(int maCuaHang) throws Exception {
+//        ArrayList<User> list = new ArrayList<>();
+//        Connection conn = DBConnection.getConnection();
+//        String sql = "SELECT User.*,  FROM User WHERE UserId = ?";
+//        PreparedStatement ps = conn.prepareStatement(sql);
+//        ps.setInt(1, maCuaHang);
+//
+//        ResultSet rs = ps.executeQuery();
+//        while (rs.next()) {
+//            list.add(createUser(rs));
+//        }
+//
+//        rs.close();
+//        ps.close();
+//        conn.close();
+//        return list;
+//    }
 }

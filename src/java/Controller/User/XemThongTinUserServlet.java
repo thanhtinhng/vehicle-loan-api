@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controller.Admin;
+package Controller.User;
 
+import static Controller.ApiRoutes.THONG_TIN_USER;
 import static Controller.ApiRoutes.USER_DS;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,8 +26,8 @@ import java.util.ArrayList;
  *
  * @author Windows 10
  */
-@WebServlet(name = "UserServlet", urlPatterns = USER_DS) //"/api/ds_user"
-public class GetDSUser extends HttpServlet {
+@WebServlet(name = "XemThongTinUserServlet", urlPatterns = THONG_TIN_USER) 
+public class XemThongTinUserServlet extends HttpServlet {
 
     private final Gson gson = new Gson();
 
@@ -35,9 +36,11 @@ public class GetDSUser extends HttpServlet {
                          HttpServletResponse response) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
         try {
-            ArrayList<User> list = new UserDAO().getAll();
-            response.getWriter().write(gson.toJson(list));
-            System.out.println("Test: doGet: Done");
+//            Cần đăng nhập, khi nào xong đăng nhập mới làm
+            
+//            ArrayList<User> list = new UserDAO().getAll();
+//            response.getWriter().write(gson.toJson(list));
+//            System.out.println("Test: doGet: Done");
         
         } catch (Exception e) {
             response.setStatus(500);
