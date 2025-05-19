@@ -1,0 +1,96 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package Controller.Guest;
+
+import static Controller.ApiRoutes.FILTER_DS_XE;
+import static Controller.ApiRoutes.XE_DS;
+import DAO.KhoDAO;
+import java.io.IOException;
+import java.io.PrintWriter;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import Model.Xe;
+import DAO.XeDAO;
+import QLBX.CuaHang;
+import QLBX.KhoXeDTO;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+
+/**
+ *
+ * @author Windows 10
+ */
+@WebServlet(name = "FilterDsXeServlet", urlPatterns = FILTER_DS_XE)
+public class FilterDsXeServlet extends HttpServlet {
+
+    private final Gson gson = new Gson();
+
+    @Override
+    protected void doGet(HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+        response.setContentType("application/json;charset=UTF-8");
+        try (BufferedReader reader = request.getReader()) {
+
+            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+
+            if (jsonObject != null) {
+//                Integer maXe = jsonObject.get("maXe").getAsInt();
+//                String loaiXe = jsonObject.get("loaiXe").getAsString();
+//                String hangXe = jsonObject.get("hangXe").getAsString();
+//                String tinhTrang = jsonObject.get("tinhTrang").getAsString();
+//                String sapXep = jsonObject.get("sapXep").getAsString();
+
+                Integer maXe = jsonObject.has("maXe") && !jsonObject.get("maXe").isJsonNull()
+                        ? jsonObject.get("maXe").getAsInt()
+                        : null;
+
+                String loaiXe = jsonObject.has("loaiXe") && !jsonObject.get("loaiXe").isJsonNull()
+                        ? jsonObject.get("loaiXe").getAsString()
+                        : null;
+
+                String hangXe = jsonObject.has("hangXe") && !jsonObject.get("hangXe").isJsonNull()
+                        ? jsonObject.get("hangXe").getAsString()
+                        : null;
+
+                String tinhTrang = jsonObject.has("tinhTrang") && !jsonObject.get("tinhTrang").isJsonNull()
+                        ? jsonObject.get("tinhTrang").getAsString()
+                        : null;
+
+                String sapXep = jsonObject.has("sapXep") && !jsonObject.get("sapXep").isJsonNull()
+                        ? jsonObject.get("sapXep").getAsString()
+                        : null;
+
+                CuaHang cuaHang = (CuaHang) getServletContext().getAttribute("cuaHang");
+
+                ArrayList<KhoXeDTO> list = new ArrayList<>();
+
+                list.addAll(cuaHang.locXe(maXe, loaiXe, hangXe, tinhTrang));
+
+                if ("tangDan".equalsIgnoreCase(sapXep)) {
+                    list.sort(Comparator.comparingDouble(KhoXeDTO::getGia));
+                }
+                response.getWriter().write(gson.toJson(list));
+                System.out.println("Test: doGet: Done");
+            } else {
+                ArrayList<KhoXeDTO> list = new KhoDAO().getAll();
+                response.getWriter().write(gson.toJson(list));
+                System.out.println("Test: doGet: Done");
+            }
+        } catch (Exception e) {
+            response.setStatus(500);
+            response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
+            System.out.println("Test: doGet: Fail");
+        }
+    }
+}

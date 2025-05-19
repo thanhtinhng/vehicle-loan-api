@@ -15,5 +15,6 @@ public interface ApiRoutes {
     String XE_DS = "/api/xe/ds_xe";
     String THONG_TIN_USER = "/api/user/thongTinUser";
     String DS_XE_CON_HANG = "/api/xe/ds_xeConHang";
+    String FILTER_DS_XE = "/api/xe/filterDsXe";
     String THONG_TIN_CUA_HANG = "/api/admin/thongTinCuaHang";
 }

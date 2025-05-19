@@ -35,21 +35,6 @@ public class KhoXeDTO {
         this.tinhTrang = tinhTrang;
     }
 
-    public static void sapXepTheoGiaTang(List<KhoXeDTO> danhSach) {
-        danhSach.sort(Comparator.comparingDouble(KhoXeDTO::getGia));
-    }
-
-    public static List<KhoXeDTO> locXe(List<KhoXeDTO> danhSach,
-            String loaiXe,
-            String hangXe,
-            String tinhTrang) {
-        return danhSach.stream()
-                .filter(xe -> (loaiXe == null || xe.getLoaiXe().equalsIgnoreCase(loaiXe)))
-                .filter(xe -> (hangXe == null || xe.getHangXe().equalsIgnoreCase(hangXe)))
-                .filter(xe -> (tinhTrang == null || xe.getTinhTrang().equalsIgnoreCase(tinhTrang)))
-                .toList();
-    }
-
     public void setMaXe(int maXe) {
         this.maXe = maXe;
     }

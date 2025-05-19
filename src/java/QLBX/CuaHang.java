@@ -7,6 +7,9 @@ package QLBX;
 import Model.Kho;
 import Model.User;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Stream;
 
 /**
  *
@@ -41,6 +44,34 @@ public class CuaHang {
             }
         }
         return list;
+    }
+
+    public ArrayList<KhoXeDTO> sapXepTheoGiaTang() {
+        ArrayList<KhoXeDTO> list = new ArrayList<>();
+        list.addAll(dsXe);
+        list.sort(Comparator.comparingDouble(KhoXeDTO::getGia));
+        return list;
+    }
+
+    public ArrayList<KhoXeDTO> locXe(
+            Integer maXe,
+            String loaiXe,
+            String hangXe,
+            String tinhTrang) {
+
+        Stream<KhoXeDTO> filteredList = this.dsXe.stream();
+
+        if (maXe != null) {
+            return new ArrayList<>(filteredList
+                    .filter(xe -> xe.getMaXe() == maXe)
+                    .toList());
+        }
+
+        return new ArrayList<>(filteredList
+                .filter(xe -> (loaiXe == null || xe.getLoaiXe().equalsIgnoreCase(loaiXe)))
+                .filter(xe -> (hangXe == null || xe.getHangXe().equalsIgnoreCase(hangXe)))
+                .filter(xe -> (tinhTrang == null || xe.getTinhTrang().equalsIgnoreCase(tinhTrang)))
+                .toList());
     }
 
     public String getDiaChi() {
