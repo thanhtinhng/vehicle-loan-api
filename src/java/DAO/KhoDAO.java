@@ -58,4 +58,31 @@ public class KhoDAO {
         conn.close();
         return list;
     }
+    
+    public KhoXeDTO getByMaXe(int maXe) throws Exception {
+        KhoXeDTO xe = null;
+        Connection conn = DBConnection.getConnection();
+        String sql = """
+                        SELECT Xe.*, Kho.SoLuong, LoaiXe.TenLoaiXe, HangXe.TenHangXe
+                        FROM Kho 
+                        JOIN Xe ON Xe.maXe = Kho.maXe
+                        JOIN LoaiXe ON Xe.maLoaiXe = LoaiXe.maLoaiXe
+                        JOIN HangXe ON Xe.maHangXe = HangXe.maHangXe
+                        WHERE Xe.MaXe = ?
+                    """;
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setInt(1, maXe);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            xe = createKho(rs);
+        }
+
+        rs.close();
+        ps.close();
+        conn.close();
+        return xe;
+    }
 }

@@ -27,7 +27,7 @@ import java.util.ArrayList;
  *
  * @author Windows 10
  */
-@WebServlet(name = "LoginServlet", urlPatterns = LOGIN) //"/api/login"
+@WebServlet(name = "LoginServlet", urlPatterns = LOGIN)
 public class LoginServlet extends HttpServlet {
 
     private final Gson gson = new Gson();

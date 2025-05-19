@@ -9,11 +9,12 @@ package Controller;
  * @author Windows 10
  */
 public interface ApiRoutes {
-    String LOGIN = "/api/login";
-    String REGISTER = "/api/register";
-    String USER_DS = "/api/ds_user";
-    String XE_DS = "/api/ds_xe";
-    String THONG_TIN_USER = "/api/thongTinUser";
-    String DS_XE_CON_HANG = "/api/ds_xeConHang";
-    String THONG_TIN_CUA_HANG = "/api/thongTinCuaHang";
+    String LOGIN = "/api/auth/login";
+    String REGISTER = "/api/auth/register";
+    String USER_DS = "/api/admin/ds_user";
+    String XE_DS = "/api/xe/ds_xe";
+    String THONG_TIN_USER = "/api/user/thongTinUser";
+    String DS_XE_CON_HANG = "/api/xe/ds_xeConHang";
+    String FILTER_DS_XE = "/api/xe/filterDsXe";
+    String THONG_TIN_CUA_HANG = "/api/admin/thongTinCuaHang";
 }

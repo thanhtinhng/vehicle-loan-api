@@ -4,11 +4,15 @@
  */
 package QLBX;
 
+import java.util.Comparator;
+import java.util.List;
+
 /**
  *
  * @author Windows 10
  */
 public class KhoXeDTO {
+
     private int maXe;
     private String loaiXe;
     private String hangXe;
@@ -16,9 +20,19 @@ public class KhoXeDTO {
     private double gia;
     private String tinhTrang; // MOI hoặc CU
     private int soLuong;
-    
 
     public KhoXeDTO() {
+    }
+
+    public KhoXeDTO(int maXe, String loaiXe, String hangXe, String tenXe, double gia, String tinhTrang, int soLuong) {
+
+        this.maXe = maXe;
+        this.loaiXe = loaiXe;
+        this.hangXe = hangXe;
+        this.tenXe = tenXe;
+        this.gia = gia;
+        this.soLuong = soLuong;
+        this.tinhTrang = tinhTrang;
     }
 
     public void setMaXe(int maXe) {
@@ -49,17 +63,6 @@ public class KhoXeDTO {
         this.tinhTrang = tinhTrang;
     }
 
-    public KhoXeDTO(int maXe, String loaiXe, String hangXe, String tenXe, double gia, String tinhTrang, int soLuong) {
-        
-        this.maXe = maXe;
-        this.loaiXe = loaiXe;
-        this.hangXe = hangXe;
-        this.tenXe = tenXe;
-        this.gia = gia;
-        this.soLuong = soLuong;
-        this.tinhTrang = tinhTrang;
-    }
-
     public int getMaXe() {
         return maXe;
     }
@@ -87,6 +90,5 @@ public class KhoXeDTO {
     public String getTinhTrang() {
         return tinhTrang;
     }
-    
-    
+
 }
