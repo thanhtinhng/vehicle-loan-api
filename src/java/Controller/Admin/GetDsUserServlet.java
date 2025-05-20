@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * @author Windows 10
  */
 @WebServlet(name = "UserServlet", urlPatterns = USER_DS)
-public class laydsuser extends HttpServlet {
+public class GetDsUserServlet extends HttpServlet {
 
     private final Gson gson = new Gson();
 
