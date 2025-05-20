@@ -10,13 +10,22 @@ package Controller;
  */
 public interface ApiRoutes {
 
+    //Auth
     String LOGIN = "/api/auth/login";
     String REGISTER = "/api/auth/register";
-    String USER_DS = "/api/admin/ds_user";
+    
+    //Guest
     String XE_DS = "/api/xe/ds_xe";
-    String THONG_TIN_USER = "/api/user/thongTinUser";
     String DS_XE_CON_HANG = "/api/xe/ds_xeConHang";
-    String FILTER_DS_XE = "/api/xe/filterDsXe";
-    String THONG_TIN_CUA_HANG = "/api/admin/thongTinCuaHang";
     String SORT_PRICE = "/api/xe/sapXepGiaTang";
+    String FILTER_DS_XE = "/api/xe/filterDsXe";
+    
+    //User
+    String THONG_TIN_USER = "/api/user/thongTinUser";
+    String TAO_HOP_DONG = "/api/user/taoHopDong";
+    String NAP_TIEN = "/api/user/napTien";
+    
+    //Admin
+    String USER_DS = "/api/admin/ds_user";
+    String THONG_TIN_CUA_HANG = "/api/admin/thongTinCuaHang";
 }

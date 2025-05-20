@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * @author Windows 10
  */
 @WebServlet(name = "XemThongTinUser", urlPatterns = THONG_TIN_USER)
-public class XemThongTinUser extends HttpServlet {
+public class ThongTinUserServlet extends HttpServlet {
 
     private final Gson gson = new Gson();
 
@@ -61,4 +61,24 @@ public class XemThongTinUser extends HttpServlet {
             System.out.println("Test: doGet: Fail");
         }
     }
+
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        try (BufferedReader reader = request.getReader()) {
+            
+            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+            
+            Integer id = jsonObject.get("id").getAsInt();
+            String matKhau = jsonObject.get("matKhau").getAsString();
+            
+            response.setContentType("application/json");
+            response.getWriter().write("{\"status\":\"success\"}");
+
+        } catch (Exception e) {
+            response.setStatus(500);
+            response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
+        }
+    }
+
 }

@@ -51,7 +51,7 @@ public class LoginServlet extends HttpServlet {
                 }
 
                 response.setContentType("application/json");
-                response.getWriter().write("{\"status\":\"success\", \"token\":\"" + token + "\"}\n");
+                response.getWriter().write("{\"status\":\"success\", \"token\":\"" + token + "\"}\n\n" + gson.toJson(user));
                 
             } else {
                 response.setContentType("application/json");

@@ -53,6 +53,26 @@ public class UserDAO {
         conn.close();
         return list;
     }
+    
+    public User getUserById(int userId) throws Exception {
+        User user = null;
+        Connection conn = DBConnection.getConnection();
+        String sql = "SELECT * FROM Users WHERE UserId = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        
+        ps.setInt(1, userId);
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            user = createUser(rs);
+        }
+
+        rs.close();
+        ps.close();
+        conn.close();
+        return user;
+    }
 
     public void add(User u) throws Exception {
         Connection conn = DBConnection.getConnection();
@@ -99,5 +119,21 @@ public class UserDAO {
         ps.close();
         conn.close();
         return user;
+    }
+
+    public boolean napTien(int userId, double tien) throws Exception {
+        Connection conn = DBConnection.getConnection();
+        String sql = "UPDATE Users SET TaiChinh = ? WHERE UserId = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setDouble(1, tien);
+        ps.setInt(2, userId);
+        
+        int rowsAffected = ps.executeUpdate();
+        
+        ps.close();
+        conn.close();
+        
+        return rowsAffected > 0;
     }
 }

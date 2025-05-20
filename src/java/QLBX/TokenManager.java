@@ -25,12 +25,16 @@ public class TokenManager {
         emailToTokenMap.put(user.getEmail(), token);
         return token;
     }
-    
+
     public static String findUserToken(String email) {
         if (emailToTokenMap.containsKey(email)) {
             return emailToTokenMap.get(email);
         }
         return null;
+    }
+
+    public static void updateUser(String token, User updatedUser) {
+        tokenStore.put(token, updatedUser);
     }
 
     public static User getUser(String token) {
@@ -48,7 +52,5 @@ public class TokenManager {
     public static void setEmailToTokenMap(Map<String, String> emailToTokenMap) {
         TokenManager.emailToTokenMap = emailToTokenMap;
     }
-    
-    
 
 }
