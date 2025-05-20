@@ -68,6 +68,7 @@ public class CuaHang {
         }
 
         return new ArrayList<>(filteredList
+//                .filter(xe -> (maXe == null || xe.getMaXe() == maXe))
                 .filter(xe -> (loaiXe == null || xe.getLoaiXe().equalsIgnoreCase(loaiXe)))
                 .filter(xe -> (hangXe == null || xe.getHangXe().equalsIgnoreCase(hangXe)))
                 .filter(xe -> (tinhTrang == null || xe.getTinhTrang().equalsIgnoreCase(tinhTrang)))
