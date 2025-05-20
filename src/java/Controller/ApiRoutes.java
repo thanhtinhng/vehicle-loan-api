@@ -9,6 +9,7 @@ package Controller;
  * @author Windows 10
  */
 public interface ApiRoutes {
+
     String LOGIN = "/api/auth/login";
     String REGISTER = "/api/auth/register";
     String USER_DS = "/api/admin/ds_user";
@@ -17,4 +18,5 @@ public interface ApiRoutes {
     String DS_XE_CON_HANG = "/api/xe/ds_xeConHang";
     String FILTER_DS_XE = "/api/xe/filterDsXe";
     String THONG_TIN_CUA_HANG = "/api/admin/thongTinCuaHang";
+    String SORT_PRICE = "/api/xe/sapXepGiaTang";
 }
