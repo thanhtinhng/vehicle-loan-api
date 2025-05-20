@@ -4,6 +4,7 @@
  */
 package Controller.User;
 
+import static Controller.ApiRoutes.NAP_TIEN;
 import static Controller.ApiRoutes.REGISTER;
 import static Controller.ApiRoutes.TAO_HOP_DONG;
 import static Controller.ApiRoutes.USER_DS;
@@ -17,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import Model.User;
 import DAO.UserDAO;
+import QLBX.TokenManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
@@ -28,35 +30,42 @@ import java.util.ArrayList;
  *
  * @author Windows 10
  */
-@WebServlet(name = "TaoHopDongServlet", urlPatterns = TAO_HOP_DONG)
-public class TaoHopDongServlet extends HttpServlet {
+@WebServlet(name = "NapTienServlet", urlPatterns = NAP_TIEN)
+public class NapTienServlet extends HttpServlet {
 
     private final Gson gson = new Gson();
 
     @Override
-    protected void doPost(HttpServletRequest request, 
-                          HttpServletResponse response) throws IOException {
-        
+    protected void doPut(HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+
         try (BufferedReader reader = request.getReader()) {
-            
-//            User user = gson.fromJson(reader, User.class);
-            
-//            new UserDAO().add(user);
-            
+
+            String token = request.getHeader("token");
+            User user = TokenManager.getUser(token);
+            if (user == null) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
+                return;
+            }
+
+            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+
+            Double tien = jsonObject.get("tien").getAsDouble();
+            tien = tien + user.getTaiChinh();
+
+            new UserDAO().napTien(user.getUserId(), tien);
+
+            User updatedUser = new UserDAO().getUserById(user.getUserId());
+            TokenManager.updateUser(token, updatedUser);
+
             response.setContentType("application/json");
-            response.getWriter().write("{\"status\":\"success\"}");
-        
+            response.getWriter().write("{\"status\":\"success\"}\n\n" + gson.toJson(updatedUser));
+
         } catch (Exception e) {
             response.setStatus(500);
             response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
         }
     }
-
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
-    
-    
 
 }

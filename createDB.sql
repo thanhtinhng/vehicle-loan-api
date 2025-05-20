@@ -49,7 +49,7 @@ CREATE TABLE Users (
     DienThoai VARCHAR(20),
     DiaChi NVARCHAR(255),
     TaiChinh DECIMAL(15,2),
-    Role VARCHAR(20) CHECK (Role IN ('GUEST', 'USER', 'ADMIN'))
+    Role VARCHAR(20) CHECK (Role IN ('USER', 'ADMIN'))
 );
 
 CREATE TABLE MaGiamGia (
