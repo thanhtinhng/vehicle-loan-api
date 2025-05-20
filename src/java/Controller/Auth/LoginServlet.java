@@ -16,12 +16,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import Model.User;
 import DAO.UserDAO;
+import QLBX.TokenManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  *
@@ -33,21 +35,35 @@ public class LoginServlet extends HttpServlet {
     private final Gson gson = new Gson();
 
     @Override
-    protected void doPost(HttpServletRequest request, 
-                          HttpServletResponse response) throws IOException {
-        
+    protected void doPost(HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+
         try (BufferedReader reader = request.getReader()) {
-            
-            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class); //lấy json truyền vào
-            
+
+            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+
             String email = jsonObject.get("email").getAsString();
             String matKhau = jsonObject.get("matKhau").getAsString();
-            
-            //gọi đến user DAO (viết thêm logic so sánh tài khoảng với data trong db để đăng nhập, trả về token và role)
-            
-            response.setContentType("application/json");
-            response.getWriter().write("{\"status\":\"success\"}");
-        
+
+            User user = new UserDAO().xacThucUser(email, matKhau);
+
+            if (user != null) {
+                
+                String token = TokenManager.findUserToken(user.getEmail());
+                
+                if (token == null) {
+                    token = TokenManager.saveToken(user);
+                }
+
+                response.setContentType("application/json");
+                response.getWriter().write("{\"status\":\"success\", \"token\":\"" + token + "\"}\n");
+                
+            } else {
+                response.setContentType("application/json");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+                response.getWriter().write("{\"error\":\"Sai email hoặc mật khẩu\"}\n");
+            }
+
         } catch (Exception e) {
             response.setStatus(500);
             response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
@@ -58,7 +74,5 @@ public class LoginServlet extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doPut(req, resp); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
-    
-    
 
 }
