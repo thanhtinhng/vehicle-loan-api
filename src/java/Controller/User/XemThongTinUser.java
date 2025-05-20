@@ -2,10 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Controller.Admin;
+package Controller.User;
 
 import static Controller.ApiRoutes.DS_XE_CON_HANG;
 import static Controller.ApiRoutes.THONG_TIN_CUA_HANG;
+import static Controller.ApiRoutes.THONG_TIN_USER;
 import static Controller.ApiRoutes.XE_DS;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,7 +19,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import Model.Xe;
 import DAO.XeDAO;
 import Model.Kho;
+import Model.User;
 import QLBX.CuaHang;
+import QLBX.TokenManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
@@ -30,8 +33,8 @@ import java.util.ArrayList;
  *
  * @author Windows 10
  */
-@WebServlet(name = "GetCuaHangServlet", urlPatterns = THONG_TIN_CUA_HANG)
-public class GetCuaHangServlet extends HttpServlet {
+@WebServlet(name = "XemThongTinUser", urlPatterns = THONG_TIN_USER)
+public class XemThongTinUser extends HttpServlet {
 
     private final Gson gson = new Gson();
 
@@ -40,9 +43,16 @@ public class GetCuaHangServlet extends HttpServlet {
             HttpServletResponse response) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
         try {
-            CuaHang cuaHang = (CuaHang) getServletContext().getAttribute("cuaHang");
+            String token = request.getHeader("token");
+            User user = TokenManager.getUser(token);
 
-            response.getWriter().write(gson.toJson(cuaHang));
+            if (user == null) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
+                return;
+            }
+
+            response.getWriter().write(gson.toJson(user));
             System.out.println("Test: doGet: Done");
 
         } catch (Exception e) {

@@ -41,4 +41,14 @@ public class TokenManager {
         TokenManager.tokenStore = tokenStore; //vi static nen khong dung this
     }
 
+    public static Map<String, String> getEmailToTokenMap() {
+        return emailToTokenMap;
+    }
+
+    public static void setEmailToTokenMap(Map<String, String> emailToTokenMap) {
+        TokenManager.emailToTokenMap = emailToTokenMap;
+    }
+    
+    
+
 }

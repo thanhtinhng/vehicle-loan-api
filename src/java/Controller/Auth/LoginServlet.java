@@ -5,11 +5,9 @@
 package Controller.Auth;
 
 import static Controller.ApiRoutes.LOGIN;
-import static Controller.ApiRoutes.USER_DS;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,10 +18,7 @@ import QLBX.TokenManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.UUID;
 
 /**
  *

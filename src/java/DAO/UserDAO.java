@@ -11,20 +11,25 @@ import java.sql.*;
 import java.util.*;
 
 public class UserDAO {
-    
+
     public User createUser(ResultSet rs) throws Exception {
         User user = new User(
-                    rs.getInt("UserId"),
-                    rs.getString("Username"),
-                    rs.getString("MatKhau"),
-                    rs.getString("Email"),
-                    rs.getDate("NgaySinh"),
-                    rs.getString("DienThoai"),
-                    rs.getString("DiaChi"),
-                    rs.getDouble("TaiChinh"),
-                    rs.getString("Role")
-            );
-        
+                rs.getInt("UserId"),
+                rs.getString("Username"),
+                rs.getString("MatKhau"),
+                rs.getString("Email"),
+                rs.getDate("NgaySinh"),
+                rs.getString("DienThoai"),
+                rs.getString("DiaChi"),
+                rs.getDouble("TaiChinh"),
+                rs.getString("Role")
+        );
+
+        int userId = rs.getInt("UserId");
+
+        ArrayList<HopDong> dsHopDong = new HopDongDAO().getByUserId(userId);
+        user.setDanhSachHopDong(dsHopDong);
+
         return user;
     }
 
@@ -39,12 +44,7 @@ public class UserDAO {
         while (rs.next()) {
 
             User user = createUser(rs);
-            
-            int userId = rs.getInt("UserId");
-            
-            ArrayList<HopDong> dsHopDong = new HopDongDAO().getByUserId(userId);
-            user.setDanhSachHopDong(dsHopDong);
-            
+
             list.add(user);
         }
 
@@ -80,13 +80,13 @@ public class UserDAO {
         ps.close();
         conn.close();
     }
-    
+
     public User xacThucUser(String email, String matKhau) throws Exception {
         User user = null;
         Connection conn = DBConnection.getConnection();
         String sql = "SELECT * FROM Users WHERE Email = ? AND MatKhau = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
-        
+
         ps.setString(1, email);
         ps.setString(2, matKhau);
 
