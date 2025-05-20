@@ -29,7 +29,7 @@ import java.util.ArrayList;
  * @author Windows 10
  */
 @WebServlet(name = "GetDsXeServlet", urlPatterns = XE_DS)
-public class GetDsXeServlet extends HttpServlet {
+public class laydsxe extends HttpServlet {
 
     private final Gson gson = new Gson();
 
