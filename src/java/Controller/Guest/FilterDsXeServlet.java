@@ -45,31 +45,31 @@ public class FilterDsXeServlet extends HttpServlet {
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
             if (jsonObject != null) {
-//                Integer maXe = jsonObject.get("maXe").getAsInt();
-//                String loaiXe = jsonObject.get("loaiXe").getAsString();
-//                String hangXe = jsonObject.get("hangXe").getAsString();
-//                String tinhTrang = jsonObject.get("tinhTrang").getAsString();
-//                String sapXep = jsonObject.get("sapXep").getAsString();
 
-                Integer maXe = jsonObject.has("maXe") && !jsonObject.get("maXe").isJsonNull()
-                        ? jsonObject.get("maXe").getAsInt()
-                        : null;
+                Integer maXe = null;
+                if (jsonObject.has("maXe") && !jsonObject.get("maXe").isJsonNull()) {
+                    maXe = jsonObject.get("maXe").getAsInt();
+                }
 
-                String loaiXe = jsonObject.has("loaiXe") && !jsonObject.get("loaiXe").isJsonNull()
-                        ? jsonObject.get("loaiXe").getAsString()
-                        : null;
+                String loaiXe = null;
+                if (jsonObject.has("loaiXe") && !jsonObject.get("loaiXe").isJsonNull()) {
+                    loaiXe = jsonObject.get("loaiXe").getAsString();
+                }
 
-                String hangXe = jsonObject.has("hangXe") && !jsonObject.get("hangXe").isJsonNull()
-                        ? jsonObject.get("hangXe").getAsString()
-                        : null;
+                String hangXe = null;
+                if (jsonObject.has("hangXe") && !jsonObject.get("hangXe").isJsonNull()) {
+                    hangXe = jsonObject.get("hangXe").getAsString();
+                }
 
-                String tinhTrang = jsonObject.has("tinhTrang") && !jsonObject.get("tinhTrang").isJsonNull()
-                        ? jsonObject.get("tinhTrang").getAsString()
-                        : null;
+                String tinhTrang = null;
+                if (jsonObject.has("tinhTrang") && !jsonObject.get("tinhTrang").isJsonNull()) {
+                    tinhTrang = jsonObject.get("tinhTrang").getAsString();
+                }
 
-                String sapXep = jsonObject.has("sapXep") && !jsonObject.get("sapXep").isJsonNull()
-                        ? jsonObject.get("sapXep").getAsString()
-                        : null;
+                String sapXep = null;
+                if (jsonObject.has("sapXep") && !jsonObject.get("sapXep").isJsonNull()) {
+                    sapXep = jsonObject.get("sapXep").getAsString();
+                }
 
                 CuaHang cuaHang = (CuaHang) getServletContext().getAttribute("cuaHang");
 

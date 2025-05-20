@@ -81,21 +81,23 @@ public class UserDAO {
         conn.close();
     }
     
-//    public ArrayList<User> getByMaCuaHang(int maCuaHang) throws Exception {
-//        ArrayList<User> list = new ArrayList<>();
-//        Connection conn = DBConnection.getConnection();
-//        String sql = "SELECT User.*,  FROM User WHERE UserId = ?";
-//        PreparedStatement ps = conn.prepareStatement(sql);
-//        ps.setInt(1, maCuaHang);
-//
-//        ResultSet rs = ps.executeQuery();
-//        while (rs.next()) {
-//            list.add(createUser(rs));
-//        }
-//
-//        rs.close();
-//        ps.close();
-//        conn.close();
-//        return list;
-//    }
+    public User xacThucUser(String email, String matKhau) throws Exception {
+        User user = null;
+        Connection conn = DBConnection.getConnection();
+        String sql = "SELECT * FROM Users WHERE Email = ? AND MatKhau = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        
+        ps.setString(1, email);
+        ps.setString(2, matKhau);
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            user = createUser(rs);
+        }
+
+        rs.close();
+        ps.close();
+        conn.close();
+        return user;
+    }
 }
