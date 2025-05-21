@@ -4,10 +4,8 @@
  */
 package Model;
 
+import QLBX.ThanhToan;
 import ConnDB.DBConnection;
-import QLBX.HopDong;
-import Model.ThanhToan;
-import Model.User;
 import java.sql.*;
 import java.util.*;
 
@@ -39,7 +37,7 @@ public class HopDongDAO {
 
         ArrayList<ThanhToan> dsThanhToan = new ThanhToanDAO().getByMaHopDong(maHD);
         hd.setDanhSachThanhToan(dsThanhToan);
-        
+
         return hd;
     }
 
@@ -59,5 +57,51 @@ public class HopDongDAO {
         ps.close();
         conn.close();
         return list;
+    }
+
+    public void taoHopDong(int userId, int maCuaHang, int maXe, String maGiamGia, int kyHan) throws Exception {
+        Connection conn = DBConnection.getConnection();
+
+        String sql = "INSERT INTO HopDong (UserId, MaCuaHang, MaXe, IDMaGiamGia, TienPhat, TraTruoc, LaiXuat, KyHanThang, TrangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+        
+        String sqlMaGiamGia = "SELECT IDMaGiamGia FROM MaGiamGia WHERE MaGiamGia = ?";
+        PreparedStatement psMaGiamGia = conn.prepareStatement(sqlMaGiamGia);
+        psMaGiamGia.setString(1, maGiamGia);
+
+        ResultSet rsMaGiamGia = psMaGiamGia.executeQuery();
+        Integer idMaGiamGia = null;
+        while (rsMaGiamGia.next()) {
+            idMaGiamGia = rsMaGiamGia.getInt("IDMaGiamGia");
+        }
+        
+        String sqlXe = "SELECT Gia FROM Xe WHERE MaXe = ?";
+        PreparedStatement psXe = conn.prepareStatement(sqlXe);
+        psXe.setInt(1, maXe);
+
+        ResultSet rsXe = psXe.executeQuery();
+        double gia = 0;
+        while (rsXe.next()) {
+            gia = rsXe.getDouble("Gia");
+        }
+
+
+        ps.setInt(1, userId);
+        ps.setInt(2, maCuaHang);
+        ps.setInt(3, maXe);
+        ps.setObject(4, idMaGiamGia, java.sql.Types.INTEGER);
+        ps.setDouble(5, 0);
+        ps.setDouble(6, gia * 0.2);
+        ps.setDouble(7, 0.01);
+        ps.setInt(8, kyHan);
+        ps.setString(9, "CHODUYET");
+
+        ps.executeUpdate();
+
+        ps.close();
+        rsMaGiamGia.close();
+        rsXe.close();
+        conn.close();
     }
 }

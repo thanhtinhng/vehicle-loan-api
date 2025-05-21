@@ -2,10 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package QLBX;
+package Model;
 
-import Model.ThanhToan;
+import QLBX.ThanhToan;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -37,12 +38,10 @@ public class HopDong {
     public double getTienPhat() {
         return tienPhat;
     }
-    
 
     public int getIdMaGiamGia() {
         return idMaGiamGia;
     }
-    
 
     public int getUserId() {
         return userId;
@@ -96,8 +95,6 @@ public class HopDong {
         this.tienPhat = tienPhat;
     }
 
-    
-    
     public void setKhoanTraMoiThang(double khoanTraMoiThang) {
         this.khoanTraMoiThang = khoanTraMoiThang;
     }
@@ -170,10 +167,8 @@ public class HopDong {
         this.trangThai = trangThai;
     }
 
-    
-
     public void setDanhSachThanhToan(ArrayList<ThanhToan> danhSachThanhToan) {
         this.danhSachThanhToan = danhSachThanhToan;
     }
-    
+
 }

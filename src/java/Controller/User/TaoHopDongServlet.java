@@ -7,6 +7,7 @@ package Controller.User;
 import static Controller.ApiRoutes.REGISTER;
 import static Controller.ApiRoutes.TAO_HOP_DONG;
 import static Controller.ApiRoutes.USER_DS;
+import Model.HopDongDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,8 +18,11 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import Model.User;
 import Model.UserDAO;
+import QLBX.CuaHang;
+import QLBX.HopDongQLBX;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import config.TokenManager;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
@@ -34,18 +38,42 @@ public class TaoHopDongServlet extends HttpServlet {
     private final Gson gson = new Gson();
 
     @Override
-    protected void doPost(HttpServletRequest request, 
-                          HttpServletResponse response) throws IOException {
-        
+    protected void doPost(HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+
         try (BufferedReader reader = request.getReader()) {
-            
-//            User user = gson.fromJson(reader, User.class);
-            
-//            new UserDAO().add(user);
-            
-            response.setContentType("application/json");
-            response.getWriter().write("{\"status\":\"success\"}");
-        
+
+            String token = request.getHeader("token");
+            User user = TokenManager.getUser(token);
+            if (user == null) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
+                return;
+            }
+            CuaHang cuaHang = (CuaHang) getServletContext().getAttribute("cuaHang");
+
+            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+
+            if (jsonObject != null) {
+                String maGiamGia = null;
+                if (jsonObject.has("maGiamGia") && !jsonObject.get("maGiamGia").isJsonNull()) {
+                    maGiamGia = jsonObject.get("maGiamGia").getAsString();
+                }
+
+                new HopDongDAO().taoHopDong(
+                        user.getUserId(),
+                        cuaHang.getMaCuaHang(),
+                        jsonObject.get("maXe").getAsInt(),
+                        maGiamGia,
+                        jsonObject.get("kyHan").getAsInt()
+                );
+                response.setContentType("application/json");
+                response.getWriter().write("{\"mess\":\"Tạo hợp đồng thành công. Cần chờ nhân viên duyệt.\"}");
+            } else {
+                response.setContentType("application/json");
+                response.getWriter().write("{\"mess\":\"Thiếu dữ liệu\"}");
+            }
+
         } catch (Exception e) {
             response.setStatus(500);
             response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
@@ -56,7 +84,5 @@ public class TaoHopDongServlet extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doPut(req, resp); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
-    
-    
 
 }

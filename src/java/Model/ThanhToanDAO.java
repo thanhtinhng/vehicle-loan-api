@@ -4,9 +4,8 @@
  */
 package Model;
 
+import QLBX.ThanhToan;
 import ConnDB.DBConnection;
-import QLBX.HopDong;
-import Model.ThanhToan;
 import Model.User;
 import java.sql.*;
 import java.util.*;

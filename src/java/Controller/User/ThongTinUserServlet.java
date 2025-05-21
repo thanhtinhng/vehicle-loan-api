@@ -18,7 +18,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import Model.Xe;
 import Model.XeDAO;
-import Model.Kho;
 import Model.User;
 import QLBX.CuaHang;
 import config.TokenManager;

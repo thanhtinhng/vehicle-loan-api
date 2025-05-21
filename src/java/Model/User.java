@@ -4,7 +4,6 @@
  */
 package Model;
 
-import QLBX.HopDong;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;

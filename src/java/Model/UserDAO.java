@@ -5,7 +5,6 @@
 package Model;
 
 import ConnDB.DBConnection;
-import QLBX.HopDong;
 import Model.User;
 import java.sql.*;
 import java.util.*;

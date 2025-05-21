@@ -61,19 +61,19 @@ CREATE TABLE MaGiamGia (
 
 CREATE TABLE HopDong (
     MaHopDong INT PRIMARY KEY IDENTITY(1,1),
-    UserId INT,
-    MaCuaHang INT,
-    MaXe INT,
-	IDMaGiamGia INT,
+    UserId INT, --
+    MaCuaHang INT,--
+    MaXe INT,--
+	IDMaGiamGia INT,--
     TongTien DECIMAL(15,2),
-	TienPhat DECIMAL(15,2),
-    TraTruoc DECIMAL(15,2),
+	TienPhat DECIMAL(15,2),-- =0
+    TraTruoc DECIMAL(15,2),-- =0.1
     TienVay DECIMAL(15,2),
-    LaiXuat FLOAT,
-    KyHanThang INT,
+    LaiXuat FLOAT,-- =0.01
+    KyHanThang INT,--
     KhoanTraMoiThang DECIMAL(15,2),
     NgayHopDong DATE,
-    TrangThai VARCHAR(20) CHECK (TrangThai IN ('CHODUYET', 'HOATDONG', 'HOANTHANH', 'VIPHAM')),
+    TrangThai VARCHAR(20) CHECK (TrangThai IN ('CHODUYET', 'HOATDONG', 'HOANTHANH', 'VIPHAM')), --cho duyet
     FOREIGN KEY (UserId) REFERENCES Users(UserId),
     FOREIGN KEY (MaCuaHang) REFERENCES CuaHang(MaCuaHang),
     FOREIGN KEY (MaXe) REFERENCES Xe(MaXe),
