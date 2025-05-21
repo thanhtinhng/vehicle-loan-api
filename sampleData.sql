@@ -38,31 +38,31 @@ INSERT INTO Users (Username, MatKhau, Email, NgaySinh, DienThoai, DiaChi, TaiChi
 (N'Admin', 'admin123', 'admin@example.com', '2003-05-01', '0933444555', N'Hà Nội', 0, 'ADMIN');
 
 -- 7. Insert contracts (hợp đồng mua xe)
-INSERT INTO HopDong (UserId, MaCuaHang, MaXe, TongTien, TraTruoc, TienVay, LaiXuat, KyHanThang, KhoanTraMoiThang, NgayHopDong, TrangThai) VALUES
-(1, 1, 1, 500000000, 100000000, 400000000, 5.5, 24, 17600, '2025-05-01', 'HOATDONG'),
-(2, 1, 3, 120000000, 20000000, 100000000, 6.0, 12, 8833, '2025-04-15', 'HOATDONG');
+INSERT INTO HopDong (UserId, MaCuaHang, MaXe, IDMaGiamGia, TongTien, TienPhat, TraTruoc, TienVay, LaiXuat, KyHanThang, KhoanTraMoiThang, NgayHopDong, TrangThai) VALUES
+(1, 1, 1, null, 500000000, 0, 100000000, 400000000, 5.5, 24, 17600, '2025-05-01', 'HOATDONG'),
+(2, 1, 3, null, 120000000, 0, 20000000, 100000000, 6.0, 12, 8833, '2025-04-15', 'HOATDONG');
 
 -- 8. Insert payments (lịch sử thanh toán từng tháng)
-INSERT INTO ThanhToan (MaHopDong, NgayThanhToan, SoTien, TrangThai) VALUES
-(1, '2025-06-01', 17600, 'HOANTHANH'),
-(1, '2025-07-01', 17600, 'CHO'),
-(2, '2025-05-01', 8833, 'HOANTHANH'),
-(2, '2025-06-01', 8833, 'CHO');
+INSERT INTO ThanhToan (MaHopDong, HanChot, NgayThanhToan, SoTien, Loai, TrangThai) VALUES
+(1, '2025-06-01', '2025-06-01', 17600, 'BINHTHUONG', 'HOANTHANH'),
+(1, '2025-07-01', null, 17600, 'BINHTHUONG', 'CHO'),
+(2, '2025-05-01', '2025-05-01', 8833, 'BINHTHUONG', 'HOANTHANH'),
+(2, '2025-06-01', null, 8833, 'BINHTHUONG', 'CHO');
 
-INSERT INTO MaGiamGia (MaGiamGia, TiLeGiam) VALUES 
-('UIT10', 10.00),
-('UIT15', 15.00),
-('UIT20', 20.00),
-('UIT25', 25.00),
-('UIT30', 30.00),
-('UIT40', 40.00),
-('UIT50', 50.00),
-('UIT5A', 5.00),
-('UIT7B', 7.50),
-('UIT12C', 12.00),
-('UIT18X', 18.00),
-('UIT22Z', 22.00),
-('UIT35T', 35.00),
-('UIT45K', 45.00),
-('UIT60VIP', 60.00);
+INSERT INTO MaGiamGia (MaGiamGia, TiLeGiam, TrangThai) VALUES 
+('UIT10', 10.00, 1),
+('UIT15', 15.00, 1),
+('UIT20', 20.00, 1),
+('UIT25', 25.00, 1),
+('UIT30', 30.00, 1),
+('UIT40', 40.00, 1),
+('UIT50', 50.00, 1),
+('UIT5A', 5.00, 1),
+('UIT7B', 7.50, 1),
+('UIT12C', 12.00, 1),
+('UIT18X', 18.00, 1),
+('UIT22Z', 22.00, 1),
+('UIT35T', 35.00, 1),
+('UIT45K', 45.00, 1),
+('UIT60VIP', 60.00, 1);
 
