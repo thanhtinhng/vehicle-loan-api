@@ -23,7 +23,7 @@ public class CuaHang {
     private String dienThoai;
     private String diaChi;
     private ArrayList<User> dsUser = new ArrayList<>();
-    private ArrayList<KhoXeDTO> dsXe = new ArrayList<>();
+    private ArrayList<XeQLBX> dsXe = new ArrayList<>();
 
     public CuaHang() {
     }
@@ -36,9 +36,9 @@ public class CuaHang {
         this.diaChi = diaChi;
     }
 
-    public ArrayList<KhoXeDTO> layDsXeConHang() {
-        ArrayList<KhoXeDTO> list = new ArrayList<>();
-        for (KhoXeDTO kho : dsXe) {
+    public ArrayList<XeQLBX> layDsXeConHang() {
+        ArrayList<XeQLBX> list = new ArrayList<>();
+        for (XeQLBX kho : dsXe) {
             if (kho.getSoLuong() > 0) {
                 list.add(kho);
             }
@@ -46,20 +46,20 @@ public class CuaHang {
         return list;
     }
 
-    public ArrayList<KhoXeDTO> sapXepTheoGiaTang() {
-        ArrayList<KhoXeDTO> list = new ArrayList<>();
+    public ArrayList<XeQLBX> sapXepTheoGiaTang() {
+        ArrayList<XeQLBX> list = new ArrayList<>();
         list.addAll(dsXe);
-        list.sort(Comparator.comparingDouble(KhoXeDTO::getGia));
+        list.sort(Comparator.comparingDouble(XeQLBX::getGia));
         return list;
     }
 
-    public ArrayList<KhoXeDTO> locXe(
+    public ArrayList<XeQLBX> locXe(
             Integer maXe,
             String loaiXe,
             String hangXe,
             String tinhTrang) {
 
-        Stream<KhoXeDTO> filteredList = this.dsXe.stream();
+        Stream<XeQLBX> filteredList = this.dsXe.stream();
 
         if (maXe != null) {
             return new ArrayList<>(filteredList
@@ -87,7 +87,7 @@ public class CuaHang {
         return dsUser;
     }
 
-    public ArrayList<KhoXeDTO> getDsXe() {
+    public ArrayList<XeQLBX> getDsXe() {
         return dsXe;
     }
 
@@ -115,7 +115,7 @@ public class CuaHang {
         this.dsUser = dsUser;
     }
 
-    public void setDsXe(ArrayList<KhoXeDTO> dsXe) {
+    public void setDsXe(ArrayList<XeQLBX> dsXe) {
         this.dsXe = dsXe;
     }
 

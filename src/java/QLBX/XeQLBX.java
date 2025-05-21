@@ -11,20 +11,20 @@ import java.util.List;
  *
  * @author Windows 10
  */
-public class KhoXeDTO {
+public class XeQLBX extends AbsXe{
 
-    private int maXe;
-    private String loaiXe;
-    private String hangXe;
-    private String tenXe;
-    private double gia;
-    private String tinhTrang; // MOI hoặc CU
-    private int soLuong;
+    protected int maXe;
+    protected String loaiXe;
+    protected String hangXe;
+    protected String tenXe;
+    protected double gia;
+    protected String tinhTrang; // MOI hoặc CU
+    protected int soLuong;
 
-    public KhoXeDTO() {
+    public XeQLBX() {
     }
 
-    public KhoXeDTO(int maXe, String loaiXe, String hangXe, String tenXe, double gia, String tinhTrang, int soLuong) {
+    public XeQLBX(int maXe, String loaiXe, String hangXe, String tenXe, double gia, String tinhTrang, int soLuong) {
 
         this.maXe = maXe;
         this.loaiXe = loaiXe;
@@ -33,6 +33,11 @@ public class KhoXeDTO {
         this.gia = gia;
         this.soLuong = soLuong;
         this.tinhTrang = tinhTrang;
+    }
+    
+    @Override
+    public double tinhGiaThucTe() {
+        return gia;
     }
 
     public void setMaXe(int maXe) {

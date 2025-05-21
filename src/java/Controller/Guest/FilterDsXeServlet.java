@@ -6,7 +6,7 @@ package Controller.Guest;
 
 import static Controller.ApiRoutes.FILTER_DS_XE;
 import static Controller.ApiRoutes.XE_DS;
-import DAO.KhoDAO;
+import Model.KhoDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -15,10 +15,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import Model.Xe;
-import DAO.XeDAO;
+import Model.XeDAO;
 import QLBX.CuaHang;
-import QLBX.KhoXeDTO;
+import QLBX.XeQLBX;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
@@ -73,17 +72,17 @@ public class FilterDsXeServlet extends HttpServlet {
 
                 CuaHang cuaHang = (CuaHang) getServletContext().getAttribute("cuaHang");
 
-                ArrayList<KhoXeDTO> list = new ArrayList<>();
+                ArrayList<XeQLBX> list = new ArrayList<>();
 
                 list.addAll(cuaHang.locXe(maXe, loaiXe, hangXe, tinhTrang));
 
                 if ("tangDan".equalsIgnoreCase(sapXep)) {
-                    list.sort(Comparator.comparingDouble(KhoXeDTO::getGia));
+                    list.sort(Comparator.comparingDouble(XeQLBX::getGia));
                 }
                 response.getWriter().write(gson.toJson(list));
                 System.out.println("Test: doGet: Done");
             } else {
-                ArrayList<KhoXeDTO> list = new KhoDAO().getAll();
+                ArrayList<XeQLBX> list = new KhoDAO().getAll();
                 response.getWriter().write(gson.toJson(list));
                 System.out.println("Test: doGet: Done");
             }

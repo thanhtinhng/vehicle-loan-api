@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Model;
+package QLBX;
 
 import java.util.Date;
 
@@ -32,7 +32,30 @@ public class ThanhToan {
         this.trangThai = trangThai;
     }
 
+    public ThanhToan(int maHopDong, Date hanChot, double soTien, String loai) {
+        this.maHopDong = maHopDong;
+        this.hanChot = hanChot;
+        this.soTien = soTien;
+        this.trangThai = "CHO";
+        this.loai = loai;
+    }
     
+    public void dongTien() {
+        this.ngayThanhToan = new Date();
+        if (ngayThanhToan.after(hanChot)) {
+            trangThai = "TRE";
+        } else {
+            trangThai = "HOANTHANH";
+        }
+    }
+
+    public boolean isTre() {
+        return "TRE".equals(trangThai);
+    }
+
+    public double getTienPhatNeuTre() {
+        return isTre() ? 100_000 : 0;
+    }
 
     public void setMaThanhToan(int maThanhToan) {
         this.maThanhToan = maThanhToan;
@@ -73,5 +96,23 @@ public class ThanhToan {
     public String getTrangThai() {
         return trangThai;
     }
+
+    public Date getHanChot() {
+        return hanChot;
+    }
+
+    public void setHanChot(Date hanChot) {
+        this.hanChot = hanChot;
+    }
+
+    public String getLoai() {
+        return loai;
+    }
+
+    public void setLoai(String loai) {
+        this.loai = loai;
+    }
+    
+    
     
 }

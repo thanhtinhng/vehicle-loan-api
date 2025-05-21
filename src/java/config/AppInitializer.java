@@ -1,6 +1,6 @@
 package config;
 
-import DAO.CuaHangDAO;
+import Model.CuaHangDAO;
 import QLBX.CuaHang;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;

@@ -1,7 +1,6 @@
-package DAO;
+package Model;
 
 import ConnDB.DBConnection;
-import Model.HopDong;
 import Model.Kho;
 import Model.User;
 import QLBX.CuaHang;

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DAO;
+package Model;
 
 import ConnDB.DBConnection;
 import Model.Xe;
@@ -35,8 +35,8 @@ public class XeDAO {
 
             Xe xe = new Xe(
                     rs.getInt("MaXe"),
-                    rs.getString("TenLoaiXe"),
-                    rs.getString("TenHangXe"),
+                    rs.getInt("MaLoaiXe"),
+                    rs.getInt("MaHangXe"),
                     rs.getString("TenXe"),
                     rs.getDouble("Gia"),
                     rs.getString("TinhTrang")
@@ -73,8 +73,8 @@ public class XeDAO {
         if (rs.next()) {
             xe = new Xe(
                     rs.getInt("MaXe"),
-                    rs.getString("TenLoaiXe"),
-                    rs.getString("TenHangXe"),
+                    rs.getInt("MaLoaiXe"),
+                    rs.getInt("MaHangXe"),
                     rs.getString("TenXe"),
                     rs.getDouble("Gia"),
                     rs.getString("TinhTrang")
@@ -86,40 +86,4 @@ public class XeDAO {
         conn.close();
         return xe;
     }
-    
-//    public ArrayList<Xe> getXeConHang(int maXe) throws Exception {
-//        Xe xe = null;
-//        Connection conn = DBConnection.getConnection();
-//        String sql = """
-//                        SELECT 
-//                            Xe.*,
-//                            HangXe.TenHangXe,
-//                            LoaiXe.TenLoaiXe
-//                        FROM Xe
-//                        JOIN LoaiXe ON Xe.MaLoaiXe = LoaiXe.MaLoaiXe
-//                        JOIN HangXe ON Xe.MaHangXe = HangXe.MaHangXe
-//                        WHERE MaXe = ?
-//                    """;
-//        PreparedStatement ps = conn.prepareStatement(sql);
-//
-//        ps.setInt(1, maXe);
-//
-//        ResultSet rs = ps.executeQuery();
-//
-//        if (rs.next()) {
-//            xe = new Xe(
-//                    rs.getInt("MaXe"),
-//                    rs.getString("TenLoaiXe"),
-//                    rs.getString("TenHangXe"),
-//                    rs.getString("TenXe"),
-//                    rs.getDouble("Gia"),
-//                    rs.getString("TinhTrang")
-//            );
-//        }
-//
-//        rs.close();
-//        ps.close();
-//        conn.close();
-//        return xe;
-//    }
 }
