@@ -66,6 +66,7 @@ CREATE TABLE HopDong (
     MaXe INT,
 	IDMaGiamGia INT,
     TongTien DECIMAL(15,2),
+	TienPhat DECIMAL(15,2),
     TraTruoc DECIMAL(15,2),
     TienVay DECIMAL(15,2),
     LaiXuat FLOAT,
@@ -83,8 +84,10 @@ CREATE TABLE HopDong (
 CREATE TABLE ThanhToan (
     MaThanhToan INT PRIMARY KEY IDENTITY(1,1),
     MaHopDong INT,
+	HanChot DATE,
     NgayThanhToan DATE,
     SoTien DECIMAL(15,2),
+	Loai VARCHAR(20) CHECK (Loai IN ('BINHTHUONG', 'PHAT')),
     TrangThai VARCHAR(20) CHECK (TrangThai IN ('CHO', 'HOANTHANH', 'TRE')),
     FOREIGN KEY (MaHopDong) REFERENCES HopDong(MaHopDong)
 );
