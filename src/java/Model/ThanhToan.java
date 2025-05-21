@@ -13,20 +13,26 @@ import java.util.Date;
 public class ThanhToan {
     private int maThanhToan;
     private int maHopDong;
+    private Date hanChot;
     private Date ngayThanhToan;
     private double soTien;
+    private String loai;
     private String trangThai; // CHO, HOANTHANH, TRE
 
     public ThanhToan() {
     }
 
-    public ThanhToan(int maThanhToan, int maHopDong, Date ngayThanhToan, double soTien, String trangThai) {
+    public ThanhToan(int maThanhToan, int maHopDong, Date hanChot, Date ngayThanhToan, double soTien, String loai, String trangThai) {
         this.maThanhToan = maThanhToan;
         this.maHopDong = maHopDong;
+        this.hanChot = hanChot;
         this.ngayThanhToan = ngayThanhToan;
         this.soTien = soTien;
+        this.loai = loai;
         this.trangThai = trangThai;
     }
+
+    
 
     public void setMaThanhToan(int maThanhToan) {
         this.maThanhToan = maThanhToan;
