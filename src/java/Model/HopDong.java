@@ -19,6 +19,7 @@ public class HopDong {
     private int maXe;
     private int idMaGiamGia;
     private double tongTien;
+    private double tienPhat;
     private double traTruoc;
     private double tienVay;
     private double laiXuat;
@@ -31,6 +32,11 @@ public class HopDong {
     public int getMaHopDong() {
         return maHopDong;
     }
+
+    public double getTienPhat() {
+        return tienPhat;
+    }
+    
 
     public int getIdMaGiamGia() {
         return idMaGiamGia;
@@ -83,6 +89,10 @@ public class HopDong {
 
     public void setIdMaGiamGia(int idMaGiamGia) {
         this.idMaGiamGia = idMaGiamGia;
+    }
+
+    public void setTienPhat(double tienPhat) {
+        this.tienPhat = tienPhat;
     }
 
     
@@ -142,13 +152,14 @@ public class HopDong {
     public HopDong() {
     }
 
-    public HopDong(int maHopDong, int userId, int maCuaHang, int maXe, int idMaGiamGia, double tongTien, double traTruoc, double tienVay, double laiXuat, int kyHanThang, double khoanTraMoiThang, Date ngayHopDong, String trangThai) {
+    public HopDong(int maHopDong, int userId, int maCuaHang, int maXe, int idMaGiamGia, double tongTien, double tienPhat, double traTruoc, double tienVay, double laiXuat, int kyHanThang, double khoanTraMoiThang, Date ngayHopDong, String trangThai) {
         this.maHopDong = maHopDong;
         this.userId = userId;
         this.maCuaHang = maCuaHang;
         this.maXe = maXe;
         this.idMaGiamGia = idMaGiamGia;
         this.tongTien = tongTien;
+        this.tienPhat = tienPhat;
         this.traTruoc = traTruoc;
         this.tienVay = tienVay;
         this.laiXuat = laiXuat;
@@ -157,6 +168,8 @@ public class HopDong {
         this.ngayHopDong = ngayHopDong;
         this.trangThai = trangThai;
     }
+
+    
 
     public void setDanhSachThanhToan(ArrayList<ThanhToan> danhSachThanhToan) {
         this.danhSachThanhToan = danhSachThanhToan;

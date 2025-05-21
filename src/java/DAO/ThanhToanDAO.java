@@ -31,8 +31,10 @@ public class ThanhToanDAO {
             list.add(new ThanhToan(
                     rs.getInt("MaThanhToan"),
                     rs.getInt("MaHopDong"),
+                    rs.getDate("HanChot"),
                     rs.getDate("NgayThanhToan"),
                     rs.getDouble("SoTien"),
+                    rs.getString("Loai"),
                     rs.getString("TrangThai")
             ));
         }
