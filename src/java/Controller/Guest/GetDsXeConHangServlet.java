@@ -14,11 +14,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import Model.Xe;
-import DAO.XeDAO;
+import Model.XeDAO;
 import Model.Kho;
 import QLBX.CuaHang;
-import QLBX.KhoXeDTO;
+import QLBX.XeQLBX;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
@@ -42,7 +41,7 @@ public class GetDsXeConHangServlet extends HttpServlet {
         try {
                 CuaHang cuaHang = (CuaHang) getServletContext().getAttribute("cuaHang");
                 
-                ArrayList<KhoXeDTO> list = cuaHang.layDsXeConHang();
+                ArrayList<XeQLBX> list = cuaHang.layDsXeConHang();
                 
                 response.getWriter().write(gson.toJson(list));
                 System.out.println("Test: doGet: Done");

@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import Model.User;
-import DAO.UserDAO;
+import Model.UserDAO;
 import config.TokenManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

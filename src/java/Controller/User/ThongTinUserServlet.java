@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import Model.Xe;
-import DAO.XeDAO;
+import Model.XeDAO;
 import Model.Kho;
 import Model.User;
 import QLBX.CuaHang;

@@ -8,6 +8,6 @@ package QLBX;
  *
  * @author Windows 10
  */
-public class test {
-    
+public abstract class AbsXe {
+    public abstract double tinhGiaThucTe();
 }

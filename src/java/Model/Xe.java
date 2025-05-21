@@ -10,8 +10,8 @@ package Model;
  */
 public class Xe {
     private int maXe;
-    private String loaiXe;
-    private String hangXe;
+    private int maLoaiXe;
+    private int maHangXe;
     private String tenXe;
     private double gia;
     private String tinhTrang; // MOI hoặc CU
@@ -19,10 +19,10 @@ public class Xe {
     public Xe() {
     }
 
-    public Xe(int maXe, String loaiXe, String hangXe, String tenXe, double gia, String tinhTrang) {
+    public Xe(int maXe, int maLoaiXe, int maHangXe, String tenXe, double gia, String tinhTrang) {
         this.maXe = maXe;
-        this.loaiXe = loaiXe;
-        this.hangXe = hangXe;
+        this.maLoaiXe = maLoaiXe;
+        this.maHangXe = maHangXe;
         this.tenXe = tenXe;
         this.gia = gia;
         this.tinhTrang = tinhTrang;
@@ -32,13 +32,15 @@ public class Xe {
         this.maXe = maXe;
     }
 
-    public void setHangXe(String hangXe) {
-        this.hangXe = hangXe;
+    public void setMaHangXe(int maHangXe) {
+        this.maHangXe = maHangXe;
     }
 
-    public void setLoaiXe(String loaiXe) {
-        this.loaiXe = loaiXe;
+    public void setMaLoaiXe(int maLoaiXe) {
+        this.maLoaiXe = maLoaiXe;
     }
+
+    
 
     
 
@@ -58,14 +60,15 @@ public class Xe {
         return maXe;
     }
 
-    public String getHangXe() {
-        return hangXe;
+    public int getMaHangXe() {
+        return maHangXe;
     }
 
-    public String getLoaiXe() {
-        return loaiXe;
+    public int getMaLoaiXe() {
+        return maLoaiXe;
     }
 
+    
     
 
     public String getTenXe() {

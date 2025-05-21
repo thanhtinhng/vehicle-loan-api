@@ -5,7 +5,7 @@
 package Controller.Guest;
 
 import static Controller.ApiRoutes.XE_DS;
-import DAO.KhoDAO;
+import Model.KhoDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,9 +14,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import Model.Xe;
-import DAO.XeDAO;
-import QLBX.KhoXeDTO;
+import Model.XeDAO;
+import QLBX.XeQLBX;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
@@ -43,11 +42,11 @@ public class GetDsXeServlet extends HttpServlet {
 
             if (jsonObject != null) {
                 int maXe = jsonObject.get("maXe").getAsInt();
-                KhoXeDTO xe = new KhoDAO().getByMaXe(maXe);
+                XeQLBX xe = new KhoDAO().getByMaXe(maXe);
                 response.getWriter().write(gson.toJson(xe));
                 System.out.println("Test: doGet: Done");
             } else {
-                ArrayList<KhoXeDTO> list = new KhoDAO().getAll();
+                ArrayList<XeQLBX> list = new KhoDAO().getAll();
                 response.getWriter().write(gson.toJson(list));
                 System.out.println("Test: doGet: Done");
             }

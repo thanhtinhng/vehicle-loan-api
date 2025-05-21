@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DAO;
+package Model;
 
 import ConnDB.DBConnection;
-import Model.HopDong;
+import QLBX.HopDong;
 import Model.Kho;
 import Model.User;
-import QLBX.KhoXeDTO;
+import QLBX.XeQLBX;
 import java.sql.*;
 import java.util.*;
 
@@ -18,8 +18,8 @@ import java.util.*;
  */
 public class KhoDAO {
 
-    public KhoXeDTO createKho(ResultSet rs) throws Exception {
-        KhoXeDTO kho = new KhoXeDTO(
+    public XeQLBX createKho(ResultSet rs) throws Exception {
+        XeQLBX kho = new XeQLBX(
                 rs.getInt("MaXe"),
                 rs.getString("TenLoaiXe"),
                 rs.getString("TenHangXe"),
@@ -32,8 +32,8 @@ public class KhoDAO {
         return kho;
     }
     
-    public ArrayList<KhoXeDTO> getAll() throws Exception {
-        ArrayList<KhoXeDTO> list = new ArrayList<>();
+    public ArrayList<XeQLBX> getAll() throws Exception {
+        ArrayList<XeQLBX> list = new ArrayList<>();
         Connection conn = DBConnection.getConnection();
         String sql = """
                         SELECT Xe.*, Kho.SoLuong, LoaiXe.TenLoaiXe, HangXe.TenHangXe
@@ -48,7 +48,7 @@ public class KhoDAO {
 
         while (rs.next()) {
 
-            KhoXeDTO kho = createKho(rs);
+            XeQLBX kho = createKho(rs);
             
             list.add(kho);
         }
@@ -59,8 +59,8 @@ public class KhoDAO {
         return list;
     }
     
-    public KhoXeDTO getByMaXe(int maXe) throws Exception {
-        KhoXeDTO xe = null;
+    public XeQLBX getByMaXe(int maXe) throws Exception {
+        XeQLBX xe = null;
         Connection conn = DBConnection.getConnection();
         String sql = """
                         SELECT Xe.*, Kho.SoLuong, LoaiXe.TenLoaiXe, HangXe.TenHangXe
