@@ -5,7 +5,7 @@
 package Controller.Guest;
 
 import static Controller.ApiRoutes.XE_DS;
-import Model.KhoDAO;
+import Model.XeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -42,11 +42,11 @@ public class GetDsXeServlet extends HttpServlet {
 
             if (jsonObject != null) {
                 int maXe = jsonObject.get("maXe").getAsInt();
-                XeQLBX xe = new KhoDAO().getByMaXe(maXe);
+                XeQLBX xe = new XeDAO().getByMaXe(maXe);
                 response.getWriter().write(gson.toJson(xe));
                 System.out.println("Test: doGet: Done");
             } else {
-                ArrayList<XeQLBX> list = new KhoDAO().getAll();
+                ArrayList<XeQLBX> list = new XeDAO().getAll();
                 response.getWriter().write(gson.toJson(list));
                 System.out.println("Test: doGet: Done");
             }

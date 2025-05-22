@@ -5,7 +5,12 @@
 package Model;
 
 import ConnDB.DBConnection;
-import Model.Xe;
+import Model.Kho;
+import Model.User;
+import QLBX.XeCon;
+import QLBX.XeMay;
+import QLBX.XeQLBX;
+import QLBX.XeTai;
 import java.sql.*;
 import java.util.*;
 
@@ -15,17 +20,38 @@ import java.util.*;
  */
 public class XeDAO {
 
-    public ArrayList<Xe> getAll() throws Exception {
-        ArrayList<Xe> list = new ArrayList<>();
+    public XeQLBX createXe(ResultSet rs) throws Exception {
+
+        int maXe = rs.getInt("MaXe");
+        int maLoaiXe = rs.getInt("MaLoaiXe");
+        String tenLoaiXe = rs.getString("TenLoaiXe");
+        String tenHangXe = rs.getString("TenHangXe");
+        String tenXe = rs.getString("TenXe");
+        double gia = rs.getDouble("Gia");
+        String tinhTrang = rs.getString("TinhTrang");
+        int soLuong = rs.getInt("SoLuong");
+        
+        switch (maLoaiXe) {
+            case 1:
+                return new XeCon(maXe, maLoaiXe, tenLoaiXe, tenHangXe, tenXe, gia, tinhTrang, soLuong);
+            case 2:
+                return new XeMay(maXe, maLoaiXe, tenLoaiXe, tenHangXe, tenXe, gia, tinhTrang, soLuong);
+            case 3:
+                return new XeTai(maXe, maLoaiXe, tenLoaiXe, tenHangXe, tenXe, gia, tinhTrang, soLuong);
+            default:
+                throw new SQLException("Loại xe không hợp lệ: " + maLoaiXe);
+        }
+    }
+
+    public ArrayList<XeQLBX> getAll() throws Exception {
+        ArrayList<XeQLBX> list = new ArrayList<>();
         Connection conn = DBConnection.getConnection();
         String sql = """
-                        SELECT 
-                            Xe.*,
-                            HangXe.TenHangXe,
-                            LoaiXe.TenLoaiXe
-                        FROM Xe
-                        JOIN LoaiXe ON Xe.MaLoaiXe = LoaiXe.MaLoaiXe
-                        JOIN HangXe ON Xe.MaHangXe = HangXe.MaHangXe
+                        SELECT Xe.*, Kho.SoLuong, LoaiXe.TenLoaiXe, HangXe.TenHangXe
+                        FROM Kho 
+                        JOIN Xe ON Xe.maXe = Kho.maXe
+                        JOIN LoaiXe ON Xe.maLoaiXe = LoaiXe.maLoaiXe
+                        JOIN HangXe ON Xe.maHangXe = HangXe.maHangXe
                     """;
         PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -33,14 +59,7 @@ public class XeDAO {
 
         while (rs.next()) {
 
-            Xe xe = new Xe(
-                    rs.getInt("MaXe"),
-                    rs.getInt("MaLoaiXe"),
-                    rs.getInt("MaHangXe"),
-                    rs.getString("TenXe"),
-                    rs.getDouble("Gia"),
-                    rs.getString("TinhTrang")
-            );
+            XeQLBX xe = createXe(rs);
 
             list.add(xe);
         }
@@ -51,18 +70,16 @@ public class XeDAO {
         return list;
     }
 
-    public Xe getByMaXe(int maXe) throws Exception {
-        Xe xe = null;
+    public XeQLBX getByMaXe(int maXe) throws Exception {
+        XeQLBX xe = null;
         Connection conn = DBConnection.getConnection();
         String sql = """
-                        SELECT 
-                            Xe.*,
-                            HangXe.TenHangXe,
-                            LoaiXe.TenLoaiXe
-                        FROM Xe
-                        JOIN LoaiXe ON Xe.MaLoaiXe = LoaiXe.MaLoaiXe
-                        JOIN HangXe ON Xe.MaHangXe = HangXe.MaHangXe
-                        WHERE MaXe = ?
+                        SELECT Xe.*, Kho.SoLuong, LoaiXe.TenLoaiXe, HangXe.TenHangXe
+                        FROM Kho 
+                        JOIN Xe ON Xe.maXe = Kho.maXe
+                        JOIN LoaiXe ON Xe.maLoaiXe = LoaiXe.maLoaiXe
+                        JOIN HangXe ON Xe.maHangXe = HangXe.maHangXe
+                        WHERE Xe.MaXe = ?
                     """;
         PreparedStatement ps = conn.prepareStatement(sql);
 
@@ -71,19 +88,28 @@ public class XeDAO {
         ResultSet rs = ps.executeQuery();
 
         if (rs.next()) {
-            xe = new Xe(
-                    rs.getInt("MaXe"),
-                    rs.getInt("MaLoaiXe"),
-                    rs.getInt("MaHangXe"),
-                    rs.getString("TenXe"),
-                    rs.getDouble("Gia"),
-                    rs.getString("TinhTrang")
-            );
+            xe = createXe(rs);
         }
 
         rs.close();
         ps.close();
         conn.close();
         return xe;
+    }
+    
+    public void giamSoLuongXe(int maCuaHang, int maXe) throws Exception {
+        Connection conn = DBConnection.getConnection();
+        String sql = "UPDATE Kho SET SoLuong = SoLuong - 1 WHERE MaCuaHang = ? AND MaXe = ? AND SoLuong > 0";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, maCuaHang);
+        ps.setInt(2, maXe);
+        int rows = ps.executeUpdate();
+
+        ps.close();
+        conn.close();
+
+        if (rows == 0) {
+            throw new Exception("Không đủ xe trong kho để trừ");
+        }
     }
 }

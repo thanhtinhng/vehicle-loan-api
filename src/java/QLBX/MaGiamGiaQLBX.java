@@ -11,14 +11,14 @@ package QLBX;
 public class MaGiamGiaQLBX {
 
     private int idMaGiamGia;
-    private int maGiamGia;
+    private String maGiamGia;
     private double tiLeGiam;
     private int trangThai;
 
     public MaGiamGiaQLBX() {
     }
 
-    public MaGiamGiaQLBX(int idMaGiamGia, int maGiamGia, double tiLeGiam, int trangThai) {
+    public MaGiamGiaQLBX(int idMaGiamGia, String maGiamGia, double tiLeGiam, int trangThai) {
         this.idMaGiamGia = idMaGiamGia;
         this.maGiamGia = maGiamGia;
         this.tiLeGiam = tiLeGiam;
@@ -34,7 +34,7 @@ public class MaGiamGiaQLBX {
         return idMaGiamGia;
     }
 
-    public int getMaGiamGia() {
+    public String getMaGiamGia() {
         return maGiamGia;
     }
 
@@ -50,7 +50,7 @@ public class MaGiamGiaQLBX {
         this.idMaGiamGia = idMaGiamGia;
     }
 
-    public void setMaGiamGia(int maGiamGia) {
+    public void setMaGiamGia(String maGiamGia) {
         this.maGiamGia = maGiamGia;
     }
 

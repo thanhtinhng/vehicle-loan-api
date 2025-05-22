@@ -30,7 +30,7 @@ public class CuaHangDAO {
             
             ch.setDsUser(new UserDAO().getAll());
             
-            ch.setDsXe(new KhoDAO().getAll());
+            ch.setDsXe(new XeDAO().getAll());
             
             list.add(ch);
         }
