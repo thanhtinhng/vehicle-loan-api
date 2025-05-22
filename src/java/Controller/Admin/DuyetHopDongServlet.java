@@ -59,7 +59,7 @@ public class DuyetHopDongServlet extends HttpServlet {
                 return;
             }
 
-            if (user.getRole().equalsIgnoreCase("ADMIN")) {
+            if (!user.getRole().equalsIgnoreCase("ADMIN")) {
                 response.setContentType("application/json");
                 response.getWriter().write("{\"mess\":\"Chỉ có admin mới có thể thực hiện thao tác này!\"}");
                 return;
@@ -77,19 +77,19 @@ public class DuyetHopDongServlet extends HttpServlet {
             xe = new XeDAO().getByMaXe(hopDong.getMaXe());
             maGiamGia = new MaGiamGiaDAO().getByIdMaGiamGia(hopDong.getIdMaGiamGia());
 
-            HopDongQLBX hopDongQLBX = new HopDongQLBX(xe, maGiamGia, hopDong.getTraTruoc(), hopDong.getLaiXuat(), hopDong.getKyHanThang());
+            HopDongQLBX hopDongQLBX = new HopDongQLBX(maHopDong, xe, maGiamGia, hopDong.getTraTruoc(), hopDong.getLaiXuat(), hopDong.getKyHanThang());
             
             hopDongQLBX.duyetHopDong();
             
             new XeDAO().giamSoLuongXe(cuaHang.getMaCuaHang(), xe.getMaXe());
             
-//            new UserDAO().napTien(user.getUserId(), tien);
-
+            new HopDongDAO().duyetHopDong(hopDongQLBX);
+            
             User updatedUser = new UserDAO().getUserById(user.getUserId());
             TokenManager.updateUser(token, updatedUser);
 
             response.setContentType("application/json");
-            response.getWriter().write("{\"status\":\"success\"}\n\n" + gson.toJson(updatedUser));
+            response.getWriter().write("{\"mess\":\"Duyệt hợp đồng thành công!\"}\n\n");
 
         } catch (Exception e) {
             response.setStatus(500);

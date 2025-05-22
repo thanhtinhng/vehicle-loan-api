@@ -29,8 +29,6 @@ public class HopDongQLBX {
     private String trangThai; // CHODUYET, HOATDONG, HOANTHANH, VIPHAM
     private ArrayList<ThanhToan> danhSachThanhToan = new ArrayList<>();
     
-    //cần viết hàm tính tổng tiền hợp đồng
-    
     public void duyetHopDong() {
         this.trangThai = "HOATDONG";
         this.ngayHopDong = new Date();
@@ -84,12 +82,13 @@ public class HopDongQLBX {
         this.trangThai = trangThai;
     }
     
-    public HopDongQLBX(XeQLBX xe, MaGiamGiaQLBX maGiamGia, double traTruoc, double laiXuat, int kyHanThang) {
+    public HopDongQLBX(int maHopDong, XeQLBX xe, MaGiamGiaQLBX maGiamGia, double traTruoc, double laiXuat, int kyHanThang) {
         this.xe = xe;
         this.maGiamGia = maGiamGia;
         this.traTruoc = traTruoc;
         this.laiXuat = laiXuat;
         this.kyHanThang = kyHanThang;
+        this.maHopDong = maHopDong;
     }
 
     public void setMaHopDong(int maHopDong) {

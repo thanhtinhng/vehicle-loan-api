@@ -6,6 +6,7 @@ package Model;
 
 import QLBX.ThanhToan;
 import ConnDB.DBConnection;
+import QLBX.HopDongQLBX;
 import java.sql.*;
 import java.util.*;
 
@@ -121,5 +122,34 @@ public class HopDongDAO {
         ps.close();
         conn.close();
         return hopDong;
+    }
+    
+    public boolean duyetHopDong(HopDongQLBX hopDongQLBX) throws Exception {
+        Connection conn = DBConnection.getConnection();
+        String sql = "UPDATE HopDong "
+                + "SET TongTien = ?, TienVay = ?, KhoanTraMoiThang = ?, NgayHopDong = ?, TrangThai = ? "
+                + "WHERE MaHopDong = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setDouble(1, hopDongQLBX.getTongTien());
+        ps.setDouble(2, hopDongQLBX.getTienVay());
+        ps.setDouble(3, hopDongQLBX.getKhoanTraMoiThang());
+        
+        java.util.Date ngayHopDong = hopDongQLBX.getNgayHopDong();
+        java.sql.Date sqlNgayHopDong = new java.sql.Date(ngayHopDong.getTime());
+        ps.setDate(4, sqlNgayHopDong);
+        
+        ps.setString(5, hopDongQLBX.getTrangThai());
+        ps.setInt(6, hopDongQLBX.getMaHopDong());
+        
+        
+        int rowsAffected = ps.executeUpdate();
+        
+        ps.close();
+        conn.close();
+        
+        return rowsAffected > 0;
+        
+        //chưa set trạng thái mã giảm giá nếu có sử dụng
     }
 }

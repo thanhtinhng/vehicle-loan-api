@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Workspace/vehicle-loan-api/src/java/QLBX/XeMay.java</file>
-            <file>file:/D:/Workspace/vehicle-loan-api/src/java/Controller/Guest/FilterDsXeServlet.java</file>
-            <file>file:/D:/Workspace/vehicle-loan-api/src/java/Model/HopDongDAO.java</file>
-            <file>file:/D:/Workspace/vehicle-loan-api/src/java/Controller/User/TaoHopDongServlet.java</file>
-            <file>file:/D:/Workspace/vehicle-loan-api/src/java/Controller/ApiRoutes.java</file>
-            <file>file:/D:/Workspace/vehicle-loan-api/createDB.sql</file>
+            <file>file:/D:/Workspace/vehicle-loan-api/src/java/Controller/Admin/DuyetHopDongServlet.java</file>
+            <file>file:/D:/Workspace/vehicle-loan-api/src/java/Model/XeDAO.java</file>
+            <file>file:/D:/Workspace/vehicle-loan-api/src/java/QLBX/ThanhToan.java</file>
             <file>file:/D:/Workspace/vehicle-loan-api/src/java/QLBX/HopDongQLBX.java</file>
         </group>
     </open-files>
