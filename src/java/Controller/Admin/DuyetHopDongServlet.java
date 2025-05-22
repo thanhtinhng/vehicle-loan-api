@@ -11,7 +11,7 @@ import static Controller.ApiRoutes.TAO_HOP_DONG;
 import static Controller.ApiRoutes.USER_DS;
 import Model.HopDong;
 import Model.HopDongDAO;
-import Model.KhoDAO;
+import Model.XeDAO;
 import Model.MaGiamGiaDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,6 +23,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import Model.User;
 import Model.UserDAO;
+import QLBX.CuaHang;
 import QLBX.HopDongQLBX;
 import QLBX.MaGiamGiaQLBX;
 import QLBX.XeQLBX;
@@ -65,18 +66,22 @@ public class DuyetHopDongServlet extends HttpServlet {
             }
 
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+            
+            CuaHang cuaHang = (CuaHang) getServletContext().getAttribute("cuaHang");
 
             int maHopDong = jsonObject.get("maHopDong").getAsInt();
             HopDong hopDong = new HopDongDAO().getByMaHopDong(maHopDong);
             XeQLBX xe;
             MaGiamGiaQLBX maGiamGia;
 
-            xe = new KhoDAO().getByMaXe(hopDong.getMaXe());
+            xe = new XeDAO().getByMaXe(hopDong.getMaXe());
             maGiamGia = new MaGiamGiaDAO().getByIdMaGiamGia(hopDong.getIdMaGiamGia());
 
             HopDongQLBX hopDongQLBX = new HopDongQLBX(xe, maGiamGia, hopDong.getTraTruoc(), hopDong.getLaiXuat(), hopDong.getKyHanThang());
             
             hopDongQLBX.duyetHopDong();
+            
+            new XeDAO().giamSoLuongXe(cuaHang.getMaCuaHang(), xe.getMaXe());
             
 //            new UserDAO().napTien(user.getUserId(), tien);
 

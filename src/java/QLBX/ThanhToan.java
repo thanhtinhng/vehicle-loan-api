@@ -36,8 +36,8 @@ public class ThanhToan {
         this.maHopDong = maHopDong;
         this.hanChot = hanChot;
         this.soTien = soTien;
-        this.trangThai = "CHO";
         this.loai = loai;
+        this.trangThai = "CHO";
     }
     
     public void dongTien() {

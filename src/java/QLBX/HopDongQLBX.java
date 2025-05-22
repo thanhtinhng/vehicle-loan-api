@@ -18,14 +18,14 @@ public class HopDongQLBX {
     private int maHopDong;
     private XeQLBX xe;
     private MaGiamGiaQLBX maGiamGia;
-    private double tongTien;
-    private double traTruoc;
-    private double tienVay;
-    private double laiXuat;
+    private double tongTien; // traTruoc + tienVay + tongLai
+    private double traTruoc; // 20% giá xe
+    private double tienVay; // giaXe - traTruoc
+    private double laiXuat; // tháng
     private int kyHanThang; // tháng
-    private double khoanTraMoiThang;
-    private double tienPhat;
-    private Date ngayHopDong;
+    private double khoanTraMoiThang; //Mỗi tháng trả 1 số tiền giống nhau (chia đều)
+    private double tienPhat; // 5% giá trị thanh toán nếu mỗi lần thanh toán trễ (cộng dồn)
+    private Date ngayHopDong; // khi nào admin duyệt mới set
     private String trangThai; // CHODUYET, HOATDONG, HOANTHANH, VIPHAM
     private ArrayList<ThanhToan> danhSachThanhToan = new ArrayList<>();
     
@@ -36,13 +36,18 @@ public class HopDongQLBX {
         this.ngayHopDong = new Date();
 
         double giaXe = xe.tinhGiaThucTe();
+        
         if (maGiamGia != null) {
             giaXe = maGiamGia.apDung(giaXe);
         }
 
         this.tienVay = giaXe - traTruoc;
-        double laiThang = laiXuat / 100.0 / 12;
-        this.khoanTraMoiThang = (tienVay * laiThang) / (1 - Math.pow(1 + laiThang, -kyHanThang));
+        double tongLai = tienVay * laiXuat * kyHanThang;
+        this.tongTien = traTruoc + tienVay + tongLai;
+        
+        double laiHangThang = tienVay * laiXuat;
+        double gocHangThang = tienVay / kyHanThang;
+        this.khoanTraMoiThang = laiHangThang + gocHangThang;
 
         // tạo các kỳ thanh toán
         Calendar cal = Calendar.getInstance();

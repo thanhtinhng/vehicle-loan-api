@@ -7,7 +7,7 @@ package Controller.Guest;
 import static Controller.ApiRoutes.FILTER_DS_XE;
 import static Controller.ApiRoutes.SORT_PRICE;
 import static Controller.ApiRoutes.XE_DS;
-import Model.KhoDAO;
+import Model.XeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,7 +16,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import Model.XeDAO;
 import QLBX.CuaHang;
 import QLBX.XeQLBX;
 import com.google.gson.Gson;

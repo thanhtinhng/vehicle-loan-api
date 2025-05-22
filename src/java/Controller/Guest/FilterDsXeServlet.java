@@ -6,7 +6,7 @@ package Controller.Guest;
 
 import static Controller.ApiRoutes.FILTER_DS_XE;
 import static Controller.ApiRoutes.XE_DS;
-import Model.KhoDAO;
+import Model.XeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -82,7 +82,7 @@ public class FilterDsXeServlet extends HttpServlet {
                 response.getWriter().write(gson.toJson(list));
                 System.out.println("Test: doGet: Done");
             } else {
-                ArrayList<XeQLBX> list = new KhoDAO().getAll();
+                ArrayList<XeQLBX> list = new XeDAO().getAll();
                 response.getWriter().write(gson.toJson(list));
                 System.out.println("Test: doGet: Done");
             }
