@@ -110,7 +110,7 @@ public class HopDongDAO {
         rsXe.close();
         rs.close();
         conn.close();
-        
+
         return maHopDongMoi;
     }
 
@@ -132,8 +132,30 @@ public class HopDongDAO {
         return hopDong;
     }
 
-    public boolean duyetHopDong(HopDongQLBX hopDongQLBX) throws Exception {
+    public void duyetHopDong(int userId, HopDongQLBX hopDongQLBX) throws Exception {
         Connection conn = DBConnection.getConnection();
+
+        //kiểm tra tài chính
+        String sqlTaiChinh = "SELECT TaiChinh FROM Users WHERE UserId = ?";
+        PreparedStatement psTaiChinh = conn.prepareStatement(sqlTaiChinh);
+        psTaiChinh.setInt(1, userId);
+
+        ResultSet rsTaiChinh = psTaiChinh.executeQuery();
+        double taiChinh = 0;
+        if (rsTaiChinh.next()) {
+            taiChinh = rsTaiChinh.getDouble("TaiChinh");
+        }
+
+        if (taiChinh < hopDongQLBX.getTraTruoc()) {
+            psTaiChinh.close();
+            rsTaiChinh.close();
+            conn.close();
+            throw new Exception("Khách hàng không đủ điều kiện để ký hợp đồng (tài chính).");
+        }
+        psTaiChinh.close();
+        rsTaiChinh.close();
+
+        //duyệt hợp đồng
         String sql = "UPDATE HopDong "
                 + "SET TongTien = ?, TienVay = ?, KhoanTraMoiThang = ?, NgayHopDong = ?, TrangThai = ? "
                 + "WHERE MaHopDong = ?";
@@ -150,12 +172,24 @@ public class HopDongDAO {
         ps.setString(5, hopDongQLBX.getTrangThai());
         ps.setInt(6, hopDongQLBX.getMaHopDong());
 
-        int rowsAffected = ps.executeUpdate();
+        //update mã giảm giá đã sử dụng
+        if (hopDongQLBX.getMaGiamGia() != null) {
+            String sqlMaGiamGia = "UPDATE MaGiamGia "
+                    + "SET TrangThai = ? "
+                    + "WHERE MaGiamGia = ?";
+            PreparedStatement psMaGiamGia = conn.prepareStatement(sqlMaGiamGia);
+
+            psMaGiamGia.setInt(1, 0);
+            psMaGiamGia.setString(2, hopDongQLBX.getMaGiamGia().getMaGiamGia());
+            
+            psMaGiamGia.executeUpdate();
+            psMaGiamGia.close();
+        }
+
+        ps.executeUpdate();
 
         ps.close();
         conn.close();
-
-        return rowsAffected > 0;
 
         //chưa set trạng thái mã giảm giá nếu có sử dụng
     }

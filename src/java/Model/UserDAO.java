@@ -120,7 +120,7 @@ public class UserDAO {
         return user;
     }
 
-    public boolean napTien(int userId, double tien) throws Exception {
+    public void napTien(int userId, double tien) throws Exception {
         Connection conn = DBConnection.getConnection();
         String sql = "UPDATE Users SET TaiChinh = ? WHERE UserId = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
@@ -128,11 +128,9 @@ public class UserDAO {
         ps.setDouble(1, tien);
         ps.setInt(2, userId);
         
-        int rowsAffected = ps.executeUpdate();
+        ps.executeUpdate();
         
         ps.close();
         conn.close();
-        
-        return rowsAffected > 0;
     }
 }

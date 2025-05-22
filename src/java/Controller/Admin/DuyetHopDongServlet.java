@@ -72,6 +72,7 @@ public class DuyetHopDongServlet extends HttpServlet {
 
             int maHopDong = jsonObject.get("maHopDong").getAsInt();
             HopDong hopDong = new HopDongDAO().getByMaHopDong(maHopDong);
+            
             XeQLBX xe;
             MaGiamGiaQLBX maGiamGia;
 
@@ -84,7 +85,7 @@ public class DuyetHopDongServlet extends HttpServlet {
             
             new XeDAO().giamSoLuongXe(cuaHang.getMaCuaHang(), xe.getMaXe());
             
-            new HopDongDAO().duyetHopDong(hopDongQLBX);
+            new HopDongDAO().duyetHopDong(hopDong.getUserId(), hopDongQLBX);
             
             new ThanhToanDAO().taoThanhToanByHopDong(hopDongQLBX);
             
