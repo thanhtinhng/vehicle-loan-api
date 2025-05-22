@@ -48,6 +48,7 @@ public class HopDongQLBX {
         this.khoanTraMoiThang = laiHangThang + gocHangThang;
 
         // tạo các kỳ thanh toán
+        danhSachThanhToan.clear();
         Calendar cal = Calendar.getInstance();
         cal.setTime(ngayHopDong);
         for (int i = 0; i < kyHanThang; i++) {

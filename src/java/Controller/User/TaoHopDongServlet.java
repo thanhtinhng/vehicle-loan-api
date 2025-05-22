@@ -60,7 +60,7 @@ public class TaoHopDongServlet extends HttpServlet {
                     maGiamGia = jsonObject.get("maGiamGia").getAsString();
                 }
 
-                new HopDongDAO().taoHopDong(
+                int maHopDong = new HopDongDAO().taoHopDong(
                         user.getUserId(),
                         cuaHang.getMaCuaHang(),
                         jsonObject.get("maXe").getAsInt(),
@@ -68,7 +68,7 @@ public class TaoHopDongServlet extends HttpServlet {
                         jsonObject.get("kyHan").getAsInt()
                 );
                 response.setContentType("application/json");
-                response.getWriter().write("{\"mess\":\"Tạo hợp đồng thành công. Cần chờ nhân viên duyệt.\"}");
+                response.getWriter().write("{\"mess\":\"Tạo hợp đồng thành công. Cần chờ nhân viên duyệt.\"}\n\n" + gson.toJson(new HopDongDAO().getByMaHopDong(maHopDong)));
             } else {
                 response.setContentType("application/json");
                 response.getWriter().write("{\"mess\":\"Thiếu dữ liệu\"}");

@@ -60,13 +60,13 @@ public class HopDongDAO {
         return list;
     }
 
-    public void taoHopDong(int userId, int maCuaHang, int maXe, String maGiamGia, int kyHan) throws Exception {
+    public int taoHopDong(int userId, int maCuaHang, int maXe, String maGiamGia, int kyHan) throws Exception {
         Connection conn = DBConnection.getConnection();
 
         String sql = "INSERT INTO HopDong (UserId, MaCuaHang, MaXe, IDMaGiamGia, TienPhat, TraTruoc, LaiXuat, KyHanThang, TrangThai) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        PreparedStatement ps = conn.prepareStatement(sql);
-        
+        PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
         String sqlMaGiamGia = "SELECT IDMaGiamGia FROM MaGiamGia WHERE MaGiamGia = ?";
         PreparedStatement psMaGiamGia = conn.prepareStatement(sqlMaGiamGia);
         psMaGiamGia.setString(1, maGiamGia);
@@ -76,7 +76,7 @@ public class HopDongDAO {
         while (rsMaGiamGia.next()) {
             idMaGiamGia = rsMaGiamGia.getInt("IDMaGiamGia");
         }
-        
+
         String sqlXe = "SELECT Gia FROM Xe WHERE MaXe = ?";
         PreparedStatement psXe = conn.prepareStatement(sqlXe);
         psXe.setInt(1, maXe);
@@ -86,7 +86,6 @@ public class HopDongDAO {
         while (rsXe.next()) {
             gia = rsXe.getDouble("Gia");
         }
-
 
         ps.setInt(1, userId);
         ps.setInt(2, maCuaHang);
@@ -100,12 +99,21 @@ public class HopDongDAO {
 
         ps.executeUpdate();
 
+        ResultSet rs = ps.getGeneratedKeys();
+        int maHopDongMoi = -1;
+        if (rs.next()) {
+            maHopDongMoi = rs.getInt(1);
+        }
+
         ps.close();
         rsMaGiamGia.close();
         rsXe.close();
+        rs.close();
         conn.close();
+
+        return maHopDongMoi;
     }
-    
+
     public HopDong getByMaHopDong(int maHopDong) throws Exception {
         HopDong hopDong = null;
         Connection conn = DBConnection.getConnection();
@@ -123,9 +131,31 @@ public class HopDongDAO {
         conn.close();
         return hopDong;
     }
-    
-    public boolean duyetHopDong(HopDongQLBX hopDongQLBX) throws Exception {
+
+    public void duyetHopDong(int userId, HopDongQLBX hopDongQLBX) throws Exception {
         Connection conn = DBConnection.getConnection();
+
+        //kiểm tra tài chính
+        String sqlTaiChinh = "SELECT TaiChinh FROM Users WHERE UserId = ?";
+        PreparedStatement psTaiChinh = conn.prepareStatement(sqlTaiChinh);
+        psTaiChinh.setInt(1, userId);
+
+        ResultSet rsTaiChinh = psTaiChinh.executeQuery();
+        double taiChinh = 0;
+        if (rsTaiChinh.next()) {
+            taiChinh = rsTaiChinh.getDouble("TaiChinh");
+        }
+
+        if (taiChinh < hopDongQLBX.getTraTruoc()) {
+            psTaiChinh.close();
+            rsTaiChinh.close();
+            conn.close();
+            throw new Exception("Khách hàng không đủ điều kiện để ký hợp đồng (tài chính).");
+        }
+        psTaiChinh.close();
+        rsTaiChinh.close();
+
+        //duyệt hợp đồng
         String sql = "UPDATE HopDong "
                 + "SET TongTien = ?, TienVay = ?, KhoanTraMoiThang = ?, NgayHopDong = ?, TrangThai = ? "
                 + "WHERE MaHopDong = ?";
@@ -134,22 +164,33 @@ public class HopDongDAO {
         ps.setDouble(1, hopDongQLBX.getTongTien());
         ps.setDouble(2, hopDongQLBX.getTienVay());
         ps.setDouble(3, hopDongQLBX.getKhoanTraMoiThang());
-        
+
         java.util.Date ngayHopDong = hopDongQLBX.getNgayHopDong();
         java.sql.Date sqlNgayHopDong = new java.sql.Date(ngayHopDong.getTime());
         ps.setDate(4, sqlNgayHopDong);
-        
+
         ps.setString(5, hopDongQLBX.getTrangThai());
         ps.setInt(6, hopDongQLBX.getMaHopDong());
-        
-        
-        int rowsAffected = ps.executeUpdate();
-        
+
+        //update mã giảm giá đã sử dụng
+        if (hopDongQLBX.getMaGiamGia() != null) {
+            String sqlMaGiamGia = "UPDATE MaGiamGia "
+                    + "SET TrangThai = ? "
+                    + "WHERE MaGiamGia = ?";
+            PreparedStatement psMaGiamGia = conn.prepareStatement(sqlMaGiamGia);
+
+            psMaGiamGia.setInt(1, 0);
+            psMaGiamGia.setString(2, hopDongQLBX.getMaGiamGia().getMaGiamGia());
+            
+            psMaGiamGia.executeUpdate();
+            psMaGiamGia.close();
+        }
+
+        ps.executeUpdate();
+
         ps.close();
         conn.close();
-        
-        return rowsAffected > 0;
-        
+
         //chưa set trạng thái mã giảm giá nếu có sử dụng
     }
 }
