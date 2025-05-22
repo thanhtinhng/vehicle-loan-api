@@ -19,8 +19,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import Model.Xe;
 import Model.XeDAO;
 import Model.User;
+import Model.UserDAO;
 import QLBX.CuaHang;
-import config.TokenManager;
+import util.TokenManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
@@ -50,8 +51,11 @@ public class ThongTinUserServlet extends HttpServlet {
                 response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
                 return;
             }
+            
+            User updatedUser = new UserDAO().getUserById(user.getUserId());
+            TokenManager.updateUser(token, updatedUser);
 
-            response.getWriter().write(gson.toJson(user));
+            response.getWriter().write(gson.toJson(updatedUser));
             System.out.println("Test: doGet: Done");
 
         } catch (Exception e) {
