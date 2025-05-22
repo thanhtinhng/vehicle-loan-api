@@ -42,7 +42,7 @@ public class RegisterServlet extends HttpServlet {
             new UserDAO().add(user);
             
             response.setContentType("application/json");
-            response.getWriter().write("{\"status\":\"success\"}");
+            response.getWriter().write("{\"status\":\"success\"}\n\n" + gson.toJson(user));
         
         } catch (Exception e) {
             response.setStatus(500);

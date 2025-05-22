@@ -13,6 +13,7 @@ import Model.HopDong;
 import Model.HopDongDAO;
 import Model.XeDAO;
 import Model.MaGiamGiaDAO;
+import Model.ThanhToanDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -85,11 +86,10 @@ public class DuyetHopDongServlet extends HttpServlet {
             
             new HopDongDAO().duyetHopDong(hopDongQLBX);
             
-            User updatedUser = new UserDAO().getUserById(user.getUserId());
-            TokenManager.updateUser(token, updatedUser);
-
+            new ThanhToanDAO().taoThanhToanByHopDong(hopDongQLBX);
+            
             response.setContentType("application/json");
-            response.getWriter().write("{\"mess\":\"Duyệt hợp đồng thành công!\"}\n\n");
+            response.getWriter().write("{\"mess\":\"Duyệt hợp đồng thành công!\"}\n\n" + gson.toJson(new HopDongDAO().getByMaHopDong(maHopDong)));
 
         } catch (Exception e) {
             response.setStatus(500);
