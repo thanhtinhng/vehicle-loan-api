@@ -10,8 +10,8 @@ package QLBX;
  */
 public class XeTai extends XeQLBX {
 
-    public XeTai(int maXe, String loaiXe, String hangXe, String tenXe, double gia, String tinhTrang, int soLuong) {
-        super(maXe, loaiXe, hangXe, tenXe, gia, tinhTrang, soLuong);
+    public XeTai(int maXe, int maLoaiXe, String loaiXe, String hangXe, String tenXe, double gia, String tinhTrang, int soLuong) {
+        super(maXe, maLoaiXe, loaiXe, hangXe, tenXe, gia, tinhTrang, soLuong);
     }
 
     @Override

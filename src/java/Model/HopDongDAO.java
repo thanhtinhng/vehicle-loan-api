@@ -104,4 +104,22 @@ public class HopDongDAO {
         rsXe.close();
         conn.close();
     }
+    
+    public HopDong getByMaHopDong(int maHopDong) throws Exception {
+        HopDong hopDong = null;
+        Connection conn = DBConnection.getConnection();
+        String sql = "SELECT * FROM HopDong WHERE MaHopDong = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, maHopDong);
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            hopDong = createHopDong(rs);
+        }
+
+        rs.close();
+        ps.close();
+        conn.close();
+        return hopDong;
+    }
 }

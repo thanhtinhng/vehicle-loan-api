@@ -15,6 +15,7 @@ public class XeQLBX extends AbsXe{
 
     protected int maXe;
     protected String loaiXe;
+    protected int maLoaiXe;
     protected String hangXe;
     protected String tenXe;
     protected double gia;
@@ -24,16 +25,18 @@ public class XeQLBX extends AbsXe{
     public XeQLBX() {
     }
 
-    public XeQLBX(int maXe, String loaiXe, String hangXe, String tenXe, double gia, String tinhTrang, int soLuong) {
-
+    public XeQLBX(int maXe, int maLoaiXe, String loaiXe, String hangXe, String tenXe, double gia, String tinhTrang, int soLuong) {
         this.maXe = maXe;
         this.loaiXe = loaiXe;
+        this.maLoaiXe = maLoaiXe;
         this.hangXe = hangXe;
         this.tenXe = tenXe;
         this.gia = gia;
-        this.soLuong = soLuong;
         this.tinhTrang = tinhTrang;
+        this.soLuong = soLuong;
     }
+
+    
     
     @Override
     public double tinhGiaThucTe() {
@@ -95,5 +98,15 @@ public class XeQLBX extends AbsXe{
     public String getTinhTrang() {
         return tinhTrang;
     }
+
+    public int getMaLoaiXe() {
+        return maLoaiXe;
+    }
+
+    public void setMaLoaiXe(int maLoaiXe) {
+        this.maLoaiXe = maLoaiXe;
+    }
+    
+    
 
 }

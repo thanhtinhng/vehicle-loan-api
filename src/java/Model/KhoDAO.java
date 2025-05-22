@@ -7,7 +7,10 @@ package Model;
 import ConnDB.DBConnection;
 import Model.Kho;
 import Model.User;
+import QLBX.XeCon;
+import QLBX.XeMay;
 import QLBX.XeQLBX;
+import QLBX.XeTai;
 import java.sql.*;
 import java.util.*;
 
@@ -17,20 +20,29 @@ import java.util.*;
  */
 public class KhoDAO {
 
-    public XeQLBX createKho(ResultSet rs) throws Exception {
-        XeQLBX kho = new XeQLBX(
-                rs.getInt("MaXe"),
-                rs.getString("TenLoaiXe"),
-                rs.getString("TenHangXe"),
-                rs.getString("TenXe"),
-                rs.getDouble("Gia"),
-                rs.getString("TinhTrang"),
-                rs.getInt("SoLuong")
-        );
+    public XeQLBX createXe(ResultSet rs) throws Exception {
 
-        return kho;
+        int maXe = rs.getInt("MaXe");
+        int maLoaiXe = rs.getInt("MaLoaiXe");
+        String tenLoaiXe = rs.getString("TenLoaiXe");
+        String tenHangXe = rs.getString("TenHangXe");
+        String tenXe = rs.getString("TenXe");
+        double gia = rs.getDouble("Gia");
+        String tinhTrang = rs.getString("TinhTrang");
+        int soLuong = rs.getInt("SoLuong");
+        
+        switch (maLoaiXe) {
+            case 1:
+                return new XeCon(maXe, maLoaiXe, tenLoaiXe, tenHangXe, tenXe, gia, tinhTrang, soLuong);
+            case 2:
+                return new XeMay(maXe, maLoaiXe, tenLoaiXe, tenHangXe, tenXe, gia, tinhTrang, soLuong);
+            case 3:
+                return new XeTai(maXe, maLoaiXe, tenLoaiXe, tenHangXe, tenXe, gia, tinhTrang, soLuong);
+            default:
+                throw new SQLException("Loại xe không hợp lệ: " + maLoaiXe);
+        }
     }
-    
+
     public ArrayList<XeQLBX> getAll() throws Exception {
         ArrayList<XeQLBX> list = new ArrayList<>();
         Connection conn = DBConnection.getConnection();
@@ -47,9 +59,9 @@ public class KhoDAO {
 
         while (rs.next()) {
 
-            XeQLBX kho = createKho(rs);
-            
-            list.add(kho);
+            XeQLBX xe = createXe(rs);
+
+            list.add(xe);
         }
 
         rs.close();
@@ -57,7 +69,7 @@ public class KhoDAO {
         conn.close();
         return list;
     }
-    
+
     public XeQLBX getByMaXe(int maXe) throws Exception {
         XeQLBX xe = null;
         Connection conn = DBConnection.getConnection();
@@ -76,7 +88,7 @@ public class KhoDAO {
         ResultSet rs = ps.executeQuery();
 
         if (rs.next()) {
-            xe = createKho(rs);
+            xe = createXe(rs);
         }
 
         rs.close();

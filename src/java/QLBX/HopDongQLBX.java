@@ -18,15 +18,18 @@ public class HopDongQLBX {
     private int maHopDong;
     private XeQLBX xe;
     private MaGiamGiaQLBX maGiamGia;
+    private double tongTien;
     private double traTruoc;
     private double tienVay;
     private double laiXuat;
-    private int kyHan; // tháng
-    private double khoanTraHangThang;
+    private int kyHanThang; // tháng
+    private double khoanTraMoiThang;
     private double tienPhat;
     private Date ngayHopDong;
     private String trangThai; // CHODUYET, HOATDONG, HOANTHANH, VIPHAM
     private ArrayList<ThanhToan> danhSachThanhToan = new ArrayList<>();
+    
+    //cần viết hàm tính tổng tiền hợp đồng
     
     public void duyetHopDong() {
         this.trangThai = "HOATDONG";
@@ -39,15 +42,15 @@ public class HopDongQLBX {
 
         this.tienVay = giaXe - traTruoc;
         double laiThang = laiXuat / 100.0 / 12;
-        this.khoanTraHangThang = (tienVay * laiThang) / (1 - Math.pow(1 + laiThang, -kyHan));
+        this.khoanTraMoiThang = (tienVay * laiThang) / (1 - Math.pow(1 + laiThang, -kyHanThang));
 
         // tạo các kỳ thanh toán
         Calendar cal = Calendar.getInstance();
         cal.setTime(ngayHopDong);
-        for (int i = 0; i < kyHan; i++) {
+        for (int i = 0; i < kyHanThang; i++) {
             cal.add(Calendar.MONTH, 1); // cộng 1 tháng
             Date hanChot = cal.getTime();
-            ThanhToan tt = new ThanhToan(maHopDong, hanChot, khoanTraHangThang, "BINHTHUONG");
+            ThanhToan tt = new ThanhToan(maHopDong, hanChot, khoanTraMoiThang, "BINHTHUONG");
             danhSachThanhToan.add(tt);
         }
     }
@@ -61,21 +64,28 @@ public class HopDongQLBX {
     public HopDongQLBX() {
     }
 
-    public HopDongQLBX(int maHopDong, XeQLBX xe, MaGiamGiaQLBX maGiamGia, double traTruoc, double tienVay, double laiXuat, int kyHan, double khoanTraHangThang, double tienPhat, Date ngayHopDong, String trangThai) {
+    public HopDongQLBX(int maHopDong, XeQLBX xe, MaGiamGiaQLBX maGiamGia, double tongTien, double traTruoc, double tienVay, double laiXuat, int kyHanThang, double khoanTraMoiThang, double tienPhat, Date ngayHopDong, String trangThai) {
         this.maHopDong = maHopDong;
         this.xe = xe;
         this.maGiamGia = maGiamGia;
+        this.tongTien = tongTien;
         this.traTruoc = traTruoc;
         this.tienVay = tienVay;
         this.laiXuat = laiXuat;
-        this.kyHan = kyHan;
-        this.khoanTraHangThang = khoanTraHangThang;
+        this.kyHanThang = kyHanThang;
+        this.khoanTraMoiThang = khoanTraMoiThang;
         this.tienPhat = tienPhat;
         this.ngayHopDong = ngayHopDong;
         this.trangThai = trangThai;
     }
     
-    
+    public HopDongQLBX(XeQLBX xe, MaGiamGiaQLBX maGiamGia, double traTruoc, double laiXuat, int kyHanThang) {
+        this.xe = xe;
+        this.maGiamGia = maGiamGia;
+        this.traTruoc = traTruoc;
+        this.laiXuat = laiXuat;
+        this.kyHanThang = kyHanThang;
+    }
 
     public void setMaHopDong(int maHopDong) {
         this.maHopDong = maHopDong;
@@ -101,12 +111,16 @@ public class HopDongQLBX {
         this.laiXuat = laiXuat;
     }
 
-    public void setKyHan(int kyHan) {
-        this.kyHan = kyHan;
+    public void setKhoanTraMoiThang(double khoanTraMoiThang) {
+        this.khoanTraMoiThang = khoanTraMoiThang;
     }
 
-    public void setKhoanTraHangThang(double khoanTraHangThang) {
-        this.khoanTraHangThang = khoanTraHangThang;
+    public void setKyHanThang(int kyHanThang) {
+        this.kyHanThang = kyHanThang;
+    }
+
+    public void setTongTien(double tongTien) {
+        this.tongTien = tongTien;
     }
 
     public void setTienPhat(double tienPhat) {
@@ -149,12 +163,16 @@ public class HopDongQLBX {
         return laiXuat;
     }
 
-    public int getKyHan() {
-        return kyHan;
+    public double getKhoanTraMoiThang() {
+        return khoanTraMoiThang;
     }
 
-    public double getKhoanTraHangThang() {
-        return khoanTraHangThang;
+    public int getKyHanThang() {
+        return kyHanThang;
+    }
+
+    public double getTongTien() {
+        return tongTien;
     }
 
     public double getTienPhat() {
