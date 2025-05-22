@@ -7,6 +7,7 @@ package Controller.User;
 import static Controller.ApiRoutes.REGISTER;
 import static Controller.ApiRoutes.TAO_HOP_DONG;
 import static Controller.ApiRoutes.USER_DS;
+import Model.CuaHangDAO;
 import Model.HopDongDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,7 +23,7 @@ import QLBX.CuaHang;
 import QLBX.HopDongQLBX;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import config.TokenManager;
+import util.TokenManager;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
@@ -50,7 +51,8 @@ public class TaoHopDongServlet extends HttpServlet {
                 response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
                 return;
             }
-            CuaHang cuaHang = (CuaHang) getServletContext().getAttribute("cuaHang");
+            ArrayList<CuaHang> danhSachCuaHang = new CuaHangDAO().getAll();
+            CuaHang cuaHang = danhSachCuaHang.get(0);
 
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 

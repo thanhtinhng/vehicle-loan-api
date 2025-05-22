@@ -6,6 +6,7 @@ package Controller.Guest;
 
 import static Controller.ApiRoutes.DS_XE_CON_HANG;
 import static Controller.ApiRoutes.XE_DS;
+import Model.CuaHangDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -39,13 +40,14 @@ public class GetDsXeConHangServlet extends HttpServlet {
             HttpServletResponse response) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
         try {
-                CuaHang cuaHang = (CuaHang) getServletContext().getAttribute("cuaHang");
-                
-                ArrayList<XeQLBX> list = cuaHang.layDsXeConHang();
-                
-                response.getWriter().write(gson.toJson(list));
-                System.out.println("Test: doGet: Done");
-            
+            ArrayList<CuaHang> danhSachCuaHang = new CuaHangDAO().getAll();
+            CuaHang cuaHang = danhSachCuaHang.get(0);
+
+            ArrayList<XeQLBX> list = cuaHang.layDsXeConHang();
+
+            response.getWriter().write(gson.toJson(list));
+            System.out.println("Test: doGet: Done");
+
         } catch (Exception e) {
             response.setStatus(500);
             response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");

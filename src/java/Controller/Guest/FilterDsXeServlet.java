@@ -6,6 +6,7 @@ package Controller.Guest;
 
 import static Controller.ApiRoutes.FILTER_DS_XE;
 import static Controller.ApiRoutes.XE_DS;
+import Model.CuaHangDAO;
 import Model.XeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -70,7 +71,8 @@ public class FilterDsXeServlet extends HttpServlet {
                     sapXep = jsonObject.get("sapXep").getAsString();
                 }
 
-                CuaHang cuaHang = (CuaHang) getServletContext().getAttribute("cuaHang");
+                ArrayList<CuaHang> danhSachCuaHang = new CuaHangDAO().getAll();
+                CuaHang cuaHang = danhSachCuaHang.get(0);
 
                 ArrayList<XeQLBX> list = new ArrayList<>();
 

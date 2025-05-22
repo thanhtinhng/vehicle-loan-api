@@ -9,6 +9,7 @@ import static Controller.ApiRoutes.NAP_TIEN;
 import static Controller.ApiRoutes.REGISTER;
 import static Controller.ApiRoutes.TAO_HOP_DONG;
 import static Controller.ApiRoutes.USER_DS;
+import Model.CuaHangDAO;
 import Model.HopDong;
 import Model.HopDongDAO;
 import Model.XeDAO;
@@ -28,7 +29,7 @@ import QLBX.CuaHang;
 import QLBX.HopDongQLBX;
 import QLBX.MaGiamGiaQLBX;
 import QLBX.XeQLBX;
-import config.TokenManager;
+import util.TokenManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
@@ -67,12 +68,13 @@ public class DuyetHopDongServlet extends HttpServlet {
             }
 
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
-            
-            CuaHang cuaHang = (CuaHang) getServletContext().getAttribute("cuaHang");
+
+            ArrayList<CuaHang> danhSachCuaHang = new CuaHangDAO().getAll();
+            CuaHang cuaHang = danhSachCuaHang.get(0);
 
             int maHopDong = jsonObject.get("maHopDong").getAsInt();
             HopDong hopDong = new HopDongDAO().getByMaHopDong(maHopDong);
-            
+
             XeQLBX xe;
             MaGiamGiaQLBX maGiamGia;
 
@@ -80,15 +82,15 @@ public class DuyetHopDongServlet extends HttpServlet {
             maGiamGia = new MaGiamGiaDAO().getByIdMaGiamGia(hopDong.getIdMaGiamGia());
 
             HopDongQLBX hopDongQLBX = new HopDongQLBX(maHopDong, xe, maGiamGia, hopDong.getTraTruoc(), hopDong.getLaiXuat(), hopDong.getKyHanThang());
-            
+
             hopDongQLBX.duyetHopDong();
-            
+
             new XeDAO().giamSoLuongXe(cuaHang.getMaCuaHang(), xe.getMaXe());
-            
+
             new HopDongDAO().duyetHopDong(hopDong.getUserId(), hopDongQLBX);
-            
+
             new ThanhToanDAO().taoThanhToanByHopDong(hopDongQLBX);
-            
+
             response.setContentType("application/json");
             response.getWriter().write("{\"mess\":\"Duyệt hợp đồng thành công!\"}\n\n" + gson.toJson(new HopDongDAO().getByMaHopDong(maHopDong)));
 

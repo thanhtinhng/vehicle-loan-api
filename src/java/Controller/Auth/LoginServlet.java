@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import Model.User;
 import Model.UserDAO;
-import config.TokenManager;
+import util.TokenManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
