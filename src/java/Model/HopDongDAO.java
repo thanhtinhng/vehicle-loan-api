@@ -190,7 +190,5 @@ public class HopDongDAO {
 
         ps.close();
         conn.close();
-
-        //chưa set trạng thái mã giảm giá nếu có sử dụng
     }
 }
