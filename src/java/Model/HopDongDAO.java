@@ -191,4 +191,21 @@ public class HopDongDAO {
         ps.close();
         conn.close();
     }
+    
+    public ArrayList<HopDong> getAll() throws Exception {
+        ArrayList<HopDong> list = new ArrayList<>();
+        Connection conn = DBConnection.getConnection();
+        String sql = "SELECT * FROM HopDong";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            list.add(createHopDong(rs));
+        }
+
+        rs.close();
+        ps.close();
+        conn.close();
+        return list;
+    }
 }
