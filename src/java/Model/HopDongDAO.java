@@ -171,4 +171,18 @@ public class HopDongDAO {
         conn.close();
         return list;
     }
+    
+    public void tuChoiHopDong(int maHopDong) throws Exception {
+        Connection conn = DBConnection.getConnection();
+        String sql = "UPDATE HopDong "
+                + "SET TrangThai = ? "
+                + "WHERE MaHopDong = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, "VIPHAM");
+        ps.setInt(2, maHopDong);
+        
+        ps.executeUpdate();
+        ps.close();
+        conn.close();
+    }
 }
