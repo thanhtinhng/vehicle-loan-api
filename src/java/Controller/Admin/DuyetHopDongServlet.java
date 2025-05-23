@@ -12,6 +12,7 @@ import static Controller.ApiRoutes.USER_DS;
 import Model.CuaHangDAO;
 import Model.HopDong;
 import Model.HopDongDAO;
+import Model.KhoDAO;
 import Model.XeDAO;
 import Model.MaGiamGiaDAO;
 import Model.ThanhToanDAO;
@@ -85,11 +86,14 @@ public class DuyetHopDongServlet extends HttpServlet {
 
             hopDongQLBX.duyetHopDong();
 
-            new XeDAO().giamSoLuongXe(cuaHang.getMaCuaHang(), xe.getMaXe());
-
+            //duyệt hợp đồng (update hợp đồng trong db)
             new HopDongDAO().duyetHopDong(hopDong.getUserId(), hopDongQLBX);
 
+            //tạo thanh toán
             new ThanhToanDAO().taoThanhToanByHopDong(hopDongQLBX);
+            
+            // trừ số lượng xe trong kho
+            new KhoDAO().giamSoLuongXe(cuaHang.getMaCuaHang(), xe.getMaXe());
 
             response.setContentType("application/json");
             response.getWriter().write("{\"mess\":\"Duyệt hợp đồng thành công!\"}\n\n" + gson.toJson(new HopDongDAO().getByMaHopDong(maHopDong)));

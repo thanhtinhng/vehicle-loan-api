@@ -67,25 +67,9 @@ public class HopDongDAO {
 
         PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-        String sqlMaGiamGia = "SELECT IDMaGiamGia FROM MaGiamGia WHERE MaGiamGia = ?";
-        PreparedStatement psMaGiamGia = conn.prepareStatement(sqlMaGiamGia);
-        psMaGiamGia.setString(1, maGiamGia);
+        Integer idMaGiamGia = new MaGiamGiaDAO().getIdMaGiamGia(maGiamGia);
 
-        ResultSet rsMaGiamGia = psMaGiamGia.executeQuery();
-        Integer idMaGiamGia = null;
-        while (rsMaGiamGia.next()) {
-            idMaGiamGia = rsMaGiamGia.getInt("IDMaGiamGia");
-        }
-
-        String sqlXe = "SELECT Gia FROM Xe WHERE MaXe = ?";
-        PreparedStatement psXe = conn.prepareStatement(sqlXe);
-        psXe.setInt(1, maXe);
-
-        ResultSet rsXe = psXe.executeQuery();
-        double gia = 0;
-        while (rsXe.next()) {
-            gia = rsXe.getDouble("Gia");
-        }
+        double gia = new XeDAO().getGia(maXe);
 
         ps.setInt(1, userId);
         ps.setInt(2, maCuaHang);
@@ -106,8 +90,6 @@ public class HopDongDAO {
         }
 
         ps.close();
-        rsMaGiamGia.close();
-        rsXe.close();
         rs.close();
         conn.close();
 
@@ -136,24 +118,11 @@ public class HopDongDAO {
         Connection conn = DBConnection.getConnection();
 
         //kiểm tra tài chính
-        String sqlTaiChinh = "SELECT TaiChinh FROM Users WHERE UserId = ?";
-        PreparedStatement psTaiChinh = conn.prepareStatement(sqlTaiChinh);
-        psTaiChinh.setInt(1, userId);
-
-        ResultSet rsTaiChinh = psTaiChinh.executeQuery();
-        double taiChinh = 0;
-        if (rsTaiChinh.next()) {
-            taiChinh = rsTaiChinh.getDouble("TaiChinh");
-        }
-
+        double taiChinh = new UserDAO().getTaiChinh(userId);
         if (taiChinh < hopDongQLBX.getTraTruoc()) {
-            psTaiChinh.close();
-            rsTaiChinh.close();
             conn.close();
             throw new Exception("Khách hàng không đủ điều kiện để ký hợp đồng (tài chính).");
         }
-        psTaiChinh.close();
-        rsTaiChinh.close();
 
         //duyệt hợp đồng
         String sql = "UPDATE HopDong "
@@ -174,17 +143,11 @@ public class HopDongDAO {
 
         //update mã giảm giá đã sử dụng
         if (hopDongQLBX.getMaGiamGia() != null) {
-            String sqlMaGiamGia = "UPDATE MaGiamGia "
-                    + "SET TrangThai = ? "
-                    + "WHERE MaGiamGia = ?";
-            PreparedStatement psMaGiamGia = conn.prepareStatement(sqlMaGiamGia);
-
-            psMaGiamGia.setInt(1, 0);
-            psMaGiamGia.setString(2, hopDongQLBX.getMaGiamGia().getMaGiamGia());
-            
-            psMaGiamGia.executeUpdate();
-            psMaGiamGia.close();
+            new MaGiamGiaDAO().disableMaGiamGia(hopDongQLBX.getMaGiamGia().getMaGiamGia());
         }
+        
+        // Trừ tiền trong tài khoản khách hàng
+        new UserDAO().truTien(userId, hopDongQLBX.getTraTruoc());
 
         ps.executeUpdate();
 

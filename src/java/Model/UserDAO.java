@@ -52,13 +52,13 @@ public class UserDAO {
         conn.close();
         return list;
     }
-    
+
     public User getUserById(int userId) throws Exception {
         User user = null;
         Connection conn = DBConnection.getConnection();
         String sql = "SELECT * FROM Users WHERE UserId = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
-        
+
         ps.setInt(1, userId);
 
         ResultSet rs = ps.executeQuery();
@@ -127,13 +127,45 @@ public class UserDAO {
 
         ps.setDouble(1, tien);
         ps.setInt(2, userId);
-        
+
         ps.executeUpdate();
-        
+
         ps.close();
         conn.close();
     }
-    
+
+    public void truTien(int userId, double traTruoc) throws Exception {
+        Connection conn = DBConnection.getConnection();
+        // 1. Kiểm tra số dư
+        String sqlCheck = "SELECT TaiChinh FROM Users WHERE UserId = ?";
+        PreparedStatement psCheck = conn.prepareStatement(sqlCheck);
+        psCheck.setInt(1, userId);
+        ResultSet rs = psCheck.executeQuery();
+
+        double soDu = 0;
+        if (rs.next()) {
+            soDu = rs.getDouble("TaiChinh");
+        }
+
+        rs.close();
+        psCheck.close();
+
+        if (soDu < traTruoc) {
+            conn.close();
+            throw new Exception("Tài khoản không đủ để thanh toán");
+        }
+
+        // 2. Trừ tiền nếu đủ
+        String sql = "UPDATE Users SET TaiChinh = TaiChinh - ? WHERE UserId = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setDouble(1, traTruoc);
+        ps.setInt(2, userId);
+        ps.executeUpdate();
+
+        ps.close();
+        conn.close();
+    }
+
     public void capNhatThongTin(int userId, String userName, String matKhau, String email, java.sql.Date ngaySinh, String diaChi, String dienThoai) throws Exception {
         Connection conn = DBConnection.getConnection();
         String sql = "UPDATE Users "
@@ -148,10 +180,30 @@ public class UserDAO {
         ps.setString(5, diaChi);
         ps.setString(6, dienThoai);
         ps.setInt(7, userId);
-        
+
         ps.executeUpdate();
-        
+
         ps.close();
         conn.close();
+    }
+
+    public double getTaiChinh(int userId) throws Exception {
+        Connection conn = DBConnection.getConnection();
+        String sql = "SELECT TaiChinh FROM Users WHERE UserId = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setInt(1, userId);
+
+        ResultSet rs = ps.executeQuery();
+
+        double taiChinh = 0;
+        while (rs.next()) {
+            taiChinh = rs.getDouble("TaiChinh");
+        }
+
+        rs.close();
+        ps.close();
+        conn.close();
+        return taiChinh;
     }
 }

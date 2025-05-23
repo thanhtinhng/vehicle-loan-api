@@ -97,19 +97,23 @@ public class XeDAO {
         return xe;
     }
     
-    public void giamSoLuongXe(int maCuaHang, int maXe) throws Exception {
+    public double getGia(int maXe) throws Exception {
+        double gia = 0;
         Connection conn = DBConnection.getConnection();
-        String sql = "UPDATE Kho SET SoLuong = SoLuong - 1 WHERE MaCuaHang = ? AND MaXe = ? AND SoLuong > 0";
+        String sql = "SELECT Gia FROM Xe WHERE MaXe = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, maCuaHang);
-        ps.setInt(2, maXe);
-        int rows = ps.executeUpdate();
 
+        ps.setInt(1, maXe);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            gia = rs.getDouble("Gia");
+        }
+
+        rs.close();
         ps.close();
         conn.close();
-
-        if (rows == 0) {
-            throw new Exception("Không đủ xe trong kho để trừ");
-        }
+        return gia;
     }
 }
