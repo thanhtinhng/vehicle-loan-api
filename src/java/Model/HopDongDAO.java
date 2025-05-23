@@ -145,7 +145,7 @@ public class HopDongDAO {
         if (hopDongQLBX.getMaGiamGia() != null) {
             new MaGiamGiaDAO().disableMaGiamGia(hopDongQLBX.getMaGiamGia().getMaGiamGia());
         }
-        
+
         // Trừ tiền trong tài khoản khách hàng
         new UserDAO().truTien(userId, hopDongQLBX.getTraTruoc());
 
@@ -154,7 +154,7 @@ public class HopDongDAO {
         ps.close();
         conn.close();
     }
-    
+
     public ArrayList<HopDong> getAll() throws Exception {
         ArrayList<HopDong> list = new ArrayList<>();
         Connection conn = DBConnection.getConnection();
@@ -171,18 +171,45 @@ public class HopDongDAO {
         conn.close();
         return list;
     }
-    
+
     public void tuChoiHopDong(int maHopDong) throws Exception {
         Connection conn = DBConnection.getConnection();
         String sql = "UPDATE HopDong "
                 + "SET TrangThai = ? "
                 + "WHERE MaHopDong = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setString(1, "VIPHAM");
+        ps.setString(1, "TUCHOI");
         ps.setInt(2, maHopDong);
-        
+
         ps.executeUpdate();
         ps.close();
         conn.close();
+    }
+
+    public ArrayList<HopDong> getChoDuyet(Integer userId) throws Exception {
+        ArrayList<HopDong> list = new ArrayList<>();
+        PreparedStatement ps = null;
+        Connection conn = DBConnection.getConnection();
+        
+        if (userId != null) {
+            String sql = "SELECT * FROM HopDong WHERE UserId = ? AND TrangThai = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, userId);
+            ps.setString(2, "CHODUYET");
+        } else {
+            String sql = "SELECT * FROM HopDong WHERE TrangThai = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, "CHODUYET");
+        }
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            list.add(createHopDong(rs));
+        }
+
+        rs.close();
+        ps.close();
+        conn.close();
+        return list;
     }
 }
