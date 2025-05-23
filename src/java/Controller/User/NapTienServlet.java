@@ -52,9 +52,10 @@ public class NapTienServlet extends HttpServlet {
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
             Double tien = jsonObject.get("tien").getAsDouble();
-            tien = tien + user.getTaiChinh();
+            
+            user.napTien(tien);
 
-            new UserDAO().napTien(user.getUserId(), tien);
+            new UserDAO().napTien(user.getUserId(), user.getTaiChinh());
 
             User updatedUser = new UserDAO().getUserById(user.getUserId());
             TokenManager.updateUser(token, updatedUser);

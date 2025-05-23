@@ -23,6 +23,10 @@ public class User {
     private double taiChinh;
     private String role;
     private ArrayList<HopDong> danhSachHopDong = new ArrayList<>();
+    
+    public void napTien(double tienCanNap) {
+        this.taiChinh = this.taiChinh + tienCanNap;
+    }
 
     public User() {
     }
