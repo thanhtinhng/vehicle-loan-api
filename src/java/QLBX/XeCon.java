@@ -14,12 +14,33 @@ public class XeCon extends XeQLBX {
         super(maXe, maLoaiXe, loaiXe, hangXe, tenXe, gia, tinhTrang, soLuong);
     }
 
+    public XeCon() {
+    }
+
     @Override
     public double tinhGiaThucTe() {
         if (tinhTrang.equals("CU")) {
             return gia * 1.1 * 0.8;
         }
         return gia * 1.1;
+    }
+    
+    @Override
+    public double getTyLeTraTruoc() {
+        return 0.25;
+    }
+
+    @Override
+    public double getLaiSuatThang(int kyHanThang) {
+        if (kyHanThang <= 6) {
+            return 0.009;
+        } else if (kyHanThang <= 12) {
+            return 0.01;
+        } else if (kyHanThang <= 18) {
+            return 0.011;
+        } else {
+            return 0.012;
+        }
     }
 
 }

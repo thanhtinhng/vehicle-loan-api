@@ -18,6 +18,23 @@ public class ThanhToan {
     private double soTien;
     private String loai;
     private String trangThai; // CHO, HOANTHANH, TRE
+    
+    public void dongTien() {
+        this.ngayThanhToan = new Date();
+        if (ngayThanhToan.after(hanChot)) {
+            trangThai = "TRE";
+        } else {
+            trangThai = "HOANTHANH";
+        }
+    }
+
+    public boolean isTre() {
+        return "TRE".equals(trangThai);
+    }
+
+    public double getTienPhatNeuTre() {
+            return this.soTien * 0.05;
+    }
 
     public ThanhToan() {
     }
@@ -38,23 +55,6 @@ public class ThanhToan {
         this.soTien = soTien;
         this.loai = loai;
         this.trangThai = "CHO";
-    }
-    
-    public void dongTien() {
-        this.ngayThanhToan = new Date();
-        if (ngayThanhToan.after(hanChot)) {
-            trangThai = "TRE";
-        } else {
-            trangThai = "HOANTHANH";
-        }
-    }
-
-    public boolean isTre() {
-        return "TRE".equals(trangThai);
-    }
-
-    public double getTienPhatNeuTre() {
-        return isTre() ? 100_000 : 0;
     }
 
     public void setMaThanhToan(int maThanhToan) {

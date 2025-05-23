@@ -21,8 +21,25 @@ public class XeQLBX extends AbsXe{
     protected double gia;
     protected String tinhTrang; // MOI hoặc CU
     protected int soLuong;
+    
+    
 
     public XeQLBX() {
+    }
+    
+     @Override
+    public double tinhGiaThucTe() {
+        return gia;
+    }
+    
+    @Override
+    public double getTyLeTraTruoc() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public double getLaiSuatThang(int kyHanThang) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public XeQLBX(int maXe, int maLoaiXe, String loaiXe, String hangXe, String tenXe, double gia, String tinhTrang, int soLuong) {
@@ -35,13 +52,8 @@ public class XeQLBX extends AbsXe{
         this.tinhTrang = tinhTrang;
         this.soLuong = soLuong;
     }
-
     
-    
-    @Override
-    public double tinhGiaThucTe() {
-        return gia;
-    }
+   
 
     public void setMaXe(int maXe) {
         this.maXe = maXe;
@@ -106,6 +118,8 @@ public class XeQLBX extends AbsXe{
     public void setMaLoaiXe(int maLoaiXe) {
         this.maLoaiXe = maLoaiXe;
     }
+
+    
     
     
 
