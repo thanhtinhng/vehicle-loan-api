@@ -116,4 +116,24 @@ public class XeDAO {
         conn.close();
         return gia;
     }
+    
+    public int getMaLoaiXe(int maXe) throws Exception {
+        int maLoaiXe = 0;
+        Connection conn = DBConnection.getConnection();
+        String sql = "SELECT MaLoaiXe FROM Xe WHERE MaXe = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setInt(1, maXe);
+
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            maLoaiXe = rs.getInt("MaLoaiXe");
+        }
+
+        rs.close();
+        ps.close();
+        conn.close();
+        return maLoaiXe;
+    }
 }

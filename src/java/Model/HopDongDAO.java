@@ -7,6 +7,10 @@ package Model;
 import QLBX.ThanhToan;
 import ConnDB.DBConnection;
 import QLBX.HopDongQLBX;
+import QLBX.XeCon;
+import QLBX.XeMay;
+import QLBX.XeQLBX;
+import QLBX.XeTai;
 import java.sql.*;
 import java.util.*;
 
@@ -69,15 +73,43 @@ public class HopDongDAO {
 
         Integer idMaGiamGia = new MaGiamGiaDAO().getIdMaGiamGia(maGiamGia);
 
-        double gia = new XeDAO().getGia(maXe);
+        XeDAO xeDao = new XeDAO();
+
+        double gia = xeDao.getGia(maXe);
+
+        int maLoaiXe = xeDao.getMaLoaiXe(maXe);
+        double tyLeTraTruoc;
+        double laiXuat;
+        switch (maLoaiXe) {
+            case 1: {
+                XeQLBX xe = new XeCon();
+                tyLeTraTruoc = xe.getTyLeTraTruoc();
+                laiXuat = xe.getLaiSuatThang(kyHan);
+                break;
+            }
+            case 2: {
+                XeQLBX xe = new XeMay();
+                tyLeTraTruoc = xe.getTyLeTraTruoc();
+                laiXuat = xe.getLaiSuatThang(kyHan);
+                break;
+            }
+            case 3: {
+                XeQLBX xe = new XeTai();
+                tyLeTraTruoc = xe.getTyLeTraTruoc();
+                laiXuat = xe.getLaiSuatThang(kyHan);
+                break;
+            }
+            default:
+                throw new Exception("Loại xe không phù hợp!");
+        }
 
         ps.setInt(1, userId);
         ps.setInt(2, maCuaHang);
         ps.setInt(3, maXe);
         ps.setObject(4, idMaGiamGia, java.sql.Types.INTEGER);
         ps.setDouble(5, 0);
-        ps.setDouble(6, gia * 0.2);
-        ps.setDouble(7, 0.01);
+        ps.setDouble(6, gia * tyLeTraTruoc);
+        ps.setDouble(7, laiXuat);
         ps.setInt(8, kyHan);
         ps.setString(9, "CHODUYET");
 
@@ -190,7 +222,7 @@ public class HopDongDAO {
         ArrayList<HopDong> list = new ArrayList<>();
         PreparedStatement ps = null;
         Connection conn = DBConnection.getConnection();
-        
+
         if (userId != null) {
             String sql = "SELECT * FROM HopDong WHERE UserId = ? AND TrangThai = ?";
             ps = conn.prepareStatement(sql);

@@ -8,13 +8,14 @@ package QLBX;
  *
  * @author Windows 10
  */
-public class XeMay extends XeQLBX{
+public class XeMay extends XeQLBX {
 
     public XeMay(int maXe, int maLoaiXe, String loaiXe, String hangXe, String tenXe, double gia, String tinhTrang, int soLuong) {
         super(maXe, maLoaiXe, loaiXe, hangXe, tenXe, gia, tinhTrang, soLuong);
     }
 
-    
+    public XeMay() {
+    }
 
     @Override
     public double tinhGiaThucTe() {
@@ -23,6 +24,23 @@ public class XeMay extends XeQLBX{
         }
         return gia * 1.05;
     }
-    
-    
+
+    @Override
+    public double getTyLeTraTruoc() {
+        return 0.2;
+    }
+
+    @Override
+    public double getLaiSuatThang(int kyHanThang) {
+        if (kyHanThang <= 6) {
+            return 0.01;
+        } else if (kyHanThang <= 12) {
+            return 0.012;
+        } else if (kyHanThang <= 18) {
+            return 0.014;
+        } else {
+            return 0.015;
+        }
+    }
+
 }
