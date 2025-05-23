@@ -24,9 +24,11 @@ public interface ApiRoutes {
     String THONG_TIN_USER = "/api/user/thongTinUser";
     String TAO_HOP_DONG = "/api/user/taoHopDong";
     String NAP_TIEN = "/api/user/napTien";
+    String THONG_TIN_HOP_DONG = "/api/user/thongTinHopDong";
     
     //Admin
     String USER_DS = "/api/admin/ds_user";
     String THONG_TIN_CUA_HANG = "/api/admin/thongTinCuaHang";
     String DUYET_HOP_DONG = "/api/admin/duyetHopDong";
+    String DS_HOP_DONG = "/api/admin/thongTinHopDong";
 }

@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import Model.User;
 import Model.UserDAO;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 public class RegisterServlet extends HttpServlet {
 
     private final Gson gson = new Gson();
+//    private final Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
 
     @Override
     protected void doPost(HttpServletRequest request, 
