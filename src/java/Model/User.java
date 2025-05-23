@@ -38,6 +38,15 @@ public class User {
         this.taiChinh = taiChinh;
         this.role = role;
     }
+    
+    public User(String username, String matKhau, String email, Date ngaySinh, String dienThoai, String diaChi) {
+        this.username = username;
+        this.matKhau = matKhau;
+        this.email = email;
+        this.ngaySinh = ngaySinh;
+        this.dienThoai = dienThoai;
+        this.diaChi = diaChi;
+    }
 
     public ArrayList<HopDong> getDanhSachHopDong() {
         return danhSachHopDong;

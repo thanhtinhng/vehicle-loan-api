@@ -133,4 +133,25 @@ public class UserDAO {
         ps.close();
         conn.close();
     }
+    
+    public void capNhatThongTin(int userId, String userName, String matKhau, String email, java.sql.Date ngaySinh, String diaChi, String dienThoai) throws Exception {
+        Connection conn = DBConnection.getConnection();
+        String sql = "UPDATE Users "
+                + "SET Username = ?, MatKhau = ?, Email = ?, NgaySinh = ?, DiaChi = ?, DienThoai = ? "
+                + "WHERE UserId = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setString(1, userName);
+        ps.setString(2, matKhau);
+        ps.setString(3, email);
+        ps.setDate(4, ngaySinh);
+        ps.setString(5, diaChi);
+        ps.setString(6, dienThoai);
+        ps.setInt(7, userId);
+        
+        ps.executeUpdate();
+        
+        ps.close();
+        conn.close();
+    }
 }
