@@ -58,6 +58,7 @@ public class DuyetHopDongServlet extends HttpServlet {
             User user = TokenManager.getUser(token);
             if (user == null) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
                 response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
                 return;
             }

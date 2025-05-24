@@ -51,12 +51,4 @@ public class RegisterServlet extends HttpServlet {
             response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
         }
     }
-
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
-    
-    
-
 }
