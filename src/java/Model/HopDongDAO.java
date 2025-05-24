@@ -4,7 +4,7 @@
  */
 package Model;
 
-import QLBX.ThanhToan;
+import QLBX.ThanhToanQLBX;
 import ConnDB.DBConnection;
 import QLBX.HopDongQLBX;
 import QLBX.XeCon;
@@ -40,7 +40,7 @@ public class HopDongDAO {
 
         int maHD = rs.getInt("MaHopDong");
 
-        ArrayList<ThanhToan> dsThanhToan = new ThanhToanDAO().getByMaHopDong(maHD);
+        ArrayList<ThanhToanQLBX> dsThanhToan = new ThanhToanDAO().getByMaHopDong(maHD);
         hd.setDanhSachThanhToan(dsThanhToan);
 
         return hd;
@@ -243,5 +243,17 @@ public class HopDongDAO {
         ps.close();
         conn.close();
         return list;
+    }
+    
+    public void setTienPhat(int maHopDong, double tienPhat) throws Exception{
+        Connection conn = DBConnection.getConnection();
+        String sql = "UPDATE HopDong SET TienPhat = ? WHERE MaHopDong = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setDouble(1, tienPhat);
+        ps.setInt(2, maHopDong);
+
+        ps.executeUpdate();
+        ps.close();
+        conn.close();
     }
 }

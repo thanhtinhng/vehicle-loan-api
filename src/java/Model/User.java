@@ -27,6 +27,10 @@ public class User {
     public void napTien(double tienCanNap) {
         this.taiChinh = this.taiChinh + tienCanNap;
     }
+    
+    public void truTien(double tienCanTru) {
+        this.taiChinh = this.taiChinh - tienCanTru;
+    }
 
     public User() {
     }

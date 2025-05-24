@@ -4,7 +4,7 @@
  */
 package Model;
 
-import QLBX.ThanhToan;
+import QLBX.ThanhToanQLBX;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,7 +29,7 @@ public class HopDong {
     private double khoanTraMoiThang;
     private Date ngayHopDong;
     private String trangThai; // HOATDONG, HOANTHANH, VIPHAM
-    private ArrayList<ThanhToan> danhSachThanhToan = new ArrayList<>();
+    private ArrayList<ThanhToanQLBX> danhSachThanhToan = new ArrayList<>();
 
     public int getMaHopDong() {
         return maHopDong;
@@ -143,7 +143,7 @@ public class HopDong {
         return trangThai;
     }
 
-    public ArrayList<ThanhToan> getDanhSachThanhToan() {
+    public ArrayList<ThanhToanQLBX> getDanhSachThanhToan() {
         return danhSachThanhToan;
     }
 
@@ -167,7 +167,7 @@ public class HopDong {
         this.trangThai = trangThai;
     }
 
-    public void setDanhSachThanhToan(ArrayList<ThanhToan> danhSachThanhToan) {
+    public void setDanhSachThanhToan(ArrayList<ThanhToanQLBX> danhSachThanhToan) {
         this.danhSachThanhToan = danhSachThanhToan;
     }
 

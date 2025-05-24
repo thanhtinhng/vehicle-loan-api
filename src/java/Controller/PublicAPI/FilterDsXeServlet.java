@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Controller.Guest;
+package Controller.PublicAPI;
 
 import static Controller.ApiRoutes.FILTER_DS_XE;
 import static Controller.ApiRoutes.XE_DS;

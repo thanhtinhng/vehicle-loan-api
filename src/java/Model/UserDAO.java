@@ -134,7 +134,7 @@ public class UserDAO {
         conn.close();
     }
 
-    public void truTien(int userId, double traTruoc) throws Exception {
+    public void truTien(int userId, double soTienCanTru) throws Exception {
         Connection conn = DBConnection.getConnection();
         // 1. Kiểm tra số dư
         String sqlCheck = "SELECT TaiChinh FROM Users WHERE UserId = ?";
@@ -150,7 +150,7 @@ public class UserDAO {
         rs.close();
         psCheck.close();
 
-        if (soDu < traTruoc) {
+        if (soDu < soTienCanTru) {
             conn.close();
             throw new Exception("Tài khoản không đủ để thanh toán");
         }
@@ -158,7 +158,7 @@ public class UserDAO {
         // 2. Trừ tiền nếu đủ
         String sql = "UPDATE Users SET TaiChinh = TaiChinh - ? WHERE UserId = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setDouble(1, traTruoc);
+        ps.setDouble(1, soTienCanTru);
         ps.setInt(2, userId);
         ps.executeUpdate();
 

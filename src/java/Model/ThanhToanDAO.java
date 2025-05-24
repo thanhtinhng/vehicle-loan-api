@@ -4,7 +4,7 @@
  */
 package Model;
 
-import QLBX.ThanhToan;
+import QLBX.ThanhToanQLBX;
 import ConnDB.DBConnection;
 import Model.User;
 import QLBX.HopDongQLBX;
@@ -17,10 +17,23 @@ import java.util.*;
  */
 public class ThanhToanDAO {
 
-    private void ganGiaTriThanhToan(PreparedStatement ps, int maHopDong, ThanhToan thanhToan) throws SQLException {
-        
+    private ThanhToanQLBX createThanhToanQLBX(ResultSet rs) throws Exception {
+        ThanhToanQLBX thanhToan = new ThanhToanQLBX(
+                rs.getInt("MaThanhToan"),
+                rs.getInt("MaHopDong"),
+                rs.getDate("HanChot"),
+                rs.getDate("NgayThanhToan"),
+                rs.getDouble("SoTien"),
+                rs.getString("Loai"),
+                rs.getString("TrangThai"));
+
+        return thanhToan;
+    }
+
+    private void ganGiaTriThanhToan(PreparedStatement ps, int maHopDong, ThanhToanQLBX thanhToan) throws SQLException {
+
         ps.setInt(1, maHopDong);
-        
+
         java.util.Date hanChot = thanhToan.getHanChot();
         java.sql.Date sqlHanChot = new java.sql.Date(hanChot.getTime());
         ps.setDate(2, sqlHanChot);
@@ -30,9 +43,9 @@ public class ThanhToanDAO {
         ps.setString(5, thanhToan.getTrangThai());
     }
 
-    public ArrayList<ThanhToan> getByMaHopDong(int maHD) throws Exception {
+    public ArrayList<ThanhToanQLBX> getByMaHopDong(int maHD) throws Exception {
 
-        ArrayList<ThanhToan> list = new ArrayList<>();
+        ArrayList<ThanhToanQLBX> list = new ArrayList<>();
         Connection conn = DBConnection.getConnection();
 
         String sql = "SELECT * FROM ThanhToan WHERE MaHopDong = ?";
@@ -41,15 +54,7 @@ public class ThanhToanDAO {
 
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            list.add(new ThanhToan(
-                    rs.getInt("MaThanhToan"),
-                    rs.getInt("MaHopDong"),
-                    rs.getDate("HanChot"),
-                    rs.getDate("NgayThanhToan"),
-                    rs.getDouble("SoTien"),
-                    rs.getString("Loai"),
-                    rs.getString("TrangThai")
-            ));
+            list.add(createThanhToanQLBX(rs));
         }
 
         rs.close();
@@ -65,12 +70,106 @@ public class ThanhToanDAO {
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
-        for (ThanhToan thanhToan : hopDongQLBX.getDanhSachThanhToan()) {
+        for (ThanhToanQLBX thanhToan : hopDongQLBX.getDanhSachThanhToan()) {
             ganGiaTriThanhToan(ps, hopDongQLBX.getMaHopDong(), thanhToan);
             ps.addBatch(); // gom các insert để thực thi cùng lúc
         }
 
         ps.executeBatch(); // thực thi tất cả
+
+        ps.close();
+        conn.close();
+    }
+
+    public ThanhToanQLBX getTTCanThanhToan(int maHopDong) throws Exception {
+        ThanhToanQLBX thanhToan = null;
+        Connection conn = DBConnection.getConnection();
+
+        String sql = "SELECT TOP 1 * FROM ThanhToan WHERE MaHopDong = ? AND TrangThai = ? ORDER BY HanChot ASC";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, maHopDong);
+        ps.setString(2, "CHO");
+
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            thanhToan = createThanhToanQLBX(rs);
+        }
+
+        rs.close();
+        ps.close();
+        conn.close();
+        return thanhToan;
+    }
+
+    public java.sql.Date getHanChotCuoiCung(int maHopDong) throws Exception {
+        java.sql.Date hanChotCuoi = null;
+        Connection conn = DBConnection.getConnection();
+
+        String sql = "SELECT MAX(HanChot) AS HanChotCuoi FROM ThanhToan WHERE MaHopDong = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, maHopDong);
+
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            hanChotCuoi = rs.getDate("HanChotCuoi");
+        }
+
+        rs.close();
+        ps.close();
+        conn.close();
+
+        return hanChotCuoi;
+    }
+
+    public void taoThanhToanTre(ThanhToanQLBX thanhToan) throws Exception {
+        Connection conn = DBConnection.getConnection();
+
+        String sql = "INSERT INTO ThanhToan (MaHopDong, HanChot, SoTien, Loai, TrangThai) VALUES (?, ?, ?, ?, ?)";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setInt(1, thanhToan.getMaHopDong());
+        
+        java.sql.Date hanChotCuoi = getHanChotCuoiCung(thanhToan.getMaHopDong());
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(hanChotCuoi);
+        cal.add(Calendar.MONTH, 1);
+        java.sql.Date hanChotMoi = new java.sql.Date(cal.getTimeInMillis());
+        
+        ps.setDate(2, hanChotMoi);
+        ps.setDouble(3, thanhToan.getTienPhatNeuTre());
+        ps.setString(4, "PHAT");
+        ps.setString(5, "CHO");
+
+        ps.executeUpdate();
+
+        ps.close();
+        conn.close();
+    }
+
+    public void thanhToan(ThanhToanQLBX thanhToan, User user) throws Exception {
+
+        new UserDAO().truTien(user.getUserId(), thanhToan.getSoTien());
+
+        Connection conn = DBConnection.getConnection();
+
+        String sql = "UPDATE ThanhToan "
+                + "SET TrangThai = ?, NgayThanhToan = ? "
+                + "WHERE MaThanhToan = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setString(1, thanhToan.getTrangThai());
+        java.util.Date ngayThanhToan = thanhToan.getNgayThanhToan();
+        java.sql.Date sqlNgayThanhToan = new java.sql.Date(ngayThanhToan.getTime());
+        ps.setDate(2, sqlNgayThanhToan);
+        ps.setInt(3, thanhToan.getMaThanhToan());
+
+        if (thanhToan.isTre()) {
+            new ThanhToanDAO().taoThanhToanTre(thanhToan);
+            new HopDongDAO().setTienPhat(thanhToan.getMaHopDong(), thanhToan.getTienPhatNeuTre());
+        }
+
+        ps.executeUpdate();
 
         ps.close();
         conn.close();

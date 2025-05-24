@@ -6,7 +6,7 @@ package Model;
 
 import ConnDB.DBConnection;
 import QLBX.MaGiamGiaQLBX;
-import QLBX.ThanhToan;
+import QLBX.ThanhToanQLBX;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
