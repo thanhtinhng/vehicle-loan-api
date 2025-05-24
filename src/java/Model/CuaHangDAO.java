@@ -1,8 +1,6 @@
 package Model;
 
 import ConnDB.DBConnection;
-import Model.Kho;
-import Model.User;
 import QLBX.CuaHang;
 import java.sql.*;
 import java.util.*;

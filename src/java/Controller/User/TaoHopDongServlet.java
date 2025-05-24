@@ -4,9 +4,7 @@
  */
 package Controller.User;
 
-import static Controller.ApiRoutes.REGISTER;
 import static Controller.ApiRoutes.TAO_HOP_DONG;
-import static Controller.ApiRoutes.USER_DS;
 import Model.CuaHangDAO;
 import Model.HopDongDAO;
 import java.io.IOException;
@@ -18,9 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import Model.User;
-import Model.UserDAO;
 import QLBX.CuaHang;
-import QLBX.HopDongQLBX;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import util.TokenManager;

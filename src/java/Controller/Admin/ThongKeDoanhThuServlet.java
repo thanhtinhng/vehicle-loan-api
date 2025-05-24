@@ -4,10 +4,10 @@
  */
 package Controller.Admin;
 
-import static Controller.ApiRoutes.DS_HOP_DONG_CHO_DUYET;
-import Model.HopDong;
-import Model.HopDongDAO;
+import static Controller.ApiRoutes.THONG_KE_DOANH_THU;
+import Model.CuaHangDAO;
 import Model.User;
+import QLBX.CuaHang;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,15 +17,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import util.TokenManager;
-
 /**
  *
  * @author Windows 10
  */
-@WebServlet(name = "DsHopDongChoDuyetServlet", urlPatterns = DS_HOP_DONG_CHO_DUYET)
-public class DsHopDongChoDuyetServlet extends HttpServlet {
-
+@WebServlet(name = "ThongKeDoanhThuServlet", urlPatterns = THONG_KE_DOANH_THU)
+public class ThongKeDoanhThuServlet extends HttpServlet{
     private final Gson gson = new Gson();
 
     @Override
@@ -36,6 +35,8 @@ public class DsHopDongChoDuyetServlet extends HttpServlet {
 
             String token = request.getHeader("token");
             User user = TokenManager.getUser(token);
+            ArrayList<CuaHang> danhSachCuaHang = new CuaHangDAO().getAll();
+            CuaHang cuaHang = danhSachCuaHang.get(0);
 
             if (user == null) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -52,17 +53,11 @@ public class DsHopDongChoDuyetServlet extends HttpServlet {
             }
 
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
-
-            Integer userId = null;
-            if (jsonObject != null) {
-                if (jsonObject.has("userId") && !jsonObject.get("userId").isJsonNull()) {
-                    userId = jsonObject.get("userId").getAsInt();
-                }
-            }
-
-            ArrayList<HopDong> list = new HopDongDAO().getChoDuyet(userId);
-
-            response.getWriter().write(gson.toJson(list));
+            int nam = jsonObject.get("nam").getAsInt();
+            HashMap<Integer, Double> hashMapDoanhThu = cuaHang.thongKeDoanhThuTheoNam(nam);
+            
+            response.setContentType("application/json");
+            response.getWriter().write(gson.toJson(hashMapDoanhThu));
             System.out.println("Test: doGet: Done");
 
         } catch (Exception e) {
@@ -71,5 +66,4 @@ public class DsHopDongChoDuyetServlet extends HttpServlet {
             System.out.println("Test: doGet: Fail");
         }
     }
-
 }

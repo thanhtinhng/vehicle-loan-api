@@ -4,8 +4,6 @@
  */
 package QLBX;
 
-import Model.MaGiamGia;
-import Model.Xe;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -68,6 +66,15 @@ public class HopDongQLBX {
             }
         }
         return tong;
+    }
+
+    public boolean kiemTraHoanThanh() {
+        for (ThanhToanQLBX tt : danhSachThanhToan) {
+            if (tt.getTrangThai().equals("CHO")) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public HopDongQLBX() {

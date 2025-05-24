@@ -37,7 +37,7 @@ public class KhoDAO {
         PreparedStatement ps = conn.prepareStatement(sql);
 
         ps.setInt(1, soLuong);
-        ps.setInt(3, maXe);
+        ps.setInt(2, maXe);
 
         ps.executeUpdate();
 

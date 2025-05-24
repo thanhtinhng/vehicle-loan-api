@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import Model.User;
-import Model.UserDAO;
 import Model.Xe;
 import Model.XeDAO;
 import com.google.gson.Gson;
@@ -23,7 +22,6 @@ import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
-import java.util.ArrayList;
 import util.TokenManager;
 
 /**
@@ -89,7 +87,7 @@ public class ThemXeVaoKhoServlet extends HttpServlet {
             new XeDAO().add(xe, soLuong);
 
             response.setContentType("application/json");
-            response.getWriter().write("{\"status\":\"Thêm xe thành công\"}\n\n" + gson.toJson(xe) + gson.toJson(soLuong));
+            response.getWriter().write("{\"status\":\"Thêm xe thành công\"}\n\n" + gson.toJson(xe) + "\n" + gson.toJson(soLuong));
 
         } catch (Exception e) {
             response.setStatus(500);

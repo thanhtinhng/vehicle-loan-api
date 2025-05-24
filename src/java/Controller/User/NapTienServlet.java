@@ -5,9 +5,6 @@
 package Controller.User;
 
 import static Controller.ApiRoutes.NAP_TIEN;
-import static Controller.ApiRoutes.REGISTER;
-import static Controller.ApiRoutes.TAO_HOP_DONG;
-import static Controller.ApiRoutes.USER_DS;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -24,7 +21,6 @@ import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
-import java.util.ArrayList;
 
 /**
  *

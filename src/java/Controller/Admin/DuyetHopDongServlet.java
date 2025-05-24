@@ -5,10 +5,6 @@
 package Controller.Admin;
 
 import static Controller.ApiRoutes.DUYET_HOP_DONG;
-import static Controller.ApiRoutes.NAP_TIEN;
-import static Controller.ApiRoutes.REGISTER;
-import static Controller.ApiRoutes.TAO_HOP_DONG;
-import static Controller.ApiRoutes.USER_DS;
 import Model.CuaHangDAO;
 import Model.HopDong;
 import Model.HopDongDAO;
@@ -25,7 +21,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import Model.User;
-import Model.UserDAO;
 import QLBX.CuaHang;
 import QLBX.HopDongQLBX;
 import QLBX.MaGiamGiaQLBX;
@@ -37,7 +32,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  *
@@ -64,6 +58,7 @@ public class DuyetHopDongServlet extends HttpServlet {
             }
 
             if (!user.getRole().equalsIgnoreCase("ADMIN")) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.setContentType("application/json");
                 response.getWriter().write("{\"mess\":\"Chỉ có admin mới có thể thực hiện thao tác này!\"}");
                 return;

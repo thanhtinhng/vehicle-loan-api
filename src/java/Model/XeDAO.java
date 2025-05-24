@@ -5,8 +5,6 @@
 package Model;
 
 import ConnDB.DBConnection;
-import Model.Kho;
-import Model.User;
 import QLBX.XeCon;
 import QLBX.XeMay;
 import QLBX.XeQLBX;

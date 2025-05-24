@@ -25,7 +25,6 @@ import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
-import java.util.ArrayList;
 
 /**
  *
@@ -59,7 +58,12 @@ public class ThanhToanMotKyGopServlet extends HttpServlet {
 
             ThanhToanDAO thanhToanDAO = new ThanhToanDAO();
             ThanhToanQLBX ttCanThanhToan = thanhToanDAO.getTTCanThanhToan(maHopDong);
-            
+            if (ttCanThanhToan == null) {
+                response.setContentType("application/json");
+                response.getWriter().write("{\"mess\":\"Tất cả kỳ góp đã được thanh toán\"}\n\n" + gson.toJson(new HopDongDAO().getByMaHopDong(maHopDong)));
+                return;
+            }
+
             if (!user.kiemTraTaiChinh(ttCanThanhToan.getSoTien())) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.setContentType("application/json");

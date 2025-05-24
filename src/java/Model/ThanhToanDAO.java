@@ -175,7 +175,7 @@ public class ThanhToanDAO {
         conn.close();
     }
 
-    public void tatToanHopDong(ArrayList<ThanhToanQLBX> list) throws Exception {
+    public void tatToanHopDong(ArrayList<ThanhToanQLBX> list, int userId, double tongTien) throws Exception {
         if (list == null || list.isEmpty()) {
             return;
         }
@@ -193,6 +193,8 @@ public class ThanhToanDAO {
             ps.setInt(3, tt.getMaThanhToan());
             ps.addBatch();
         }
+        
+        new UserDAO().truTien(userId, tongTien);
 
         ps.executeBatch();
         ps.close();

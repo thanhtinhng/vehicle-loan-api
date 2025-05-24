@@ -5,7 +5,6 @@
 package Controller.PublicAPI;
 
 import static Controller.ApiRoutes.DS_XE_CON_HANG;
-import static Controller.ApiRoutes.XE_DS;
 import Model.CuaHangDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,8 +14,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import Model.XeDAO;
-import Model.Kho;
 import QLBX.CuaHang;
 import QLBX.XeQLBX;
 import com.google.gson.Gson;
