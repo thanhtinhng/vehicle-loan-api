@@ -5,12 +5,7 @@
 package Controller.Admin;
 
 import static Controller.ApiRoutes.HOAN_THANH_HOP_DONG;
-import Model.CuaHangDAO;
-import Model.HopDong;
 import Model.HopDongDAO;
-import Model.KhoDAO;
-import Model.XeDAO;
-import Model.MaGiamGiaDAO;
 import Model.ThanhToanDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,12 +16,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import Model.User;
-import Model.UserDAO;
-import QLBX.CuaHang;
 import QLBX.HopDongQLBX;
-import QLBX.MaGiamGiaQLBX;
 import QLBX.ThanhToanQLBX;
-import QLBX.XeQLBX;
 import util.TokenManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -34,7 +25,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  *

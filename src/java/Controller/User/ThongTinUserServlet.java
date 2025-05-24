@@ -4,10 +4,7 @@
  */
 package Controller.User;
 
-import static Controller.ApiRoutes.DS_XE_CON_HANG;
-import static Controller.ApiRoutes.THONG_TIN_CUA_HANG;
 import static Controller.ApiRoutes.THONG_TIN_USER;
-import static Controller.ApiRoutes.XE_DS;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,21 +13,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import Model.Xe;
-import Model.XeDAO;
 import Model.User;
 import Model.UserDAO;
-import QLBX.CuaHang;
 import util.TokenManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-
 /**
  *
  * @author Windows 10

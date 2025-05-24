@@ -4,10 +4,9 @@
  */
 package Controller.Admin;
 
-import static Controller.ApiRoutes.DS_XE_CON_HANG;
 import static Controller.ApiRoutes.THONG_TIN_CUA_HANG;
-import static Controller.ApiRoutes.XE_DS;
 import Model.CuaHangDAO;
+import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,9 +15,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import Model.Xe;
-import Model.XeDAO;
-import Model.Kho;
 import QLBX.CuaHang;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -26,6 +22,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
 import java.util.ArrayList;
+import util.TokenManager;
 
 /**
  *
@@ -41,6 +38,23 @@ public class GetCuaHangServlet extends HttpServlet {
             HttpServletResponse response) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
         try {
+            String token = request.getHeader("token");
+            User user = TokenManager.getUser(token);
+
+            if (user == null) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
+                return;
+            }
+
+            if (!user.getRole().equalsIgnoreCase("ADMIN")) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"mess\":\"Chỉ có admin mới có thể thực hiện thao tác này!\"}");
+                return;
+            }
+            
             ArrayList<CuaHang> danhSachCuaHang = new CuaHangDAO().getAll();
             CuaHang cuaHang = danhSachCuaHang.get(0);
 

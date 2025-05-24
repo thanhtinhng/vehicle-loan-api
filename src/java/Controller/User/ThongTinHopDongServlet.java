@@ -5,7 +5,6 @@
 package Controller.User;
 
 import static Controller.ApiRoutes.THONG_TIN_HOP_DONG;
-import static Controller.ApiRoutes.XE_DS;
 import Model.HopDong;
 import Model.HopDongDAO;
 import Model.User;
@@ -18,8 +17,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import Model.XeDAO;
-import QLBX.XeQLBX;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;

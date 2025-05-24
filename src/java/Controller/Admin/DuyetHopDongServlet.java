@@ -21,7 +21,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import Model.User;
-import Model.UserDAO;
 import QLBX.CuaHang;
 import QLBX.HopDongQLBX;
 import QLBX.MaGiamGiaQLBX;
@@ -33,7 +32,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  *
@@ -60,6 +58,7 @@ public class DuyetHopDongServlet extends HttpServlet {
             }
 
             if (!user.getRole().equalsIgnoreCase("ADMIN")) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.setContentType("application/json");
                 response.getWriter().write("{\"mess\":\"Chỉ có admin mới có thể thực hiện thao tác này!\"}");
                 return;

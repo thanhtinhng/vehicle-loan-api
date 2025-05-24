@@ -4,8 +4,6 @@
  */
 package QLBX;
 
-import Model.MaGiamGia;
-import Model.Xe;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;

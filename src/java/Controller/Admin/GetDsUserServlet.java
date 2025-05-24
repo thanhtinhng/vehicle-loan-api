@@ -20,6 +20,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
 import java.util.ArrayList;
+import util.TokenManager;
 
 /**
  *
@@ -35,6 +36,23 @@ public class GetDsUserServlet extends HttpServlet {
                          HttpServletResponse response) throws IOException {
         response.setContentType("application/json;charset=UTF-8");
         try {
+            String token = request.getHeader("token");
+            User user = TokenManager.getUser(token);
+
+            if (user == null) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
+                return;
+            }
+
+            if (!user.getRole().equalsIgnoreCase("ADMIN")) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"mess\":\"Chỉ có admin mới có thể thực hiện thao tác này!\"}");
+                return;
+            }
+            
             ArrayList<User> list = new UserDAO().getAll();
             response.getWriter().write(gson.toJson(list));
             System.out.println("Test: doGet: Done");

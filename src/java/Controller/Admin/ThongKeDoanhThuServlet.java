@@ -6,8 +6,6 @@ package Controller.Admin;
 
 import static Controller.ApiRoutes.THONG_KE_DOANH_THU;
 import Model.CuaHangDAO;
-import Model.HopDong;
-import Model.HopDongDAO;
 import Model.User;
 import QLBX.CuaHang;
 import com.google.gson.Gson;
@@ -48,6 +46,7 @@ public class ThongKeDoanhThuServlet extends HttpServlet{
             }
 
             if (!user.getRole().equalsIgnoreCase("ADMIN")) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.setContentType("application/json");
                 response.getWriter().write("{\"mess\":\"Chỉ có admin mới có thể thực hiện thao tác này!\"}");
                 return;
