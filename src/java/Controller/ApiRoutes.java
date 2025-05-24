@@ -26,6 +26,7 @@ public interface ApiRoutes {
     String NAP_TIEN = "/api/user/napTien";
     String THONG_TIN_HOP_DONG = "/api/user/thongTinHopDong";
     String THANH_TOAN_1_KY_GOP = "/api/user/thanhToanMotKyGop";
+    String TAT_TOAN_SOM = "/api/user/tatToanSom";
     
     //Admin
     String USER_DS = "/api/admin/ds_user";

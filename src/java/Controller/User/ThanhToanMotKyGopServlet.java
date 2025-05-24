@@ -54,11 +54,18 @@ public class ThanhToanMotKyGopServlet extends HttpServlet {
 
             String ngayThanhToanStr = null;
             java.sql.Date ngayThanhToanDate = null;
-            ngayThanhToanStr = jsonObject.get("ngaySinh").getAsString();
+            ngayThanhToanStr = jsonObject.get("ngayThanhToan").getAsString();
             ngayThanhToanDate = java.sql.Date.valueOf(ngayThanhToanStr);
 
             ThanhToanDAO thanhToanDAO = new ThanhToanDAO();
             ThanhToanQLBX ttCanThanhToan = thanhToanDAO.getTTCanThanhToan(maHopDong);
+            
+            if (!user.kiemTraTaiChinh(ttCanThanhToan.getSoTien())) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                response.setContentType("application/json");
+                response.getWriter().write("{\"mess\":\"Bạn không đủ tiền để thanh toán hợp đồng!\"}");
+                return;
+            }
 
             ttCanThanhToan.dongTien(ngayThanhToanDate);
 

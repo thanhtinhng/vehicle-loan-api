@@ -15,6 +15,7 @@ import java.util.Date;
  * @author Windows 10
  */
 public class HopDongQLBX {
+
     private int maHopDong;
     private XeQLBX xe;
     private MaGiamGiaQLBX maGiamGia;
@@ -28,13 +29,13 @@ public class HopDongQLBX {
     private Date ngayHopDong; // khi nào admin duyệt mới set
     private String trangThai; // CHODUYET, HOATDONG, HOANTHANH, VIPHAM
     private ArrayList<ThanhToanQLBX> danhSachThanhToan = new ArrayList<>();
-    
+
     public void duyetHopDong() {
         this.trangThai = "HOATDONG";
         this.ngayHopDong = new Date();
 
         double giaXe = xe.tinhGiaThucTe();
-        
+
         if (maGiamGia != null) {
             giaXe = maGiamGia.apDung(giaXe);
         }
@@ -42,7 +43,7 @@ public class HopDongQLBX {
         this.tienVay = giaXe - traTruoc;
         double tongLai = tienVay * laiXuat * kyHanThang;
         this.tongTien = traTruoc + tienVay + tongLai;
-        
+
         double laiHangThang = tienVay * laiXuat;
         double gocHangThang = tienVay / kyHanThang;
         this.khoanTraMoiThang = laiHangThang + gocHangThang;
@@ -58,12 +59,16 @@ public class HopDongQLBX {
             danhSachThanhToan.add(tt);
         }
     }
-//
-//    public void dongTien(int kyIndex) {
-//        ThanhToan tt = danhSachThanhToan.get(kyIndex);
-//        tt.dongTien();
-//        this.tienPhat += tt.getTienPhatNeuTre();
-//    }
+
+    public double tinhSoTienConNo() {
+        double tong = 0;
+        for (ThanhToanQLBX tt : danhSachThanhToan) {
+            if ("CHO".equals(tt.getTrangThai())) {
+                tong += tt.getSoTien();
+            }
+        }
+        return tong;
+    }
 
     public HopDongQLBX() {
     }
@@ -82,7 +87,7 @@ public class HopDongQLBX {
         this.ngayHopDong = ngayHopDong;
         this.trangThai = trangThai;
     }
-    
+
     public HopDongQLBX(int maHopDong, XeQLBX xe, MaGiamGiaQLBX maGiamGia, double traTruoc, double laiXuat, int kyHanThang) {
         this.xe = xe;
         this.maGiamGia = maGiamGia;

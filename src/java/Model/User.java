@@ -13,6 +13,7 @@ import java.util.Date;
  * @author Windows 10
  */
 public class User {
+
     private int userId;
     private String username;
     private String matKhau;
@@ -23,13 +24,21 @@ public class User {
     private double taiChinh;
     private String role;
     private ArrayList<HopDong> danhSachHopDong = new ArrayList<>();
-    
+
     public void napTien(double tienCanNap) {
         this.taiChinh = this.taiChinh + tienCanNap;
     }
-    
+
     public void truTien(double tienCanTru) {
         this.taiChinh = this.taiChinh - tienCanTru;
+    }
+
+    public Boolean kiemTraTaiChinh(double soTien) {
+        if (soTien > taiChinh) {
+            return false;
+        }
+
+        return true;
     }
 
     public User() {
@@ -46,7 +55,7 @@ public class User {
         this.taiChinh = taiChinh;
         this.role = role;
     }
-    
+
     public User(String username, String matKhau, String email, Date ngaySinh, String dienThoai, String diaChi) {
         this.username = username;
         this.matKhau = matKhau;
@@ -135,6 +144,5 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
-    
-    
+
 }

@@ -129,13 +129,13 @@ public class ThanhToanDAO {
         PreparedStatement ps = conn.prepareStatement(sql);
 
         ps.setInt(1, thanhToan.getMaHopDong());
-        
+
         java.sql.Date hanChotCuoi = getHanChotCuoiCung(thanhToan.getMaHopDong());
         Calendar cal = Calendar.getInstance();
         cal.setTime(hanChotCuoi);
         cal.add(Calendar.MONTH, 1);
         java.sql.Date hanChotMoi = new java.sql.Date(cal.getTimeInMillis());
-        
+
         ps.setDate(2, hanChotMoi);
         ps.setDouble(3, thanhToan.getTienPhatNeuTre());
         ps.setString(4, "PHAT");
@@ -171,6 +171,30 @@ public class ThanhToanDAO {
 
         ps.executeUpdate();
 
+        ps.close();
+        conn.close();
+    }
+
+    public void tatToanHopDong(ArrayList<ThanhToanQLBX> list) throws Exception {
+        if (list == null || list.isEmpty()) {
+            return;
+        }
+
+        Connection conn = DBConnection.getConnection();
+
+        String sql = "UPDATE ThanhToan SET NgayThanhToan = ?, TrangThai = ? WHERE MaThanhToan = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        java.sql.Date today = new java.sql.Date(System.currentTimeMillis());
+
+        for (ThanhToanQLBX tt : list) {
+            ps.setDate(1, today);
+            ps.setString(2, "HOANTHANH");
+            ps.setInt(3, tt.getMaThanhToan());
+            ps.addBatch();
+        }
+
+        ps.executeBatch();
         ps.close();
         conn.close();
     }
