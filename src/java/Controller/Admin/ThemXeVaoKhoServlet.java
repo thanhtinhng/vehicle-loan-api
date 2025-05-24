@@ -40,10 +40,10 @@ public class ThemXeVaoKhoServlet extends HttpServlet {
             HttpServletResponse response) throws IOException {
 
         try (BufferedReader reader = request.getReader()) {
-            
+
             String token = request.getHeader("token");
             User user = TokenManager.getUser(token);
-            
+
             if (user == null) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType("application/json");
@@ -57,27 +57,39 @@ public class ThemXeVaoKhoServlet extends HttpServlet {
                 response.getWriter().write("{\"mess\":\"Chỉ có admin mới có thể thực hiện thao tác này!\"}");
                 return;
             }
+            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
-            Xe xe = gson.fromJson(reader, Xe.class);
+            int maLoaiXe = jsonObject.get("maLoaiXe").getAsInt();
             
-            if (xe.getMaLoaiXe() < 1 || xe.getMaLoaiXe() > 3) {
+            int maHangXe = jsonObject.get("maHangXe").getAsInt();
+
+            String tenXe = jsonObject.get("tenXe").getAsString();
+            
+            double gia = jsonObject.get("gia").getAsDouble();
+            
+            String tinhTrang = jsonObject.get("tinhTrang").getAsString();
+            
+            int soLuong = jsonObject.get("soLuong").getAsInt();
+
+            if (maLoaiXe < 1 || maLoaiXe > 3) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.setContentType("application/json");
                 response.getWriter().write("{\"error\":\"Mã loại xe không hợp lệ. Giá trị phải nằm trong khoảng [1, 3].\"}");
                 return;
             }
 
-            if (xe.getMaHangXe() < 1 || xe.getMaHangXe() > 3) {
+            if (maHangXe < 1 ||maHangXe > 3) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.setContentType("application/json");
                 response.getWriter().write("{\"error\":\"Mã hãng xe không hợp lệ. Giá trị phải nằm trong khoảng [1, 3].\"}");
                 return;
             }
             
-            new XeDAO().add(xe);
+            Xe xe = new Xe(0, maLoaiXe, maHangXe, tenXe, gia, tinhTrang);
+            new XeDAO().add(xe, soLuong);
 
             response.setContentType("application/json");
-            response.getWriter().write("{\"status\":\"Thêm xe thành công\"}\n\n" + gson.toJson(xe));
+            response.getWriter().write("{\"status\":\"Thêm xe thành công\"}\n\n" + gson.toJson(xe) + gson.toJson(soLuong));
 
         } catch (Exception e) {
             response.setStatus(500);

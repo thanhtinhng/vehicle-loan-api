@@ -27,4 +27,38 @@ public class KhoDAO {
             throw new Exception("Không đủ xe trong kho để trừ");
         }
     }
+    
+    public void themSoLuongXe(int maXe, int soLuong) throws Exception {
+        Connection conn = DBConnection.getConnection();
+
+        String sql = "UPDATE Kho "
+                + "SET SoLuong = ? "
+                + "WHERE MaXe = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setInt(1, soLuong);
+        ps.setInt(3, maXe);
+
+        ps.executeUpdate();
+
+        ps.close();
+        conn.close();
+    }
+    
+    public void add(int maXe, int maCuaHang) throws Exception {
+        Connection conn = DBConnection.getConnection();
+
+        String sql = "INSERT INTO Kho (MaCuaHang, MaXe, SoLuong) VALUES (?, ?, ?)";
+
+        PreparedStatement ps = conn.prepareStatement(sql);
+
+        ps.setInt(1, maCuaHang);
+        ps.setInt(2, maXe);
+        ps.setInt(3, 0);
+
+        ps.executeUpdate();
+
+        ps.close();
+        conn.close();
+    }
 }

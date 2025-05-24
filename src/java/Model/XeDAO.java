@@ -137,12 +137,12 @@ public class XeDAO {
         return maLoaiXe;
     }
 
-    public void add(Xe xe) throws Exception {
+    public void add(Xe xe, int soLuong) throws Exception {
         Connection conn = DBConnection.getConnection();
 
         String sql = "INSERT INTO Xe (MaLoaiXe, MaHangXe, TenXe, Gia, TinhTrang) VALUES (?, ?, ?, ?, ?)";
 
-        PreparedStatement ps = conn.prepareStatement(sql);
+        PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
         ps.setInt(1, xe.getMaLoaiXe());
         ps.setInt(2, xe.getMaHangXe());
@@ -151,6 +151,16 @@ public class XeDAO {
         ps.setString(5, xe.getTinhTrang());
 
         ps.executeUpdate();
+
+        ResultSet rs = ps.getGeneratedKeys();
+        int maXeMoi = -1;
+        if (rs.next()) {
+            maXeMoi = rs.getInt(1);
+        }
+
+        KhoDAO khoDAO = new KhoDAO();
+        khoDAO.add(maXeMoi, 1);  // 1 cua hang nen ma cua hang mac dinh la 1
+        khoDAO.themSoLuongXe(maXeMoi, soLuong);
 
         ps.close();
         conn.close();
