@@ -30,7 +30,7 @@ public class XeDAO {
         double gia = rs.getDouble("Gia");
         String tinhTrang = rs.getString("TinhTrang");
         int soLuong = rs.getInt("SoLuong");
-        
+
         switch (maLoaiXe) {
             case 1:
                 return new XeCon(maXe, maLoaiXe, tenLoaiXe, tenHangXe, tenXe, gia, tinhTrang, soLuong);
@@ -96,7 +96,7 @@ public class XeDAO {
         conn.close();
         return xe;
     }
-    
+
     public double getGia(int maXe) throws Exception {
         double gia = 0;
         Connection conn = DBConnection.getConnection();
@@ -116,7 +116,7 @@ public class XeDAO {
         conn.close();
         return gia;
     }
-    
+
     public int getMaLoaiXe(int maXe) throws Exception {
         int maLoaiXe = 0;
         Connection conn = DBConnection.getConnection();
@@ -135,5 +135,34 @@ public class XeDAO {
         ps.close();
         conn.close();
         return maLoaiXe;
+    }
+
+    public void add(Xe xe, int soLuong) throws Exception {
+        Connection conn = DBConnection.getConnection();
+
+        String sql = "INSERT INTO Xe (MaLoaiXe, MaHangXe, TenXe, Gia, TinhTrang) VALUES (?, ?, ?, ?, ?)";
+
+        PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+        ps.setInt(1, xe.getMaLoaiXe());
+        ps.setInt(2, xe.getMaHangXe());
+        ps.setString(3, xe.getTenXe());
+        ps.setDouble(4, xe.getGia());
+        ps.setString(5, xe.getTinhTrang());
+
+        ps.executeUpdate();
+
+        ResultSet rs = ps.getGeneratedKeys();
+        int maXeMoi = -1;
+        if (rs.next()) {
+            maXeMoi = rs.getInt(1);
+        }
+
+        KhoDAO khoDAO = new KhoDAO();
+        khoDAO.add(maXeMoi, 1);  // 1 cua hang nen ma cua hang mac dinh la 1
+        khoDAO.themSoLuongXe(maXeMoi, soLuong);
+
+        ps.close();
+        conn.close();
     }
 }

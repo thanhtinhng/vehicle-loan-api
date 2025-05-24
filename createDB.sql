@@ -73,7 +73,7 @@ CREATE TABLE HopDong (
     KyHanThang INT,--
     KhoanTraMoiThang DECIMAL(15,2),
     NgayHopDong DATE,
-    TrangThai VARCHAR(20) CHECK (TrangThai IN ('CHODUYET', 'HOATDONG', 'HOANTHANH', 'VIPHAM', 'TUCHOI', 'HUY')), --cho duyet
+    TrangThai VARCHAR(20) CHECK (TrangThai IN ('CHODUYET', 'HOATDONG', 'HOANTHANH', 'TUCHOI', 'HUY')), --cho duyet
     FOREIGN KEY (UserId) REFERENCES Users(UserId),
     FOREIGN KEY (MaCuaHang) REFERENCES CuaHang(MaCuaHang),
     FOREIGN KEY (MaXe) REFERENCES Xe(MaXe),

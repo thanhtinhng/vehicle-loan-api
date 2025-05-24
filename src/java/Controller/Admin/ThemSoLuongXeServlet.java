@@ -4,14 +4,8 @@
  */
 package Controller.Admin;
 
-import static Controller.ApiRoutes.TU_CHOI_HOP_DONG;
-import Model.CuaHangDAO;
-import Model.HopDong;
-import Model.HopDongDAO;
+import static Controller.ApiRoutes.THEM_SO_LUONG_XE;
 import Model.KhoDAO;
-import Model.XeDAO;
-import Model.MaGiamGiaDAO;
-import Model.ThanhToanDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -22,25 +16,23 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import Model.User;
 import Model.UserDAO;
-import QLBX.CuaHang;
-import QLBX.HopDongQLBX;
-import QLBX.MaGiamGiaQLBX;
-import QLBX.XeQLBX;
-import util.TokenManager;
+import Model.Xe;
+import Model.XeDAO;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Date;
+import util.TokenManager;
 
 /**
  *
  * @author Windows 10
  */
-@WebServlet(name = "TuChoiHopDongServlet", urlPatterns = TU_CHOI_HOP_DONG)
-public class TuChoiHopDongServlet extends HttpServlet {
+@WebServlet(name = "ThemSoLuongXeServlet", urlPatterns = THEM_SO_LUONG_XE)
+public class ThemSoLuongXeServlet extends HttpServlet {
 
     private final Gson gson = new Gson();
 
@@ -52,6 +44,7 @@ public class TuChoiHopDongServlet extends HttpServlet {
 
             String token = request.getHeader("token");
             User user = TokenManager.getUser(token);
+
             if (user == null) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType("application/json");
@@ -60,20 +53,21 @@ public class TuChoiHopDongServlet extends HttpServlet {
             }
 
             if (!user.getRole().equalsIgnoreCase("ADMIN")) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.setContentType("application/json");
                 response.getWriter().write("{\"mess\":\"Chỉ có admin mới có thể thực hiện thao tác này!\"}");
                 return;
             }
-
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
-            int maHopDong = jsonObject.get("maHopDong").getAsInt();
+            int maXe = jsonObject.get("maXe").getAsInt();
 
-            //duyệt hợp đồng (update hợp đồng trong db)
-            new HopDongDAO().tuChoiHopDong(maHopDong);
+            int soLuong = jsonObject.get("soLuong").getAsInt();
+
+            new KhoDAO().themSoLuongXe(maXe, soLuong);
 
             response.setContentType("application/json");
-            response.getWriter().write("{\"mess\":\"Đã từ chối hợp đồng thành công!\"}\n\n" + gson.toJson(new HopDongDAO().getByMaHopDong(maHopDong)));
+            response.getWriter().write("{\"status\":\"Thêm số lượng xe thành công\"}\n\n" + gson.toJson(new XeDAO().getByMaXe(maXe)));
 
         } catch (Exception e) {
             response.setStatus(500);

@@ -40,6 +40,7 @@ public class DsHopDongChoDuyetServlet extends HttpServlet {
 
             if (user == null) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.setContentType("application/json");
                 response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
                 return;
             }
