@@ -35,4 +35,5 @@ public interface ApiRoutes {
     String TU_CHOI_HOP_DONG = "/api/admin/tuChoiHopDong";
     String DS_HOP_DONG = "/api/admin/thongTinHopDong";
     String THEM_XE = "/api/xe/themXe";
+    String THEM_SO_LUONG_XE = "/api/xe/themSoLuongXe";
 }
