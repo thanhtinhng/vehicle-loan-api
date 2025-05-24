@@ -89,7 +89,7 @@ public class ThemXeVaoKhoServlet extends HttpServlet {
             new XeDAO().add(xe, soLuong);
 
             response.setContentType("application/json");
-            response.getWriter().write("{\"status\":\"Thêm xe thành công\"}\n\n" + gson.toJson(xe) + gson.toJson(soLuong));
+            response.getWriter().write("{\"status\":\"Thêm xe thành công\"}\n\n" + gson.toJson(xe) + "\n" + gson.toJson(soLuong));
 
         } catch (Exception e) {
             response.setStatus(500);

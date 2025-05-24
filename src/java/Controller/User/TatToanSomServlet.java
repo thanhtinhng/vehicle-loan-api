@@ -68,7 +68,7 @@ public class TatToanSomServlet extends HttpServlet {
                 return;
             }
             
-            new ThanhToanDAO().tatToanHopDong(hopDong.getDanhSachThanhToan());
+            new ThanhToanDAO().tatToanHopDong(hopDong.getDanhSachThanhToan(), user.getUserId(), soTienConNo);
 
             response.setContentType("application/json");
             response.getWriter().write("{\"mess\":\"Tất toán thành công\"}\n\n" + gson.toJson(new HopDongDAO().getByMaHopDong(maHopDong)));

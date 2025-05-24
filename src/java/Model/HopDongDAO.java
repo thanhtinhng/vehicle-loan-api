@@ -247,7 +247,7 @@ public class HopDongDAO {
     
     public void setTienPhat(int maHopDong, double tienPhat) throws Exception{
         Connection conn = DBConnection.getConnection();
-        String sql = "UPDATE HopDong SET TienPhat = ? WHERE MaHopDong = ?";
+        String sql = "UPDATE HopDong SET TienPhat = TienPhat + ? WHERE MaHopDong = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setDouble(1, tienPhat);
         ps.setInt(2, maHopDong);
