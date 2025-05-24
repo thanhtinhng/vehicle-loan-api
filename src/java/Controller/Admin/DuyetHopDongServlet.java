@@ -5,10 +5,6 @@
 package Controller.Admin;
 
 import static Controller.ApiRoutes.DUYET_HOP_DONG;
-import static Controller.ApiRoutes.NAP_TIEN;
-import static Controller.ApiRoutes.REGISTER;
-import static Controller.ApiRoutes.TAO_HOP_DONG;
-import static Controller.ApiRoutes.USER_DS;
 import Model.CuaHangDAO;
 import Model.HopDong;
 import Model.HopDongDAO;

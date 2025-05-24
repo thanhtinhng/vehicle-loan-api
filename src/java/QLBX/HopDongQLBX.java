@@ -70,6 +70,15 @@ public class HopDongQLBX {
         return tong;
     }
 
+    public boolean kiemTraHoanThanh() {
+        for (ThanhToanQLBX tt : danhSachThanhToan) {
+            if (tt.getTrangThai().equals("CHO")) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public HopDongQLBX() {
     }
 

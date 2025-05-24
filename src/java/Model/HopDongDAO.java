@@ -244,12 +244,24 @@ public class HopDongDAO {
         conn.close();
         return list;
     }
-    
-    public void setTienPhat(int maHopDong, double tienPhat) throws Exception{
+
+    public void setTienPhat(int maHopDong, double tienPhat) throws Exception {
         Connection conn = DBConnection.getConnection();
         String sql = "UPDATE HopDong SET TienPhat = TienPhat + ? WHERE MaHopDong = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setDouble(1, tienPhat);
+        ps.setInt(2, maHopDong);
+
+        ps.executeUpdate();
+        ps.close();
+        conn.close();
+    }
+
+    public void setHoanThanh(int maHopDong) throws Exception {
+        Connection conn = DBConnection.getConnection();
+        String sql = "UPDATE HopDong SET TrangThai = ? WHERE MaHopDong = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setString(1, "HOANTHANH");
         ps.setInt(2, maHopDong);
 
         ps.executeUpdate();
