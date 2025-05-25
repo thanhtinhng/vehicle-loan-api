@@ -20,8 +20,6 @@ public class XeQLBX extends AbsXe{
     protected String tinhTrang; // MOI hoặc CU
     protected int soLuong;
     
-    
-
     public XeQLBX() {
     }
     

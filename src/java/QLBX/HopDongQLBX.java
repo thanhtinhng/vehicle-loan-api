@@ -18,44 +18,60 @@ public class HopDongQLBX {
     private XeQLBX xe;
     private MaGiamGiaQLBX maGiamGia;
     private double tongTien; // traTruoc + tienVay + tongLai
-    private double traTruoc; // 20% giá xe
+    private double traTruoc; // 20% giá xe (set lúc yêu cầu tạo)
     private double tienVay; // giaXe - traTruoc
-    private double laiXuat; // tháng
-    private int kyHanThang; // tháng
+    private double laiXuat; // tháng (set lúc yêu cầu tạo)
+    private int kyHanThang; // tháng (set lúc yêu cầu tạo)
     private double khoanTraMoiThang; //Mỗi tháng trả 1 số tiền giống nhau (chia đều)
     private double tienPhat; // 5% giá trị thanh toán nếu mỗi lần thanh toán trễ (cộng dồn)
     private Date ngayHopDong; // khi nào admin duyệt mới set
     private String trangThai; // CHODUYET, HOATDONG, HOANTHANH, VIPHAM
     private ArrayList<ThanhToanQLBX> danhSachThanhToan = new ArrayList<>();
+    
+    public double tinhTienVay() {
+        double giaXe = xe.tinhGiaThucTe();
+        if (this.maGiamGia != null) {
+            giaXe = this.maGiamGia.apDung(giaXe);
+        }
+        this.tienVay = giaXe - traTruoc;
+        return this.tienVay;
+    }
+    
+    public double tinhTongTienHopDong() {
+        double tongLai = this.tienVay * this.laiXuat * this.kyHanThang;
+        this.tongTien = this.traTruoc + this.tienVay + tongLai;
+        return this.tongTien;
+    }
+    
+    public double tinhKhoanTraMoiThang() {
+        double laiHangThang = this.tienVay * this.laiXuat;
+        double gocHangThang = this.tienVay / this.kyHanThang;
+        this.khoanTraMoiThang = laiHangThang + gocHangThang;
+        return this.khoanTraMoiThang;
+    }
+    
+    public void taoCacKyThanhToan() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(this.ngayHopDong);
+        for (int i = 0; i < this.kyHanThang; i++) {
+            cal.add(Calendar.MONTH, 1); // cộng 1 tháng
+            Date hanChot = cal.getTime();
+            ThanhToanQLBX tt = new ThanhToanQLBX(this.maHopDong, hanChot, this.khoanTraMoiThang, "BINHTHUONG");
+            this.danhSachThanhToan.add(tt);
+        }
+    }
 
     public void duyetHopDong() {
         this.trangThai = "HOATDONG";
         this.ngayHopDong = new Date();
 
-        double giaXe = xe.tinhGiaThucTe();
+        this.tinhTienVay();
+        
+        this.tinhTongTienHopDong();
 
-        if (maGiamGia != null) {
-            giaXe = maGiamGia.apDung(giaXe);
-        }
+        this.tinhKhoanTraMoiThang();
 
-        this.tienVay = giaXe - traTruoc;
-        double tongLai = tienVay * laiXuat * kyHanThang;
-        this.tongTien = traTruoc + tienVay + tongLai;
-
-        double laiHangThang = tienVay * laiXuat;
-        double gocHangThang = tienVay / kyHanThang;
-        this.khoanTraMoiThang = laiHangThang + gocHangThang;
-
-        // tạo các kỳ thanh toán
-        danhSachThanhToan.clear();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(ngayHopDong);
-        for (int i = 0; i < kyHanThang; i++) {
-            cal.add(Calendar.MONTH, 1); // cộng 1 tháng
-            Date hanChot = cal.getTime();
-            ThanhToanQLBX tt = new ThanhToanQLBX(maHopDong, hanChot, khoanTraMoiThang, "BINHTHUONG");
-            danhSachThanhToan.add(tt);
-        }
+        this.taoCacKyThanhToan();
     }
 
     public double tinhSoTienConNo() {
