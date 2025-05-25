@@ -46,6 +46,8 @@ public class ThongTinUserServlet extends HttpServlet {
 
             User updatedUser = new UserDAO().getUserById(user.getUserId());
             TokenManager.updateUser(token, updatedUser);
+            
+            updatedUser.setMatKhau("******");
 
             response.getWriter().write(gson.toJson(updatedUser));
             System.out.println("Test: doGet: Done");

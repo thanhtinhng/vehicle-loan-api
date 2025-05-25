@@ -32,7 +32,7 @@ public class KhoDAO {
         Connection conn = DBConnection.getConnection();
 
         String sql = "UPDATE Kho "
-                + "SET SoLuong = ? "
+                + "SET SoLuong = SoLuong + ? "
                 + "WHERE MaXe = ?";
         PreparedStatement ps = conn.prepareStatement(sql);
 
