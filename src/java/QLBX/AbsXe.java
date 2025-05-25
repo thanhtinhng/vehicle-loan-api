@@ -10,6 +10,6 @@ package QLBX;
  */
 public abstract class AbsXe {
     public abstract double tinhGiaThucTe();
-    public abstract double getTyLeTraTruoc();
-    public abstract double getLaiSuatThang(int kyHanThang);
+    public abstract double tinhTyLeTraTruoc();
+    public abstract double tinhLaiSuatThang(int kyHanThang);
 }

@@ -1,14 +1,14 @@
 package Model;
 
 import ConnDB.DBConnection;
-import QLBX.CuaHang;
+import QLBX.CuaHangQLBX;
 import java.sql.*;
 import java.util.*;
 
 public class CuaHangDAO {
 
-    public ArrayList<CuaHang> getAll() throws Exception {
-        ArrayList<CuaHang> list = new ArrayList<>();
+    public ArrayList<CuaHangQLBX> getAll() throws Exception {
+        ArrayList<CuaHangQLBX> list = new ArrayList<>();
         Connection conn = DBConnection.getConnection();
         String sql = "SELECT * FROM CuaHang";
         PreparedStatement ps = conn.prepareStatement(sql);
@@ -17,7 +17,7 @@ public class CuaHangDAO {
 
         while (rs.next()) {
 
-            CuaHang ch = new CuaHang(
+            CuaHangQLBX ch = new CuaHangQLBX(
                     rs.getInt("MaCuaHang"),
                     rs.getString("TenCuaHang"),
                     rs.getString("Email"),

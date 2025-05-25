@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  *
  * @author Windows 10
  */
-public class CuaHang {
+public class CuaHangQLBX {
 
     private int maCuaHang;
     private String tenCuaHang;
@@ -26,10 +26,10 @@ public class CuaHang {
     private ArrayList<User> dsUser = new ArrayList<>();
     private ArrayList<XeQLBX> dsXe = new ArrayList<>();
 
-    public CuaHang() {
+    public CuaHangQLBX() {
     }
 
-    public CuaHang(int maCuaHang, String tenCuaHang, String email, String dienThoai, String diaChi) {
+    public CuaHangQLBX(int maCuaHang, String tenCuaHang, String email, String dienThoai, String diaChi) {
         this.maCuaHang = maCuaHang;
         this.tenCuaHang = tenCuaHang;
         this.email = email;
@@ -105,11 +105,7 @@ public class CuaHang {
         return list;
     }
 
-    public ArrayList<XeQLBX> locXe(
-            Integer maXe,
-            String loaiXe,
-            String hangXe,
-            String tinhTrang) {
+    public ArrayList<XeQLBX> locXe(Integer maXe, String loaiXe, String hangXe, String tinhTrang) {
 
         Stream<XeQLBX> filteredList = this.dsXe.stream();
 

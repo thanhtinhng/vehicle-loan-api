@@ -7,7 +7,7 @@ package Controller.Admin;
 import static Controller.ApiRoutes.THONG_KE_DOANH_THU;
 import Model.CuaHangDAO;
 import Model.User;
-import QLBX.CuaHang;
+import QLBX.CuaHangQLBX;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
@@ -35,8 +35,8 @@ public class ThongKeDoanhThuServlet extends HttpServlet{
 
             String token = request.getHeader("token");
             User user = TokenManager.getUser(token);
-            ArrayList<CuaHang> danhSachCuaHang = new CuaHangDAO().getAll();
-            CuaHang cuaHang = danhSachCuaHang.get(0);
+            ArrayList<CuaHangQLBX> danhSachCuaHang = new CuaHangDAO().getAll();
+            CuaHangQLBX cuaHang = danhSachCuaHang.get(0);
 
             if (user == null) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

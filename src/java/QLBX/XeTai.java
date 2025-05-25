@@ -26,12 +26,12 @@ public class XeTai extends XeQLBX {
     }
     
     @Override
-    public double getTyLeTraTruoc() {
+    public double tinhTyLeTraTruoc() {
         return 0.30;
     }
 
     @Override
-    public double getLaiSuatThang(int kyHanThang) {
+    public double tinhLaiSuatThang(int kyHanThang) {
         if (kyHanThang <= 6) {
             return 0.011;
         } else if (kyHanThang <= 12) {

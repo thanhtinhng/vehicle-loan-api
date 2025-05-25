@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-import QLBX.CuaHang;
+import QLBX.CuaHangQLBX;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
@@ -55,8 +55,8 @@ public class GetCuaHangServlet extends HttpServlet {
                 return;
             }
             
-            ArrayList<CuaHang> danhSachCuaHang = new CuaHangDAO().getAll();
-            CuaHang cuaHang = danhSachCuaHang.get(0);
+            ArrayList<CuaHangQLBX> danhSachCuaHang = new CuaHangDAO().getAll();
+            CuaHangQLBX cuaHang = danhSachCuaHang.get(0);
 
             response.getWriter().write(gson.toJson(cuaHang));
             System.out.println("Test: doGet: Done");
