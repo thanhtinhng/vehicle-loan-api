@@ -39,6 +39,7 @@ public class RegisterServlet extends HttpServlet {
         try (BufferedReader reader = request.getReader()) {
             
             User user = gson.fromJson(reader, User.class);
+//            user.setRole("USER");
             new UserDAO().add(user);
             
             response.setContentType("application/json");
