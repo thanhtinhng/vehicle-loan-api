@@ -57,7 +57,6 @@ public class TuChoiHopDongServlet extends HttpServlet {
 
             int maHopDong = jsonObject.get("maHopDong").getAsInt();
 
-            //duyệt hợp đồng (update hợp đồng trong db)
             new HopDongDAO().tuChoiHopDong(maHopDong);
 
             response.setContentType("application/json");
