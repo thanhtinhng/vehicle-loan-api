@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import util.KiemTraRole;
 import util.TokenManager;
 /**
  *
@@ -38,17 +39,7 @@ public class ThongKeDoanhThuServlet extends HttpServlet{
             ArrayList<CuaHangQLBX> danhSachCuaHang = new CuaHangDAO().getAll();
             CuaHangQLBX cuaHang = danhSachCuaHang.get(0);
 
-            if (user == null) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.setContentType("application/json");
-                response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
-                return;
-            }
-
-            if (!user.getRole().equalsIgnoreCase("ADMIN")) {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                response.setContentType("application/json");
-                response.getWriter().write("{\"mess\":\"Chỉ có admin mới có thể thực hiện thao tác này!\"}");
+            if (!KiemTraRole.isAdmin(response, user)) {
                 return;
             }
 

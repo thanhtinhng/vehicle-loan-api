@@ -5,6 +5,7 @@
 package Controller.User;
 
 import static Controller.ApiRoutes.TAT_TOAN_SOM;
+import Model.HopDong;
 import Model.HopDongDAO;
 import Model.ThanhToanDAO;
 import java.io.IOException;
@@ -25,6 +26,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
 import java.util.ArrayList;
+import util.KiemTraRole;
 
 /**
  *
@@ -32,6 +34,7 @@ import java.util.ArrayList;
  */
 @WebServlet(name = "TatToanSomServlet", urlPatterns = TAT_TOAN_SOM)
 public class TatToanSomServlet extends HttpServlet {
+
     private final Gson gson = new Gson();
 
     @Override
@@ -42,32 +45,45 @@ public class TatToanSomServlet extends HttpServlet {
 
             String token = request.getHeader("token");
             User user = TokenManager.getUser(token);
-            if (user == null) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
+            if (!KiemTraRole.isUser(response, user)) {
                 return;
             }
 
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
             int maHopDong = jsonObject.get("maHopDong").getAsInt();
-            double soTienConNo = 0;
+
+            HopDong hopDongCheck = new HopDongDAO().getByMaHopDong(maHopDong);
+
+            if (!KiemTraRole.checkHopDongThuocUser(response, user, hopDongCheck)) {
+                return;
+            }
             
+            ThanhToanDAO thanhToanDAO = new ThanhToanDAO();
+            ThanhToanQLBX ttCanThanhToan = thanhToanDAO.getTTCanThanhToan(maHopDong);
+            if (ttCanThanhToan == null) {
+                response.setContentType("application/json");
+                response.getWriter().write("{\"mess\":\"Không thể thực hiện vi tất cả kỳ góp đã được thanh toán\"}\n\n" + gson.toJson(new HopDongDAO().getByMaHopDong(maHopDong)));
+                return;
+            }
+
+            double soTienConNo = 0;
+
             ArrayList<ThanhToanQLBX> listThanhToan = new ArrayList<>();
             listThanhToan.addAll(new ThanhToanDAO().getByMaHopDong(maHopDong));
             HopDongQLBX hopDong = new HopDongQLBX();
             hopDong.setDanhSachThanhToan(listThanhToan);
-            
+
             soTienConNo = hopDong.tinhSoTienConNo();
-            
+
             if (!user.kiemTraTaiChinh(soTienConNo)) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.setContentType("application/json");
                 response.getWriter().write("{\"mess\":\"Bạn không đủ tiền để tất toán hợp đồng!\"}");
                 return;
             }
-            
-            new ThanhToanDAO().tatToanHopDong(hopDong.getDanhSachThanhToan(), user.getUserId(), soTienConNo);
+
+            thanhToanDAO.tatToanHopDong(hopDong.getDanhSachThanhToan(), user.getUserId(), soTienConNo);
 
             response.setContentType("application/json");
             response.getWriter().write("{\"mess\":\"Tất toán thành công\"}\n\n" + gson.toJson(new HopDongDAO().getByMaHopDong(maHopDong)));

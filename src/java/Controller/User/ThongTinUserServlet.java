@@ -21,6 +21,7 @@ import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
+import util.KiemTraRole;
 /**
  *
  * @author Windows 10
@@ -38,11 +39,7 @@ public class ThongTinUserServlet extends HttpServlet {
             String token = request.getHeader("token");
             User user = TokenManager.getUser(token);
 
-            if (user == null) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
-                return;
-            }
+            if (!KiemTraRole.kiemTraToken(response, user)) return;
 
             User updatedUser = new UserDAO().getUserById(user.getUserId());
             TokenManager.updateUser(token, updatedUser);

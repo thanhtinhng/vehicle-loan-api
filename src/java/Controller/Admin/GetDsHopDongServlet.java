@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import util.KiemTraRole;
 import util.TokenManager;
 
 /**
@@ -36,16 +37,7 @@ public class GetDsHopDongServlet extends HttpServlet{
             String token = request.getHeader("token");
             User user = TokenManager.getUser(token);
 
-            if (user == null) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
-                return;
-            }
-            
-            if (!user.getRole().equalsIgnoreCase("ADMIN")) {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                response.setContentType("application/json");
-                response.getWriter().write("{\"mess\":\"Chỉ có admin mới có thể thực hiện thao tác này!\"}");
+            if (!KiemTraRole.isAdmin(response, user)) {
                 return;
             }
 
