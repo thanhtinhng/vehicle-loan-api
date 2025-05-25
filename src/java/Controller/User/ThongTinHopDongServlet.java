@@ -23,6 +23,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
 import java.util.ArrayList;
+import util.KiemTraRole;
 import util.TokenManager;
 
 /**
@@ -43,9 +44,7 @@ public class ThongTinHopDongServlet extends HttpServlet {
             String token = request.getHeader("token");
             User user = TokenManager.getUser(token);
 
-            if (user == null) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
+            if (!KiemTraRole.isUser(response, user)) {
                 return;
             }
 
@@ -56,15 +55,7 @@ public class ThongTinHopDongServlet extends HttpServlet {
 
                 HopDong hopDong = new HopDongDAO().getByMaHopDong(maHopDong);
 
-                if (hopDong == null) {
-                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                    response.getWriter().write("{\"error\":\"Hợp đồng không tồn tại\"}");
-                    return;
-                }
-
-                if (hopDong.getUserId() != user.getUserId()) {
-                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                    response.getWriter().write("{\"mess\":\"Bạn chỉ có thể xem thông tin hợp đồng của bạn.\"}");
+                if (!KiemTraRole.checkHopDongThuocUser(response, user, hopDong)) {
                     return;
                 }
 

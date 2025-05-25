@@ -24,6 +24,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
 import java.util.ArrayList;
+import util.KiemTraRole;
 
 /**
  *
@@ -42,11 +43,7 @@ public class TaoHopDongServlet extends HttpServlet {
 
             String token = request.getHeader("token");
             User user = TokenManager.getUser(token);
-            if (user == null) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
-                return;
-            }
+            if (!KiemTraRole.isUser(response, user)) return;
             ArrayList<CuaHangQLBX> danhSachCuaHang = new CuaHangDAO().getAll();
             CuaHangQLBX cuaHang = danhSachCuaHang.get(0);
 

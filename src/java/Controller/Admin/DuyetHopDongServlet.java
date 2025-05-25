@@ -32,6 +32,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
 import java.util.ArrayList;
+import util.KiemTraRole;
 
 /**
  *
@@ -50,17 +51,7 @@ public class DuyetHopDongServlet extends HttpServlet {
 
             String token = request.getHeader("token");
             User user = TokenManager.getUser(token);
-            if (user == null) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.setContentType("application/json");
-                response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
-                return;
-            }
-
-            if (!user.getRole().equalsIgnoreCase("ADMIN")) {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                response.setContentType("application/json");
-                response.getWriter().write("{\"mess\":\"Chỉ có admin mới có thể thực hiện thao tác này!\"}");
+            if (!KiemTraRole.isAdmin(response, user)) {
                 return;
             }
 
@@ -71,6 +62,11 @@ public class DuyetHopDongServlet extends HttpServlet {
 
             int maHopDong = jsonObject.get("maHopDong").getAsInt();
             HopDong hopDong = new HopDongDAO().getByMaHopDong(maHopDong);
+            if (!hopDong.getTrangThai().equalsIgnoreCase("CHODUYET")) {
+                response.setContentType("application/json");
+                response.getWriter().write("{\"mess\":\"Không thể thực hiện vì hợp đồng đã được duyệt\"}\n\n" + gson.toJson(new HopDongDAO().getByMaHopDong(maHopDong)));
+                return;
+            }
 
             XeQLBX xe;
             MaGiamGiaQLBX maGiamGia;

@@ -21,6 +21,7 @@ import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
+import util.KiemTraRole;
 
 /**
  *
@@ -39,11 +40,7 @@ public class NapTienServlet extends HttpServlet {
 
             String token = request.getHeader("token");
             User user = TokenManager.getUser(token);
-            if (user == null) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
-                return;
-            }
+            if (!KiemTraRole.isUser(response, user)) return;
 
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 

@@ -5,6 +5,7 @@
 package Controller.User;
 
 import static Controller.ApiRoutes.THANH_TOAN_1_KY_GOP;
+import Model.HopDong;
 import Model.HopDongDAO;
 import Model.ThanhToanDAO;
 import jakarta.servlet.http.HttpServlet;
@@ -25,6 +26,7 @@ import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
+import util.KiemTraRole;
 
 /**
  *
@@ -41,15 +43,19 @@ public class ThanhToanMotKyGopServlet extends HttpServlet {
 
             String token = request.getHeader("token");
             User user = TokenManager.getUser(token);
-            if (user == null) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
+            if (!KiemTraRole.isUser(response, user)) {
                 return;
             }
 
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
             int maHopDong = jsonObject.get("maHopDong").getAsInt();
+
+            HopDong hopDong = new HopDongDAO().getByMaHopDong(maHopDong);
+
+            if (!KiemTraRole.checkHopDongThuocUser(response, user, hopDong)) {
+                return;
+            }
 
             String ngayThanhToanStr = null;
             java.sql.Date ngayThanhToanDate = null;

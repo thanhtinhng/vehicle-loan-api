@@ -22,6 +22,7 @@ import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
+import util.KiemTraRole;
 import util.TokenManager;
 
 /**
@@ -42,19 +43,10 @@ public class ThemXeVaoKhoServlet extends HttpServlet {
             String token = request.getHeader("token");
             User user = TokenManager.getUser(token);
 
-            if (user == null) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.setContentType("application/json");
-                response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
+            if (!KiemTraRole.isAdmin(response, user)) {
                 return;
             }
-
-            if (!user.getRole().equalsIgnoreCase("ADMIN")) {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                response.setContentType("application/json");
-                response.getWriter().write("{\"mess\":\"Chỉ có admin mới có thể thực hiện thao tác này!\"}");
-                return;
-            }
+            
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
             int maLoaiXe = jsonObject.get("maLoaiXe").getAsInt();
