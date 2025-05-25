@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import Model.User;
-import QLBX.CuaHang;
+import QLBX.CuaHangQLBX;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import util.TokenManager;
@@ -47,8 +47,8 @@ public class TaoHopDongServlet extends HttpServlet {
                 response.getWriter().write("{\"error\":\"Token không hợp lệ hoặc đã hết hạn\"}");
                 return;
             }
-            ArrayList<CuaHang> danhSachCuaHang = new CuaHangDAO().getAll();
-            CuaHang cuaHang = danhSachCuaHang.get(0);
+            ArrayList<CuaHangQLBX> danhSachCuaHang = new CuaHangDAO().getAll();
+            CuaHangQLBX cuaHang = danhSachCuaHang.get(0);
 
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 

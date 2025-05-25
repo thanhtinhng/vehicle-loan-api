@@ -15,7 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import Model.XeDAO;
-import QLBX.CuaHang;
+import QLBX.CuaHangQLBX;
 import QLBX.XeQLBX;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -69,8 +69,8 @@ public class FilterDsXeServlet extends HttpServlet {
                     sapXep = jsonObject.get("sapXep").getAsString();
                 }
 
-                ArrayList<CuaHang> danhSachCuaHang = new CuaHangDAO().getAll();
-                CuaHang cuaHang = danhSachCuaHang.get(0);
+                ArrayList<CuaHangQLBX> danhSachCuaHang = new CuaHangDAO().getAll();
+                CuaHangQLBX cuaHang = danhSachCuaHang.get(0);
 
                 ArrayList<XeQLBX> list = new ArrayList<>();
 

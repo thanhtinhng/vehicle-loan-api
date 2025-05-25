@@ -29,12 +29,12 @@ public class XeQLBX extends AbsXe{
     }
     
     @Override
-    public double getTyLeTraTruoc() {
+    public double tinhTyLeTraTruoc() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public double getLaiSuatThang(int kyHanThang) {
+    public double tinhLaiSuatThang(int kyHanThang) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

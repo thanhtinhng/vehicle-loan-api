@@ -83,20 +83,20 @@ public class HopDongDAO {
         switch (maLoaiXe) {
             case 1: {
                 XeQLBX xe = new XeCon();
-                tyLeTraTruoc = xe.getTyLeTraTruoc();
-                laiXuat = xe.getLaiSuatThang(kyHan);
+                tyLeTraTruoc = xe.tinhTyLeTraTruoc();
+                laiXuat = xe.tinhLaiSuatThang(kyHan);
                 break;
             }
             case 2: {
                 XeQLBX xe = new XeMay();
-                tyLeTraTruoc = xe.getTyLeTraTruoc();
-                laiXuat = xe.getLaiSuatThang(kyHan);
+                tyLeTraTruoc = xe.tinhTyLeTraTruoc();
+                laiXuat = xe.tinhLaiSuatThang(kyHan);
                 break;
             }
             case 3: {
                 XeQLBX xe = new XeTai();
-                tyLeTraTruoc = xe.getTyLeTraTruoc();
-                laiXuat = xe.getLaiSuatThang(kyHan);
+                tyLeTraTruoc = xe.tinhTyLeTraTruoc();
+                laiXuat = xe.tinhLaiSuatThang(kyHan);
                 break;
             }
             default:

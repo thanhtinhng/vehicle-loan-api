@@ -21,7 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import Model.User;
-import QLBX.CuaHang;
+import QLBX.CuaHangQLBX;
 import QLBX.HopDongQLBX;
 import QLBX.MaGiamGiaQLBX;
 import QLBX.XeQLBX;
@@ -66,8 +66,8 @@ public class DuyetHopDongServlet extends HttpServlet {
 
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
-            ArrayList<CuaHang> danhSachCuaHang = new CuaHangDAO().getAll();
-            CuaHang cuaHang = danhSachCuaHang.get(0);
+            ArrayList<CuaHangQLBX> danhSachCuaHang = new CuaHangDAO().getAll();
+            CuaHangQLBX cuaHang = danhSachCuaHang.get(0);
 
             int maHopDong = jsonObject.get("maHopDong").getAsInt();
             HopDong hopDong = new HopDongDAO().getByMaHopDong(maHopDong);
