@@ -15,13 +15,13 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import Model.User;
 import Model.UserDAO;
-import util.TokenManager;
+import Token.TokenManager;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
-import util.KiemTraRole;
+import Token.KiemTraRole;
 /**
  *
  * @author Windows 10
