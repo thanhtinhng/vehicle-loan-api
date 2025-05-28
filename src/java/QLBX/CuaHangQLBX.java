@@ -102,6 +102,7 @@ public class CuaHangQLBX {
         ArrayList<XeQLBX> list = new ArrayList<>();
         list.addAll(dsXe);
         list.sort(Comparator.comparingDouble(XeQLBX::getGia));
+//        list.sort(Comparator.comparingDouble(XeQLBX::getGia).reversed());
         return list;
     }
 
