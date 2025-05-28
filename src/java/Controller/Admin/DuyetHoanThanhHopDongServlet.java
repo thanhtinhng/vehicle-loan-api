@@ -58,7 +58,7 @@ public class DuyetHoanThanhHopDongServlet extends HttpServlet {
             if (!hopDongQLBX.kiemTraHoanThanh()) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 response.setContentType("application/json");
-                response.getWriter().write("{\"mess\":\"Hợp đồng này được được hoàn thành thanh toán!\"}");
+                response.getWriter().write("{\"mess\":\"Hợp đồng này chưa hoàn thành tất cả thanh toán!\"}");
                 return;
             }
             

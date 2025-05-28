@@ -13,6 +13,7 @@ public interface ApiRoutes {
     //Auth
     String LOGIN = "/api/auth/login";
     String REGISTER = "/api/auth/register";
+    String LOGOUT = "/api/auth/logout";
     
     //Guest
     String XE_DS = "/api/xe/ds_xe";
