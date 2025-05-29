@@ -41,6 +41,14 @@ public class TokenManager {
         return tokenStore.get(token);
     }
 
+    public static void removeToken(String token) {
+        User user = tokenStore.get(token);
+        if (user != null) {
+            tokenStore.remove(token);
+            emailToTokenMap.remove(user.getEmail());
+        }
+    }
+
     public static void setTokenStore(Map<String, User> tokenStore) {
         TokenManager.tokenStore = tokenStore; //vi static nen khong dung this
     }

@@ -4,9 +4,9 @@
  */
 package Controller.Admin;
 
-import static Controller.ApiRoutes.HOAN_THANH_HOP_DONG;
+import static Controller.ApiRoutes.XOA_HOP_DONG;
+import Model.CuaHangDAO;
 import Model.HopDongDAO;
-import Model.ThanhToanDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -16,11 +16,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import Model.User;
-import QLBX.HopDongQLBX;
-import QLBX.ThanhToanQLBX;
-import Token.TokenManager;
+import QLBX.CuaHangQLBX;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import Token.TokenManager;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.*;
@@ -31,13 +30,13 @@ import Token.KiemTraRole;
  *
  * @author Windows 10
  */
-@WebServlet(name = "DuyetHoanThanhHopDongServlet", urlPatterns = HOAN_THANH_HOP_DONG)
-public class DuyetHoanThanhHopDongServlet extends HttpServlet {
+@WebServlet(name = "XoaHopDongServlet", urlPatterns = XOA_HOP_DONG)
+public class XoaHopDongServlet extends HttpServlet {
 
     private final Gson gson = new Gson();
 
     @Override
-    protected void doPut(HttpServletRequest request,
+    protected void doDelete(HttpServletRequest request,
             HttpServletResponse response) throws IOException {
 
         try (BufferedReader reader = request.getReader()) {
@@ -50,24 +49,23 @@ public class DuyetHoanThanhHopDongServlet extends HttpServlet {
 
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
-            int maHopDong = jsonObject.get("maHopDong").getAsInt();
-            ArrayList<ThanhToanQLBX> listTT = new ThanhToanDAO().getByMaHopDong(maHopDong);
-            HopDongQLBX hopDongQLBX = new HopDongQLBX();
-            hopDongQLBX.setDanhSachThanhToan(listTT);
-            
-            if (!hopDongQLBX.kiemTraHoanThanh()) {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                response.setContentType("application/json");
-                response.getWriter().write("{\"mess\":\"Hợp đồng này chưa hoàn thành tất cả thanh toán!\"}");
-                return;
-            }
-            
-            HopDongDAO hopDongDAO = new HopDongDAO();
-            hopDongDAO.setHoanThanh(maHopDong);
-            
+            if (jsonObject != null) {
+                int maHopDong = jsonObject.get("maHopDong").getAsInt();
 
-            response.setContentType("application/json");
-            response.getWriter().write("{\"mess\":\"Duyệt hoàn thành hợp đồng thành công!\"}\n\n" + gson.toJson(hopDongDAO.getByMaHopDong(maHopDong)));
+                boolean thanhCong = new HopDongDAO().xoaHopDong(maHopDong);
+                if (thanhCong) {
+                    response.setContentType("application/json");
+                    response.setStatus(200);
+                    response.getWriter().write("{\"message\": \"Xóa hợp đồng thành công.\"}");
+                } else {
+                    response.setContentType("application/json");
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    response.getWriter().write("{\"error\": \"Hợp đồng không tồn tại hoặc xóa thất bại.\"}");
+                }
+            } else {
+                response.setContentType("application/json");
+                response.getWriter().write("{\"mess\":\"Thiếu dữ liệu\"}");
+            }
 
         } catch (Exception e) {
             response.setStatus(500);

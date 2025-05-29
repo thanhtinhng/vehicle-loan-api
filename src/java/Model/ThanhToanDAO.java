@@ -200,4 +200,15 @@ public class ThanhToanDAO {
         ps.close();
         conn.close();
     }
+    
+    public void xoaTheoMaHopDong(int maHopDong) throws Exception {
+        Connection conn = DBConnection.getConnection();
+        String sql = "DELETE FROM ThanhToan WHERE MaHopDong = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, maHopDong);
+
+        ps.executeUpdate();
+        ps.close();
+        conn.close();
+    }
 }

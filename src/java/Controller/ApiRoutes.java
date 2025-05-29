@@ -13,6 +13,7 @@ public interface ApiRoutes {
     //Auth
     String LOGIN = "/api/auth/login";
     String REGISTER = "/api/auth/register";
+    String LOGOUT = "/api/auth/logout";
     
     //Guest
     String XE_DS = "/api/xe/ds_xe";
@@ -39,4 +40,5 @@ public interface ApiRoutes {
     String THEM_SO_LUONG_XE = "/api/xe/themSoLuongXe";
     String HOAN_THANH_HOP_DONG = "/api/admin/hoanThanhHopDong";
     String THONG_KE_DOANH_THU = "/api/admin/thongKeDoanhThu";
+    String XOA_HOP_DONG = "/api/admin/xoaHopDong";
 }

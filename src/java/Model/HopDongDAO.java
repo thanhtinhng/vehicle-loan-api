@@ -268,4 +268,17 @@ public class HopDongDAO {
         ps.close();
         conn.close();
     }
+
+    public boolean xoaHopDong(int maHopDong) throws Exception {
+        Connection conn = DBConnection.getConnection();
+        new ThanhToanDAO().xoaTheoMaHopDong(maHopDong);
+        String sql = "DELETE FROM HopDong WHERE MaHopDong = ?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setInt(1, maHopDong);
+
+        int rowsAffected = ps.executeUpdate();
+        ps.close();
+        conn.close();
+        return rowsAffected > 0;
+    }
 }
